@@ -25,6 +25,6 @@ class ShittyEventMonitor:
                 if event.key == pygame.K_q:
                     sys.exit()
                 if event.key == pygame.K_h:
-                    self.settings.headers = not self.settings.headers
+                    self.settings.headers_enabled = not self.settings.headers_enabled
                     self.screen = pygame.display.set_mode((self.settings.screen_width(), self.settings.screen_height()))
                     self.layout.resize()

@@ -33,7 +33,7 @@ class ShittyChess:
     def main_loop(self) -> None:
         while not self.exiting:
             self.event_monitor.process_events()
-            if self.settings.headers:
+            if self.settings.headers_enabled:
                 self.screen.fill(self.settings.header_background_color)
             self.board.draw()
             self.layout.draw()
