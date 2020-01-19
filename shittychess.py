@@ -8,23 +8,24 @@ from shittychess_settings import ShittySettings
 from shittychess_events import ShittyEventMonitor
 from shittychess_board import ShittyBoard
 from shittychess_pieces import ShittyPawn
+from shittychess_logic import ShittyLogic
 
 
 class ShittyChess:
 
     def __init__(self):
+        pygame.init()
+        pygame.display.set_caption("Shitty Chess")
         self.settings = ShittySettings()
         self.event_monitor = ShittyEventMonitor()
-        pygame.init()
-        self.screen = pygame.display.set_mode((self.settings.screen_width,
-                                               self.settings.screen_height))
+        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         self.board = ShittyBoard(self.screen, self.settings)
+        self.logic = ShittyLogic(self.settings)
 
 
     def run_game(self):
         """This is the main function of the program which runs the code."""
 
-        pygame.display.set_caption("Shitty Chess")
         self.main_loop()
 
 
@@ -34,8 +35,8 @@ class ShittyChess:
         while True:
             self.event_monitor.process_events()
             # Refresh the screen with the newest info.
-            self.board.blitme()
-            pawn.blitme()
+            self.board.draw()
+            pawn.draw()
             pygame.display.flip()
 
 

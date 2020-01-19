@@ -13,11 +13,11 @@ class ShittyPiece:
         self.rect = pygame.Rect(0, 0, 0, 0)
 
 
-    def move_piece(self, rect):
+    def move(self, rect):
         self.rect = rect
 
 
-    def blitme(self):
+    def draw(self):
         self.screen.blit(self.image, self.rect)
 
 
@@ -76,6 +76,6 @@ class ShittyKing(ShittyPiece):
     def __init__(self, screen):
         super().__init__(screen)
         self.img_path_black = 'shitty_art/shittykingblack.png'
-        self.img_path_black = 'shitty_art/shittykingblack.png'
+        self.img_path_white = 'shitty_art/shittykingwhite.png'
         self.image = pygame.image.load(self.img_path_black)
         self.rect = pygame.Rect(0, 0, 0, 0)

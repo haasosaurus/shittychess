@@ -9,6 +9,7 @@ class ShittyBoard:
 
     def __init__(self, screen, settings):
         """Initialize the board's attributes."""
+
         self.screen = screen
         self.settings = settings
 
@@ -22,7 +23,7 @@ class ShittyBoard:
         #self.rect = self.screen_rect
 
 
-    def blitme(self):
+    def draw(self):
         for i in range(0, self.settings.tile_h * 4, self.settings.tile_h):
             for j in range(0, self.settings.tile_w * 4, self.settings.tile_w):
                 self.rect.x = i
