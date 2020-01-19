@@ -3,14 +3,15 @@
 
 import pygame
 
+from shittychess_settings import ShittySettings
+
 
 class ShittyLogic:
 
-    def __init__(self, settings):
+    def __init__(self, settings: ShittySettings):
         self.settings = settings
-        self.space_coords = {}
+        self.__coords = {}
         self.configure_layout()
-        self.print_coords()
 
 
     def configure_layout(self):
@@ -19,11 +20,14 @@ class ShittyLogic:
         for row, y in zip(rows, range(0, int(self.settings.square_height() * self.settings.rows), self.settings.square_height())):
             for col, x in zip(cols, range(0, int(self.settings.square_width() * self.settings.cols), self.settings.square_width())):
                 pos_name = col + row
-                tmp_rect = pygame.Rect(x, y, 0, 0)
-                self.space_coords.update({pos_name: tmp_rect})
+                tmp_rect = pygame.Rect(x, y, self.settings.square_width(), self.settings.square_height())
+                self.__coords.update({pos_name: tmp_rect})
 
 
-    def print_coords(self):
-        for key, val in self.space_coords.items():
-            print(f'{key}: x: {val.left}, y: {val.top}')
-        print(f"x: {self.space_coords['a1'].left}, y: {self.space_coords['a1'].top}")
+    def coords(self, coords: str) -> pygame.Rect:
+        if self.settings.headers:
+            tmp_coords = pygame.Rect(self.__coords[coords])
+            tmp_coords.left += self.settings.vertical_header_size
+            tmp_coords.top += self.settings.horizontal_header_size
+            return tmp_coords
+        return self.__coords[coords]

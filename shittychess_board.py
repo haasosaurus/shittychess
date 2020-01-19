@@ -4,10 +4,13 @@
 
 import pygame
 
+from shittychess_settings import ShittySettings
+
+
 class ShittyBoard:
     """This class represents a board."""
 
-    def __init__(self, screen, settings):
+    def __init__(self, screen: pygame.Surface, settings: ShittySettings):
         """Initialize the board's attributes."""
 
         self.screen = screen
@@ -24,8 +27,8 @@ class ShittyBoard:
 
 
     def draw(self):
-        for i in range(0, self.settings.tile_h * 4, self.settings.tile_h):
-            for j in range(0, self.settings.tile_w * 4, self.settings.tile_w):
+        for i in range(self.settings.board_start_y(), self.settings.tile_h * 4, self.settings.tile_h):
+            for j in range(self.settings.board_start_x(), self.settings.tile_w * 4, self.settings.tile_w):
                 self.rect.x = i
                 self.rect.y = j
                 self.screen.blit(self.image, self.rect)

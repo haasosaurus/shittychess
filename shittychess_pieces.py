@@ -7,14 +7,28 @@ import pygame
 
 class ShittyPiece(pygame.sprite.Sprite):
 
-    def __init__(self, screen):
-        self.image = None
+    def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str):
+        # super().__init(self)
+        pygame.sprite.Sprite.__init__(self)
+        self.black = black
         self.screen = screen
-        self.rect = pygame.Rect(0, 0, 0, 0)
-
-
-    def move(self, rect):
         self.rect = rect
+        self.coords = coords
+        self.image = None
+
+
+    def move(self, x: int, y: int):
+        self.rect.left = x
+        self.rect.top = y
+
+
+    def set_size(self, width: int, height: int):
+        self.rect.width = width
+        self.rect.height = height
+
+
+    def update(self):
+        pass
 
 
     def draw(self):
@@ -23,59 +37,66 @@ class ShittyPiece(pygame.sprite.Sprite):
 
 class ShittyPawn(ShittyPiece):
 
-    def __init__(self, screen):
-        super().__init__(screen)
-        self.img_path_black = 'shitty_art/shittypawnblack.png'
-        self.img_path_white = 'shitty_art/shittypawnwhite.png'
-        self.image = pygame.image.load(self.img_path_black)
-        self.rect = pygame.Rect(0, 0, 0, 0)
+    def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str):
+        super().__init__(screen, black, rect, coords)
+        img_path = ''
+        if self.black:
+            img_path = 'shitty_art/shittypawnblack.png'
+        else:
+            img_path = 'shitty_art/shittypawnwhite.png'
+        self.image = pygame.image.load(img_path)
 
 
 class ShittyRook(ShittyPiece):
 
-    def __init__(self, screen):
-        super().__init__(screen)
-        self.img_path_black = 'shitty_art/shittyrookblack.png'
-        self.img_path_white = 'shitty_art/shittyrookwhite.png'
-        self.image = pygame.image.load(self.img_path_black)
-        self.rect = pygame.Rect(0, 0, 0, 0)
+    def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str):
+        super().__init__(screen, black, rect, coords)
+        if self.black:
+            img_path = 'shitty_art/shittyrookblack.png'
+        else:
+            img_path = 'shitty_art/shittyrookwhite.png'
+        self.image = pygame.image.load(img_path)
 
 
 class ShittyBishop(ShittyPiece):
 
-    def __init__(self, screen):
-        super().__init__(screen)
-        self.img_path_black = 'shitty_art/shittybishopblack.png'
-        self.img_path_white = 'shitty_art/shittybishopwhite.png'
-        self.image = pygame.image.load(self.img_path_black)
-        self.rect = pygame.Rect(0, 0, 0, 0)
+    def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str):
+        super().__init__(screen, black, rect, coords)
+        if self.black:
+            img_path = 'shitty_art/shittybishopblack.png'
+        else:
+            img_path = 'shitty_art/shittybishopwhite.png'
+        self.image = pygame.image.load(img_path)
 
 
 class ShittyKnight(ShittyPiece):
 
-    def __init__(self, screen):
-        super().__init__(screen)
-        self.img_path_black = 'shitty_art/shittyknightblack.png'
-        self.img_path_white = 'shitty_art/shittyknightwhite.png'
-        self.image = pygame.image.load(self.img_path_black)
-        self.rect = pygame.Rect(0, 0, 0, 0)
+    def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str):
+        super().__init__(screen, black, rect, coords)
+        if self.black:
+            img_path = 'shitty_art/shittyknightblack.png'
+        else:
+            img_path = 'shitty_art/shittyknightwhite.png'
+        self.image = pygame.image.load(img_path)
 
 
 class ShittyQueen(ShittyPiece):
 
-    def __init__(self, screen):
-        super().__init__(screen)
-        self.img_path_black = 'shitty_art/shittyqueenblack.png'
-        self.img_path_white = 'shitty_art/shittyqueenwhite.png'
-        self.image = pygame.image.load(self.img_path_black)
-        self.rect = pygame.Rect(0, 0, 0, 0)
+    def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str):
+        super().__init__(screen, black, rect, coords)
+        if self.black:
+            img_path = 'shitty_art/shittyqueenblack.png'
+        else:
+            img_path = 'shitty_art/shittyqueenwhite.png'
+        self.image = pygame.image.load(img_path)
 
 
 class ShittyKing(ShittyPiece):
 
-    def __init__(self, screen):
-        super().__init__(screen)
-        self.img_path_black = 'shitty_art/shittykingblack.png'
-        self.img_path_white = 'shitty_art/shittykingwhite.png'
-        self.image = pygame.image.load(self.img_path_black)
-        self.rect = pygame.Rect(0, 0, 0, 0)
+    def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str):
+        super().__init__(screen, black, rect, coords)
+        if self.black:
+            img_path = 'shitty_art/shittykingblack.png'
+        else:
+            img_path = 'shitty_art/shittykingwhite.png'
+        self.image = pygame.image.load(img_path)

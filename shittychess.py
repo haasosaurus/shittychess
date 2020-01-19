@@ -7,8 +7,8 @@ import pygame
 from shittychess_settings import ShittySettings
 from shittychess_events import ShittyEventMonitor
 from shittychess_board import ShittyBoard
-from shittychess_pieces import ShittyPawn
 from shittychess_logic import ShittyLogic
+from shittychess_layout import ShittyLayout
 
 
 class ShittyChess:
@@ -17,10 +17,12 @@ class ShittyChess:
         pygame.init()
         pygame.display.set_caption("Shitty Chess")
         self.settings = ShittySettings()
-        self.event_monitor = ShittyEventMonitor()
-        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
+        self.screen = pygame.display.set_mode((self.settings.screen_width(), self.settings.screen_height()))
         self.board = ShittyBoard(self.screen, self.settings)
         self.logic = ShittyLogic(self.settings)
+        self.layout = ShittyLayout(self.screen, self.logic)
+        self.event_monitor = ShittyEventMonitor(self.screen, self.settings, self.layout)
+        self.exiting = False
 
 
     def run_game(self):
@@ -30,13 +32,12 @@ class ShittyChess:
 
 
     def main_loop(self):
-        pawn = ShittyPawn(self.screen)
-        # Starts the main loop for the game.
-        while True:
+
+
+        while not self.exiting:
             self.event_monitor.process_events()
-            # Refresh the screen with the newest info.
             self.board.draw()
-            pawn.draw()
+            self.layout.draw()
             pygame.display.flip()
 
 
