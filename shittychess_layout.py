@@ -16,6 +16,7 @@ from shittychess_pieces import ShittyQueen
 from shittychess_pieces import ShittyKing
 
 
+# this class clearly needs to be unfucked
 class ShittyLayout:
 
     def __init__(self, screen: pygame.Surface, logic: ShittyLogic):
