@@ -8,7 +8,6 @@ import pygame
 class ShittyPiece(pygame.sprite.Sprite):
 
     def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str):
-        # super().__init(self)
         pygame.sprite.Sprite.__init__(self)
         self.black = black
         self.screen = screen
