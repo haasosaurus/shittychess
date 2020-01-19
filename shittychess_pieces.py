@@ -44,6 +44,7 @@ class ShittyPawn(ShittyPiece):
         else:
             img_path = 'shitty_art/shittypawnwhite.png'
         self.image = pygame.image.load(img_path)
+        self.initial_position = True
 
 
 class ShittyRook(ShittyPiece):
@@ -55,6 +56,7 @@ class ShittyRook(ShittyPiece):
         else:
             img_path = 'shitty_art/shittyrookwhite.png'
         self.image = pygame.image.load(img_path)
+        self.initial_position = True
 
 
 class ShittyBishop(ShittyPiece):
@@ -99,3 +101,4 @@ class ShittyKing(ShittyPiece):
         else:
             img_path = 'shitty_art/shittykingwhite.png'
         self.image = pygame.image.load(img_path)
+        self.initial_position = True
