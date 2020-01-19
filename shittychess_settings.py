@@ -113,12 +113,10 @@ class ShittySettings:
     def screen_width(self) -> int:
         if self.headers_enabled:
             return self.board_width() + self.row_header_width() * 2
-        else:
-            return self.board_width()
+        return self.board_width()
 
 
     def screen_height(self) -> int:
         if self.headers_enabled:
             return self.board_height() + self.col_header_height() * 2
-        else:
-            return self.board_height()
+        return self.board_height()
