@@ -27,5 +27,3 @@ class ShittyLogic:
         for key, val in self.space_coords.items():
             print(f'{key}: x: {val.left}, y: {val.top}')
         print(f"x: {self.space_coords['a1'].left}, y: {self.space_coords['a1'].top}")
-        print(str(key) + ": x: " + str(val.left) + " y: " + str(val.top))
-        print(key, ": x: ", val.left, " y: ", val.top)
