@@ -30,10 +30,6 @@ class ShittyPiece(pygame.sprite.Sprite):
         pass
 
 
-    def draw(self):
-        self.screen.blit(self.image, self.rect)
-
-
 class ShittyPawn(ShittyPiece):
 
     def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str):
