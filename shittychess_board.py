@@ -50,26 +50,26 @@ class ShittyBoard:
             font_width = tmp_rect.width
             font_height = tmp_rect.height
 
-        horizontal_headers_x_start = int(self.settings.vertical_header_size + (self.settings.square_width() / 2) - (font_width / 2))
-        horizontal_top_header_y = int((self.settings.horizontal_header_size - self.settings.header_font_size) / 2)
-        horizontal_bottom_header_y = int((self.settings.screen_height() - self.settings.horizontal_header_size) + ((self.settings.horizontal_header_size - self.settings.header_font_size) / 2))
+        horizontal_x_start = int(self.settings.vertical_header_size + (self.settings.square_width() / 2) - (font_width / 2))
+        horizontal_top_y = int((self.settings.horizontal_header_size - self.settings.header_font_size) / 2)
+        horizontal_bottom_y = int((self.settings.screen_height() - self.settings.horizontal_header_size) + ((self.settings.horizontal_header_size - self.settings.header_font_size) / 2))
 
-        vertical_headers_y_start = int(self.settings.horizontal_header_size + (self.settings.square_height() / 2) - (font_height / 2))
-        vertical_left_header_x = int((self.settings.vertical_header_size - self.settings.header_font_size) / 2)
-        vertical_right_header_x = int((self.settings.screen_width() - self.settings.vertical_header_size) + ((self.settings.vertical_header_size - self.settings.header_font_size) / 2))
+        vertical_y_start = int(self.settings.horizontal_header_size + (self.settings.square_height() / 2) - (font_height / 2))
+        vertical_left_x = int((self.settings.vertical_header_size - self.settings.header_font_size) / 2)
+        vertical_right_x = int((self.settings.screen_width() - self.settings.vertical_header_size) + ((self.settings.vertical_header_size - self.settings.header_font_size) / 2))
 
-        for label, x in zip(self.horizontal_header_labels, range(horizontal_headers_x_start, (self.settings.square_width() * 8) + horizontal_headers_x_start, self.settings.square_width())):
+        for label, x in zip(self.horizontal_header_labels, range(horizontal_x_start, (self.settings.square_width() * self.settings.cols) + horizontal_x_start, self.settings.square_width())):
             tmp_rect = label.get_rect()
             tmp_rect.left = x
-            tmp_rect.top = horizontal_top_header_y
+            tmp_rect.top = horizontal_top_y
             self.screen.blit(label, tmp_rect)
-            tmp_rect.top = horizontal_bottom_header_y
+            tmp_rect.top = horizontal_bottom_y
             self.screen.blit(label, tmp_rect)
 
-        for label, y in zip(self.vertical_header_labels, range(vertical_headers_y_start, (self.settings.square_height() * 8) + vertical_headers_y_start, self.settings.square_height())):
+        for label, y in zip(self.vertical_header_labels, range(vertical_y_start, (self.settings.square_height() * self.settings.rows) + vertical_y_start, self.settings.square_height())):
             tmp_rect = label.get_rect()
-            tmp_rect.left = vertical_left_header_x
+            tmp_rect.left = vertical_left_x
             tmp_rect.top = y
             self.screen.blit(label, tmp_rect)
-            tmp_rect.left = vertical_right_header_x
+            tmp_rect.left = vertical_right_x
             self.screen.blit(label, tmp_rect)
