@@ -2,6 +2,9 @@
 # coding=utf-8
 
 
+import pathlib
+
+
 class ShittySettings:
 
     def __init__(self) -> None:
@@ -13,13 +16,16 @@ class ShittySettings:
         self.header_background_color = (30, 30, 30)
         self.header_font_color = (221, 221, 221)
         self.header_font_size = 16
-        self.header_font_path = 'fonts/LiberationMono-Regular.ttf'
-        self.header_font_bold_path = 'fonts/LiberationMono-Bold.ttf'
+        self.header_font_path_obj = pathlib.Path('fonts/LiberationMono-Regular.ttf')
+        self.header_font_path = str(self.header_font_path_obj)
+        self.header_font_bold_path_obj = pathlib.Path('fonts/LiberationMono-Bold.ttf')
+        self.header_font_bold_path = str(self.header_font_bold_path_obj)
 
         self.cols = 8
         self.rows = 8
 
-        self.tile_image_path = 'shitty_art/shittychess_tile.png'
+        self.tile_image_path_obj = pathlib.Path('shitty_art/shittychess_tile.png')
+        self.tile_image_path = str(self.tile_image_path_obj)
         self.tile_w = 120
         self.tile_h = 120
         self.cols_per_tile = 2
