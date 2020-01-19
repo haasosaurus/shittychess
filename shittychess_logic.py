@@ -18,7 +18,7 @@ class ShittyLogic:
         rows = ['8', '7', '6', '5', '4', '3', '2', '1']
         for row, y in zip(rows, range(0, int(self.settings.square_height() * self.settings.rows), self.settings.square_height())):
             for col, x in zip(cols, range(0, int(self.settings.square_width() * self.settings.cols), self.settings.square_width())):
-                pos_name = row + col
+                pos_name = col + row
                 tmp_rect = pygame.Rect(x, y, 0, 0)
                 self.space_coords.update({pos_name: tmp_rect})
 
@@ -26,3 +26,6 @@ class ShittyLogic:
     def print_coords(self):
         for key, val in self.space_coords.items():
             print(f'{key}: x: {val.left}, y: {val.top}')
+        print(f"x: {self.space_coords['a1'].left}, y: {self.space_coords['a1'].top}")
+        print(str(key) + ": x: " + str(val.left) + " y: " + str(val.top))
+        print(key, ": x: ", val.left, " y: ", val.top)
