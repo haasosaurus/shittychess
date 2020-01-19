@@ -36,6 +36,8 @@ class ShittyChess:
 
         while not self.exiting:
             self.event_monitor.process_events()
+            if self.settings.headers:
+                self.screen.fill(self.settings.header_background_color)
             self.board.draw()
             self.layout.draw()
             pygame.display.flip()
