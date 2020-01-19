@@ -5,7 +5,7 @@
 import pygame
 
 
-class ShittyPiece:
+class ShittyPiece(pygame.sprite.Sprite):
 
     def __init__(self, screen):
         self.image = None
