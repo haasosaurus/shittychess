@@ -7,14 +7,22 @@ import pathlib
 class ShittySettings:
 
     def __init__(self) -> None:
-        self.headers_enabled = True
+        # general declarations/initializations
+        self.cols = 8
+        self.rows = 8
+        self.tile_image_path_obj = pathlib.Path('shitty_art/shittychess_tile.png')
+        self.tile_image_path = str(self.tile_image_path_obj)
+        self.tile_w = 120
+        self.tile_h = 120
+        self.cols_per_tile = 2
+        self.rows_per_tile = 2
 
+        # header variables declarations/initializations
+        self.headers_enabled = True
         self.__row_header_w = 30
         self.__col_header_h = 30
-
         self.col_headers = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
         self.row_headers = ['8', '7', '6', '5', '4', '3', '2', '1']
-
         self.header_background_color = (30, 30, 30)
         self.header_font_color = (221, 221, 221)
         self.header_font_sz = 16
@@ -24,16 +32,6 @@ class ShittySettings:
         self.header_font_path = str(self.header_font_path_obj)
         self.header_font_bold_path_obj = pathlib.Path('fonts/LiberationMono-Bold.ttf')
         self.header_font_bold_path = str(self.header_font_bold_path_obj)
-
-        self.cols = 8
-        self.rows = 8
-
-        self.tile_image_path_obj = pathlib.Path('shitty_art/shittychess_tile.png')
-        self.tile_image_path = str(self.tile_image_path_obj)
-        self.tile_w = 120
-        self.tile_h = 120
-        self.cols_per_tile = 2
-        self.rows_per_tile = 2
 
 
     def horizontal_tile_count(self) -> int:
