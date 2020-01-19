@@ -16,8 +16,6 @@ class ShittySettings:
         self.header_font_path = 'fonts/LiberationMono-Regular.ttf'
         self.header_font_bold_path = 'fonts/LiberationMono-Bold.ttf'
 
-        self.__screen_width = 480
-        self.__screen_height = 480
         self.cols = 8
         self.rows = 8
 
@@ -42,16 +40,24 @@ class ShittySettings:
 
     def screen_width(self) -> int:
         if self.headers:
-            return self.__screen_width + self.vertical_header_size * 2
+            return self.board_width() + self.vertical_header_size * 2
         else:
-            return self.__screen_width
+            return self.board_width()
 
 
     def screen_height(self) -> int:
         if self.headers:
-            return self.__screen_height + self.horizontal_header_size * 2
+            return self.board_height() + self.horizontal_header_size * 2
         else:
-            return self.__screen_height
+            return self.board_height()
+
+
+    def board_width(self) -> int:
+        return self.square_width() * self.cols
+
+
+    def board_height(self) -> int:
+        return self.square_height() * self.rows
 
 
     # terrible name, needs to be changed
