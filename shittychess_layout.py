@@ -19,7 +19,7 @@ from shittychess_pieces import ShittyKing
 # this class clearly needs to be unfucked
 class ShittyLayout:
 
-    def __init__(self, screen: pygame.Surface, logic: ShittyLogic):
+    def __init__(self, screen: pygame.Surface, logic: ShittyLogic) -> None:
         self.screen = screen
         self.logic = logic
 
@@ -42,17 +42,17 @@ class ShittyLayout:
         self.reset()
 
 
-    def draw(self):
+    def draw(self) -> None:
         self.sprite_group_all.draw(self.screen)
 
 
-    def clear(self):
+    def clear(self) -> None:
         self.sprite_group_black.empty()
         self.sprite_group_white.empty()
         self.sprite_group_all.empty()
 
 
-    def reset(self):
+    def reset(self) -> None:
         self.clear()
         for crds in self.default_black_pawn_coords:
             self.sprite_group_black.add(ShittyPawn(self.screen, black=True, rect=self.logic.coords(crds), coords=crds))
@@ -80,7 +80,7 @@ class ShittyLayout:
             self.sprite_group_all.add(sprite)
 
 
-    def resize(self):
+    def resize(self) -> None:
         for sprite in self.sprite_group_all:
             tmp_rect = self.logic.coords(sprite.coords)
             sprite.move(tmp_rect.left, tmp_rect.top)

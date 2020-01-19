@@ -11,13 +11,13 @@ from shittychess_layout import ShittyLayout
 
 class ShittyEventMonitor:
 
-    def __init__(self, screen: pygame.Surface, settings: ShittySettings, layout: ShittyLayout):
+    def __init__(self, screen: pygame.Surface, settings: ShittySettings, layout: ShittyLayout) -> None:
         self.screen = screen
         self.settings = settings
         self.layout = layout
 
 
-    def process_events(self):
+    def process_events(self) -> None:
         # Look for mouse input
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

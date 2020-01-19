@@ -8,13 +8,13 @@ from shittychess_settings import ShittySettings
 
 class ShittyLogic:
 
-    def __init__(self, settings: ShittySettings):
+    def __init__(self, settings: ShittySettings) -> None:
         self.settings = settings
         self.__coords = {}
         self.configure_layout()
 
 
-    def configure_layout(self):
+    def configure_layout(self) -> None:
         for row, y in zip(self.settings.vertical_headers, range(0, int(self.settings.square_height() * self.settings.rows), self.settings.square_height())):
             for col, x in zip(self.settings.horizontal_headers, range(0, int(self.settings.square_width() * self.settings.cols), self.settings.square_width())):
                 pos_name = col + row

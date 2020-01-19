@@ -4,7 +4,7 @@
 
 class ShittySettings:
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.headers = True
         self.vertical_header_size = 30
         self.horizontal_header_size = 30

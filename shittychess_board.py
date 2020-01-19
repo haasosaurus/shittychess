@@ -10,7 +10,7 @@ from shittychess_settings import ShittySettings
 class ShittyBoard:
     """This class represents a board."""
 
-    def __init__(self, screen: pygame.Surface, settings: ShittySettings):
+    def __init__(self, screen: pygame.Surface, settings: ShittySettings) -> None:
         """Initialize the board's attributes."""
 
         self.screen = screen
@@ -30,7 +30,7 @@ class ShittyBoard:
             self.vertical_header_labels.append(self.header_font.render(label, True, self.settings.header_font_color, None))
 
 
-    def draw(self):
+    def draw(self) -> None:
         for i in range(self.settings.board_start_y(), self.settings.tile_h * 4, self.settings.tile_h):
             for j in range(self.settings.board_start_x(), self.settings.tile_w * 4, self.settings.tile_w):
                 self.rect.x = i
@@ -42,7 +42,7 @@ class ShittyBoard:
             self.draw_headers()
 
 
-    def draw_headers(self):
+    def draw_headers(self) -> None:
         font_width = self.settings.header_font_size
         font_height = font_width
         if len(self.horizontal_header_labels) > 0:

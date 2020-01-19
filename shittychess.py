@@ -13,7 +13,7 @@ from shittychess_layout import ShittyLayout
 
 class ShittyChess:
 
-    def __init__(self):
+    def __init__(self) -> None:
         pygame.init()
         pygame.display.set_caption("Shitty Chess")
         self.settings = ShittySettings()
@@ -25,15 +25,13 @@ class ShittyChess:
         self.exiting = False
 
 
-    def run_game(self):
+    def run_game(self) -> None:
         """This is the main function of the program which runs the code."""
 
         self.main_loop()
 
 
-    def main_loop(self):
-
-
+    def main_loop(self) -> None:
         while not self.exiting:
             self.event_monitor.process_events()
             if self.settings.headers:
