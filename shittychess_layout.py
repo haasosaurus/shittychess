@@ -45,9 +45,9 @@ class ShittyLayout:
         self.clear()
         for piece in self.initial_piece_layout:
             if piece[2]:
-                self.sprite_group_black.add(piece[1](self.screen, piece[2], self.logic.coords(piece[0]), piece[0]))
+                self.sprite_group_black.add(piece[1](self.screen, piece[2], self.logic.coords_to_rect(piece[0]), piece[0]))
             else:
-                self.sprite_group_white.add(piece[1](self.screen, piece[2], self.logic.coords(piece[0]), piece[0]))
+                self.sprite_group_white.add(piece[1](self.screen, piece[2], self.logic.coords_to_rect(piece[0]), piece[0]))
         for sprite in itertools.chain(self.sprite_group_black, self.sprite_group_white):
             self.sprite_group_all.add(sprite)
 
@@ -64,5 +64,5 @@ class ShittyLayout:
 
     def resize(self) -> None:
         for sprite in self.sprite_group_all:
-            tmp_rect = self.logic.coords(sprite.coords)
+            tmp_rect = self.logic.coords_to_rect(sprite.coords)
             sprite.move(tmp_rect.left, tmp_rect.top)

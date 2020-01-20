@@ -17,6 +17,7 @@ class ShittySettings:
         self.tile_h = 120
         self.cols_per_tile = 2
         self.rows_per_tile = 2
+        self.coords_list = []
 
         # header variables declarations/initializations
         self.headers_enabled = True
@@ -33,6 +34,9 @@ class ShittySettings:
         self.header_font_path = str(self.header_font_path_obj)
         self.header_font_bold_path_obj = pathlib.Path('fonts/LiberationMono-Bold.ttf')
         self.header_font_bold_path = str(self.header_font_bold_path_obj)
+
+        # colors
+        self.color_white = (255, 255, 255)
 
 
     def horizontal_tile_count(self) -> int:

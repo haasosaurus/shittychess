@@ -12,13 +12,16 @@ from shittychess_layout import ShittyLayout
 
 class ShittyChess:
 
+    # need to change a lot of these classes from setting their properties with
+    # contructor to just setting the property with the assignment operator
     def __init__(self) -> None:
         pygame.init()
         pygame.display.set_caption("Shitty Chess")
         self.settings = ShittySettings()
         self.screen = pygame.display.set_mode((self.settings.screen_width(), self.settings.screen_height()))
-        self.board = ShittyBoard(self.screen, self.settings)
         self.logic = ShittyLogic(self.settings)
+        self.board = ShittyBoard(self.screen, self.settings, self.logic)
+        self.logic.board = self.board
         self.layout = ShittyLayout(self.screen, self.settings, self.logic)
         self.event_monitor = ShittyEventMonitor(self.screen, self.settings, self.layout)
         self.exiting = False
