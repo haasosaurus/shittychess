@@ -4,9 +4,6 @@
 import sys
 import pygame
 
-from shittychess_settings import ShittySettings
-from shittychess_layout import ShittyLayout
-
 
 class ShittyEventMonitor:
     """
@@ -15,10 +12,17 @@ class ShittyEventMonitor:
     it does more than monitor
     """
 
-    def __init__(self, screen: pygame.Surface, settings: ShittySettings, layout: ShittyLayout) -> None:
-        self.screen = screen
-        self.settings = settings
-        self.layout = layout
+    def __init__(self) -> None:
+        self.screen = None  # pygame.Surface
+        self.settings = None  # ShittySettings
+        self.layout = None  # ShittyLayout
+
+    # def configure(self) -> None:
+    #     """
+    #     configure class's properties after they have been assigned externally
+    #     """
+
+    #     pass
 
     def process_events(self) -> None:
         """
