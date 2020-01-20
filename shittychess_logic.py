@@ -3,19 +3,25 @@
 
 import pygame
 
-from shittychess_settings import ShittySettings
+from shittychess_pieces import ShittyPiece
 
 
 class ShittyLogic:
     """game logic class"""
 
-    def __init__(self, settings: ShittySettings) -> None:
-        self.settings = settings
+    def __init__(self) -> None:
+        self.settings = None  # ShittySettings
         self.board = None
         self.__coords_to_rect = {}
         self.__rect_to_coords = {}
         self.__coords_to_indexes = {}
         self.__indexes_to_coords = {}
+
+    def configure(self) -> None:
+        """
+        configure class's properties after they have been assigned externally
+        """
+
         self.configure_layout()
 
     def coords_to_indexes(self, coords: str) -> tuple:  # type hinting can be more precise here
@@ -112,3 +118,24 @@ class ShittyLogic:
             self.__indexes_to_coords.update({indexes: coords})
         for coords, rect in self.__coords_to_rect.items():
             self.__rect_to_coords.update({(rect.left, rect.top, rect.width, rect.height): coords})
+
+    def valid_spaces(self, piece: ShittyPiece) -> list:  # type hinting can be improved here
+        space_coords = []
+        piece_indexes = self.coords_to_indexes(piece.coords)
+        if piece.move_patterns.horizontal > 0:
+            pass
+        if piece.move_patterns.vertical > 0:
+            pass
+        if piece.move_patterns.diagonal > 0:
+            pass
+        for pattern in piece.move_patterns.pattern_list:
+            x = piece_indexes[0] + pattern[0]
+            if x >= self.settings.cols or x < 0:
+                continue
+            y = piece_indexes[1] + pattern[1]
+            if self.settings.rows > y >= 0:
+                space_coords.append(self.indexes_to_coords((x, y)))
+        return space_coords
+
+    def valid_moves(self, piece: ShittyPiece) -> list:  # type hinting can be improved here
+        return self.valid_spaces(piece)
