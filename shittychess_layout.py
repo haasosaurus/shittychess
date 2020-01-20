@@ -32,10 +32,10 @@ class ShittyLayout:
             ['e8', ShittyKing, True], ['f8', ShittyBishop, True], ['g8', ShittyKnight, True], ['h8', ShittyRook, True],
             ['a7', ShittyPawn, True], ['b7', ShittyPawn, True], ['c7', ShittyPawn, True], ['d7', ShittyPawn, True],
             ['e7', ShittyPawn, True], ['f7', ShittyPawn, True], ['g7', ShittyPawn, True], ['h7', ShittyPawn, True],
-            ['a2', ShittyRook, False], ['b2', ShittyKnight, False], ['c2', ShittyBishop, False], ['d2', ShittyQueen, False],
-            ['e2', ShittyKing, False], ['f2', ShittyBishop, False], ['g2', ShittyKnight, False], ['h2', ShittyRook, False],
-            ['a1', ShittyPawn, False], ['b1', ShittyPawn, False], ['c1', ShittyPawn, False], ['d1', ShittyPawn, False],
-            ['e1', ShittyPawn, False], ['f1', ShittyPawn, False], ['g1', ShittyPawn, False], ['h1', ShittyPawn, False],
+            ['a2', ShittyPawn, False], ['b2', ShittyPawn, False], ['c2', ShittyPawn, False], ['d2', ShittyPawn, False],
+            ['e2', ShittyPawn, False], ['f2', ShittyPawn, False], ['g2', ShittyPawn, False], ['h2', ShittyPawn, False],
+            ['a1', ShittyRook, False], ['b1', ShittyKnight, False], ['c1', ShittyBishop, False], ['d1', ShittyQueen, False],
+            ['e1', ShittyKing, False], ['f1', ShittyBishop, False], ['g1', ShittyKnight, False], ['h1', ShittyRook, False],
         ]
 
         self.reset()
