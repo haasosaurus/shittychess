@@ -15,6 +15,7 @@ class ShittyLogic:
     def __init__(self) -> None:
         self.settings = None  # ShittySettings
         self.board = None  # ShittyBoard
+        self.layout = None # ShittyLayout
         self.__coords_to_rect = {}
         self.__rect_to_coords = {}
         self.__coords_to_indexes = {}
@@ -23,9 +24,24 @@ class ShittyLogic:
     def configure(self) -> None:
         """
         configure class's properties after they have been assigned externally
+        this sets up all the dicts and their matching dicts that i thought we needed to
+        make this 'logic' work
         """
 
-        self.configure_layout()
+        self.settings.coords_list = []
+        for row, y in zip(self.settings.row_headers, range(0, int(self.settings.space_height() * self.settings.rows), self.settings.space_height())):
+            for col, x in zip(self.settings.col_headers, range(0, int(self.settings.space_width() * self.settings.cols), self.settings.space_width())):
+                pos_name = col + row
+                tmp_rect = pygame.Rect(x, y, self.settings.space_width(), self.settings.space_height())
+                self.__coords_to_rect.update({pos_name: tmp_rect})
+                self.settings.coords_list.append(pos_name)
+        for i, row_number in enumerate(self.settings.row_headers):
+            for j, col_letter in enumerate(self.settings.col_headers):
+                self.__coords_to_indexes.update({f'{col_letter}{row_number}': (i, j)})
+        for coords, indexes in self.__coords_to_indexes.items():
+            self.__indexes_to_coords.update({indexes: coords})
+        for coords, rect in self.__coords_to_rect.items():
+            self.__rect_to_coords.update({(rect.left, rect.top, rect.width, rect.height): coords})
 
     def coords_to_indexes(self, coords: str) -> Tuple[int]:
         """
@@ -101,26 +117,6 @@ class ShittyLogic:
 
         return self.coords_to_indexes(self.rect_to_coords(rect))
 
-    def configure_layout(self) -> None:
-        """
-        this sets up all the dicts and their matching dicts that i thought we needed to
-        make this 'logic' work
-        """
-
-        self.settings.coords_list = []
-        for row, y in zip(self.settings.row_headers, range(0, int(self.settings.space_height() * self.settings.rows), self.settings.space_height())):
-            for col, x in zip(self.settings.col_headers, range(0, int(self.settings.space_width() * self.settings.cols), self.settings.space_width())):
-                pos_name = col + row
-                tmp_rect = pygame.Rect(x, y, self.settings.space_width(), self.settings.space_height())
-                self.__coords_to_rect.update({pos_name: tmp_rect})
-                self.settings.coords_list.append(pos_name)
-        for i, row_number in enumerate(self.settings.row_headers):
-            for j, col_letter in enumerate(self.settings.col_headers):
-                self.__coords_to_indexes.update({f'{col_letter}{row_number}': (i, j)})
-        for coords, indexes in self.__coords_to_indexes.items():
-            self.__indexes_to_coords.update({indexes: coords})
-        for coords, rect in self.__coords_to_rect.items():
-            self.__rect_to_coords.update({(rect.left, rect.top, rect.width, rect.height): coords})
 
     def valid_spaces(self, piece: ShittyPiece) -> List[str]:
         space_coords = []
