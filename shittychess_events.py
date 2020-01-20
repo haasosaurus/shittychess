@@ -24,7 +24,6 @@ class ShittyEventMonitor:
         self.settings = settings
         self.layout = layout
 
-
     def process_events(self) -> None:
         """
         process pygame events

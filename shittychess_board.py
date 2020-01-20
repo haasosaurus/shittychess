@@ -26,7 +26,6 @@ class ShittyBoard:
         self.row_header_labels = []
         self.render_header_labels()
 
-
     def resize_header_label_font(self, font_sz: int) -> None:
         """
         can be used to resize the header labels
@@ -38,12 +37,10 @@ class ShittyBoard:
         self.row_header_labels.clear()
         self.render_header_labels()
 
-
     def render_header_labels(self) -> None:
         """
         renders the header labels and stores them in lists
         """
-
 
         header_font = pygame.font.Font(self.settings.header_font_path, self.settings.header_font_sz)
         for label in self.settings.col_headers:
@@ -54,7 +51,6 @@ class ShittyBoard:
             tmp_rect = self.col_header_labels[0].get_rect()
             self.settings.header_font_width = tmp_rect.width
             self.settings.header_font_height = tmp_rect.height
-
 
     def draw(self) -> None:
         """
@@ -75,7 +71,6 @@ class ShittyBoard:
         # debug testing space highlight
         if self.settings.debug:
             self.highlight_space('a1')
-
 
     def draw_headers(self) -> None:
         """
@@ -102,7 +97,6 @@ class ShittyBoard:
             self.screen.blit(label, tmp_rect)
             tmp_rect.left = self.settings.row_header_x_right()
             self.screen.blit(label, tmp_rect)
-
 
     def highlight_space(self, coords: str) -> None:
         """
