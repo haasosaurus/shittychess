@@ -9,15 +9,27 @@ from shittychess_layout import ShittyLayout
 
 
 class ShittyEventMonitor:
+    """
+    manages all the pygame events for the game
+    should be renamed to something better since
+    it does more than monitor
+    """
 
     def __init__(self, screen: pygame.Surface, settings: ShittySettings, layout: ShittyLayout) -> None:
+        """
+        initialize an instance of the class
+        """
+
         self.screen = screen
         self.settings = settings
         self.layout = layout
 
 
     def process_events(self) -> None:
-        # Look for mouse input
+        """
+        process pygame events
+        """
+
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
