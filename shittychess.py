@@ -14,17 +14,40 @@ class ShittyChess:
     """base class for the game"""
 
     def __init__(self) -> None:
-        # need to change a lot of these classes from setting their properties with
+        # setup pygame
         pygame.init()
         pygame.display.set_caption("Shitty Chess")
+
+        # initialize our property classes
         self.settings = ShittySettings()
         self.screen = pygame.display.set_mode((self.settings.screen_width(), self.settings.screen_height()))
-        self.logic = ShittyLogic(self.settings)
-        self.board = ShittyBoard(self.screen, self.settings, self.logic)
+        self.logic = ShittyLogic()
+        self.board = ShittyBoard()
+        self.layout = ShittyLayout()
+        self.event_monitor = ShittyEventMonitor()
+
+        # make assignments to our property classes
+        self.board.screen = self.screen
+        self.board.settings = self.settings
+        self.board.logic = self.logic
+        self.logic.settings = self.settings
         self.logic.board = self.board
-        self.layout = ShittyLayout(self.screen, self.settings, self.logic)
-        self.event_monitor = ShittyEventMonitor(self.screen, self.settings, self.layout)
+        self.layout.screen = self.screen
+        self.layout.settings = self.settings
+        self.layout.logic = self.logic
+        self.event_monitor.screen = self.screen
+        self.event_monitor.settings = self.settings
+        self.event_monitor.layout = self.layout
+
+        # configure our property classes
+        self.logic.configure()
+        self.board.configure()
+        self.layout.configure()
+        # self.event_monitor.configure()
+
+        # assorted properties
         self.exiting = False
+        self.local_debug = False
 
 
     def run_game(self) -> None:
@@ -40,7 +63,22 @@ class ShittyChess:
             self.event_monitor.process_events()
             if self.settings.headers_enabled:
                 self.screen.fill(self.settings.header_background_color)
-            self.board.draw()
+
+            # just testing to see if my ShittyPiece __bool__ method works, and attempting to highlight a piece's
+            # available moves by coords
+            if self.settings.debug:
+                sprite = self.layout.coords_to_sprite('b1')
+                if sprite:
+                    if self.local_debug:
+                        print('sprite is a valid game piece, calling self.board.draw(sprite)')
+                    self.board.draw(sprite)
+                else:
+                    if self.local_debug:
+                        print('sprite is not a valid chess piece, calling self.board.draw()')
+                    self.board.draw()
+            else:
+                self.board.draw()
+
             self.layout.draw()
             pygame.display.flip()
 
