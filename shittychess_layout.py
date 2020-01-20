@@ -5,9 +5,7 @@ import itertools
 
 import pygame
 
-from shittychess_logic import ShittyLogic
-from shittychess_settings import ShittySettings
-
+from shittychess_pieces import ShittyPiece
 from shittychess_pieces import ShittyPawn
 from shittychess_pieces import ShittyKnight
 from shittychess_pieces import ShittyBishop
@@ -16,17 +14,41 @@ from shittychess_pieces import ShittyQueen
 from shittychess_pieces import ShittyKing
 
 
+class ShittyGroup(pygame.sprite.Group):
+    """
+    subclassing sprite Group to add more functionality
+    """
+
+    def __init__(self):
+        pygame.sprite.Group.__init__(self)
+
+    def sprite_exists(self, coords: str) -> bool:
+        for sprite in self.sprites():
+            if sprite.coords == coords:
+                return True
+        return False
+
+    def coords_to_sprite(self, coords: str) -> ShittyPiece:
+        for sprite in self.sprites():
+            if sprite.coords == coords:
+                return sprite
+        return ShittyPiece(None, True, pygame.Rect(0, 0, 0, 0), '')
+
+
 class ShittyLayout:
-    """this class manages where all the pieces are on the board"""
+    """
+    this class manages where all the pieces are on the board
+    might want to use this as a property of ShittyBoard
+    """
 
-    def __init__(self, screen: pygame.Surface, settings: ShittySettings, logic: ShittyLogic) -> None:
-        self.screen = screen
-        self.settings = settings
-        self.logic = logic
+    def __init__(self) -> None:
+        self.screen = None  # pygame.Surface
+        self.settings = None  # ShittySettings
+        self.logic = None  # ShittyLogic
 
-        self.sprite_group_black = pygame.sprite.Group()
-        self.sprite_group_white = pygame.sprite.Group()
-        self.sprite_group_all = pygame.sprite.Group()
+        self.sprite_group_black = ShittyGroup()
+        self.sprite_group_white = ShittyGroup()
+        self.sprite_group_all = ShittyGroup()
 
         self.initial_piece_layout = [
             ['a8', ShittyRook, True], ['b8', ShittyKnight, True], ['c8', ShittyBishop, True], ['d8', ShittyQueen, True],
@@ -39,7 +61,18 @@ class ShittyLayout:
             ['e1', ShittyKing, False], ['f1', ShittyBishop, False], ['g1', ShittyKnight, False], ['h1', ShittyRook, False],
         ]
 
+    def configure(self) -> None:
+        """
+        configure layout's properties after they have been assigned externally
+        """
+
         self.reset()
+
+    def coords_to_sprite(self, coords: str) -> ShittyPiece:
+        # return self.sprite_group_all.coords_to_sprite(coords)
+        tmp_sprite = self.sprite_group_all.coords_to_sprite(coords)
+        if tmp_sprite:
+            return tmp_sprite
 
     def reset(self) -> None:
         """
