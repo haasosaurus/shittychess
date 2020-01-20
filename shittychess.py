@@ -30,8 +30,10 @@ class ShittyChess:
         self.board.screen = self.screen
         self.board.settings = self.settings
         self.board.logic = self.logic
+        self.board.layout = self.layout
         self.logic.settings = self.settings
         self.logic.board = self.board
+        self.logic.layout = self.layout
         self.layout.screen = self.screen
         self.layout.settings = self.settings
         self.layout.logic = self.logic
@@ -67,11 +69,10 @@ class ShittyChess:
             # just testing to see if my ShittyPiece __bool__ method works, and attempting to highlight a piece's
             # available moves by coords
             if self.settings.debug:
-                sprite = self.layout.coords_to_sprite('b1')
-                if sprite:
+                if self.layout.sprite_exists_all('b1'):
                     if self.local_debug:
                         print('sprite is a valid game piece, calling self.board.draw(sprite)')
-                    self.board.draw(sprite)
+                    self.board.draw('b1')
                 else:
                     if self.local_debug:
                         print('sprite is not a valid chess piece, calling self.board.draw()')
