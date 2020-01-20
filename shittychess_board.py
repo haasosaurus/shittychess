@@ -178,6 +178,6 @@ class ShittyBoard:
 
         if piece:
             self.highlight_space(piece.coords, space_alpha=150)
-            valid_spaces = self.logic.valid_moves(piece)
+            valid_spaces = self.logic.valid_move_coords(piece)
             for space in valid_spaces:
                 self.highlight_and_border_space(space)

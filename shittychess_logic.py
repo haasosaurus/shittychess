@@ -117,8 +117,13 @@ class ShittyLogic:
 
         return self.coords_to_indexes(self.rect_to_coords(rect))
 
+    def valid_space_coords(self, piece: ShittyPiece) -> List[str]:
+        """
+        make a list of valid moves for a piece that are on the game board,
+        no other error checking performed. return them as a list of chess
+        coordinate strings
+        """
 
-    def valid_spaces(self, piece: ShittyPiece) -> List[str]:
         space_coords = []
         piece_indexes = self.coords_to_indexes(piece.coords)
         if piece.move_patterns.horizontal > 0:
@@ -136,5 +141,26 @@ class ShittyLogic:
                 space_coords.append(self.indexes_to_coords((x, y)))
         return space_coords
 
-    def valid_moves(self, piece: ShittyPiece) -> List[str]:
-        return self.valid_spaces(piece)
+    def valid_move_coords(self, piece: ShittyPiece) -> List[str]:
+        """
+        get valid move space list from self.valid_space_coords, and run more in
+        depth tests on them to make sure they are really valid move coordinates
+        """
+
+        # check to see if a friendly piece is blocking
+        valid_move_coords = self.valid_space_coords(piece)
+        piece_black = piece.black
+        invalid_move_coords = []
+        for coords in valid_move_coords:
+            if piece_black:
+                if self.layout.sprite_exists_black(coords):
+                    invalid_move_coords.append(coords)
+            else:
+                if self.layout.sprite_exists_white(coords):
+                    invalid_move_coords.append(coords)
+        for coords in reversed(invalid_move_coords):
+            while coords in valid_move_coords:
+                valid_move_coords.remove(coords)
+
+        # return a list of chess coordinates strings
+        return valid_move_coords
