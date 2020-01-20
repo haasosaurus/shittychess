@@ -52,22 +52,6 @@ class ShittyLayout:
         for sprite in itertools.chain(self.sprite_group_black, self.sprite_group_white):
             self.sprite_group_all.add(sprite)
 
-        if self.settings.debug:
-            self.print_sprite_locations()
-
-
-    def print_sprite_locations(self) -> None:
-        print('black sprites:')
-        for sprite in self.sprite_group_black.sprites():
-            print(sprite.coords, end=' ')
-        print('\nwhite sprites:')
-        for sprite in self.sprite_group_white.sprites():
-            print(sprite.coords, end=' ')
-        print('\nall sprites:')
-        for sprite in self.sprite_group_all.sprites():
-            print(sprite.coords, end=' ')
-        print()
-
 
     def draw(self) -> None:
         self.sprite_group_all.draw(self.screen)
