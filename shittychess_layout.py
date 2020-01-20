@@ -17,8 +17,15 @@ from shittychess_pieces import ShittyKing
 
 
 class ShittyLayout:
+    """
+    this class manages where all the pieces are on the board
+    """
 
     def __init__(self, screen: pygame.Surface, settings: ShittySettings, logic: ShittyLogic) -> None:
+        """
+        construct an instance of the class
+        """
+
         self.screen = screen
         self.settings = settings
         self.logic = logic
@@ -42,6 +49,10 @@ class ShittyLayout:
 
 
     def reset(self) -> None:
+        """
+        reset the board to a new game state
+        """
+
         self.clear()
         for piece in self.initial_piece_layout:
             if piece[2]:
@@ -53,16 +64,31 @@ class ShittyLayout:
 
 
     def draw(self) -> None:
+        """
+        draw all the pieces
+        """
+
         self.sprite_group_all.draw(self.screen)
 
 
     def clear(self) -> None:
+        """
+        remove all the pieces from the sprite group containers
+        this will clear the board of all pieces
+        """
+
         self.sprite_group_black.empty()
         self.sprite_group_white.empty()
         self.sprite_group_all.empty()
 
 
     def resize(self) -> None:
+        """
+        reposition all the pieces to their current correct position
+        this should be used if the board size is changed, or headers
+        are disabled or enabled, as that will change the board size
+        """
+
         for sprite in self.sprite_group_all:
             tmp_rect = self.logic.coords_to_rect(sprite.coords)
             sprite.move(tmp_rect.left, tmp_rect.top)
