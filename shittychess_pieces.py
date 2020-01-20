@@ -6,6 +6,16 @@ import pathlib
 import pygame
 
 
+class ShittyMovementPatterns:
+    """class to save a piece's movement patterns"""
+
+    def __init__(self):
+        self.horizontal = 0
+        self.vertical = 0
+        self.diagonal = 0
+        self.pattern_list = []
+
+
 class ShittyPiece(pygame.sprite.Sprite):
     """base sprite class for pieces"""
 
@@ -15,7 +25,17 @@ class ShittyPiece(pygame.sprite.Sprite):
         self.screen = screen
         self.rect = rect
         self.coords = coords
+        self.move_patterns = ShittyMovementPatterns()
         self.image = None
+
+        self.local_debug = False
+
+    # this needs to be fixed for sure
+    def __bool__(self) -> bool:
+        if self.local_debug:
+            print(type(self).__name__)
+            print(type(self).__name__ != 'ShittyPiece')
+        return type(self).__name__ != 'ShittyPiece'
 
     def move(self, x: int, y: int) -> None:
         """
@@ -89,6 +109,14 @@ class ShittyKnight(ShittyPiece):
         else:
             img_path = pathlib.Path('shitty_art/shittyknightwhite.png')
         self.image = pygame.image.load(str(img_path))
+        self.move_patterns.pattern_list.append((1, 2))
+        self.move_patterns.pattern_list.append((1, -2))
+        self.move_patterns.pattern_list.append((2, 1))
+        self.move_patterns.pattern_list.append((2, -1))
+        self.move_patterns.pattern_list.append((-2, 1))
+        self.move_patterns.pattern_list.append((-2, -1))
+        self.move_patterns.pattern_list.append((-1, 2))
+        self.move_patterns.pattern_list.append((-1, -2))
 
 
 class ShittyQueen(ShittyPiece):
