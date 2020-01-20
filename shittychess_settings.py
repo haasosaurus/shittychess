@@ -38,6 +38,8 @@ class ShittySettings:
 
         # assorted colors
         self.color_white = (255, 255, 255)
+        self.color_light_blue = (140, 240, 255)
+        self.color_blue = (0, 0, 255)
 
     def horizontal_tile_count(self) -> int:
         """returns the amount of tiles needed to the draw board - horizontally"""
