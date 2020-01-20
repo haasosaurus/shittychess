@@ -1,6 +1,9 @@
 # coding=utf-8
 
 
+from typing import List
+from typing import Tuple
+
 import pygame
 
 from shittychess_pieces import ShittyPiece
@@ -24,7 +27,7 @@ class ShittyLogic:
 
         self.configure_layout()
 
-    def coords_to_indexes(self, coords: str) -> tuple:  # type hinting can be more precise here
+    def coords_to_indexes(self, coords: str) -> Tuple[int]:
         """
         takes chess coordinates
         returns the corresponding zero-indexed tuple with 2D list indexes for the board space,
@@ -50,7 +53,7 @@ class ShittyLogic:
             tmp_rect.top += self.settings.col_header_height()
         return tmp_rect
 
-    def indexes_to_coords(self, indexes: tuple) -> str:  # type hinting can be more precise here
+    def indexes_to_coords(self, indexes: Tuple[int]) -> str:
         """
         takes a zero-indexed tuple with 2D list indexes
         returns the corresponding chess notation for a board space,
@@ -61,7 +64,7 @@ class ShittyLogic:
             return self.__indexes_to_coords[indexes]
         return ''
 
-    def indexes_to_rect(self, indexes: tuple) -> pygame.Rect:
+    def indexes_to_rect(self, indexes: Tuple[int]) -> pygame.Rect:
         """
         takes a zero-indexed tuple with 2D list indexes
         returns a pygame.Rect object of the corresponding board space,
@@ -89,7 +92,7 @@ class ShittyLogic:
             return ''
         return self.__rect_to_coords[(left, top, width, height)]
 
-    def rect_to_indexes(self, rect: pygame.Rect) -> tuple:
+    def rect_to_indexes(self, rect: pygame.Rect) -> Tuple[int]:
         """
         takes a pygame.Rect object
         returns the corresponding zero-indexed tuple with 2D list indexes for the board space,
@@ -119,7 +122,7 @@ class ShittyLogic:
         for coords, rect in self.__coords_to_rect.items():
             self.__rect_to_coords.update({(rect.left, rect.top, rect.width, rect.height): coords})
 
-    def valid_spaces(self, piece: ShittyPiece) -> list:  # type hinting can be improved here
+    def valid_spaces(self, piece: ShittyPiece) -> List[str]:
         space_coords = []
         piece_indexes = self.coords_to_indexes(piece.coords)
         if piece.move_patterns.horizontal > 0:
@@ -137,5 +140,5 @@ class ShittyLogic:
                 space_coords.append(self.indexes_to_coords((x, y)))
         return space_coords
 
-    def valid_moves(self, piece: ShittyPiece) -> list:  # type hinting can be improved here
+    def valid_moves(self, piece: ShittyPiece) -> List[str]:
         return self.valid_spaces(piece)
