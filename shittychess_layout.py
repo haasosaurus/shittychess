@@ -17,9 +17,7 @@ from shittychess_pieces import ShittyKing
 
 
 class ShittyLayout:
-    """
-    this class manages where all the pieces are on the board
-    """
+    """this class manages where all the pieces are on the board"""
 
     def __init__(self, screen: pygame.Surface, settings: ShittySettings, logic: ShittyLogic) -> None:
         self.screen = screen

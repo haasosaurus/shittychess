@@ -7,6 +7,7 @@ from shittychess_settings import ShittySettings
 
 
 class ShittyLogic:
+    """game logic class"""
 
     def __init__(self, settings: ShittySettings) -> None:
         self.settings = settings

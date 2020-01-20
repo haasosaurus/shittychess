@@ -5,6 +5,7 @@ import pathlib
 
 
 class ShittySettings:
+    """class to store the game settings in"""
 
     def __init__(self) -> None:
         # general declarations/initializations

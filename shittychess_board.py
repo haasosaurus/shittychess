@@ -8,9 +8,7 @@ from shittychess_logic import ShittyLogic
 
 
 class ShittyBoard:
-    """
-    This class represents a chess board
-    """
+    """this class represents a chess board"""
 
     def __init__(self, screen: pygame.Surface, settings: ShittySettings, logic: ShittyLogic) -> None:
         self.screen = screen
