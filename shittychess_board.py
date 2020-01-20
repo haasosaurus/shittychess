@@ -75,10 +75,10 @@ class ShittyBoard:
 
 
     def highlight_space(self, coords: str) -> None:
-        side_rect_width = 4
+        side_rect_width = 2
         side_rect_height = int(self.settings.space_height() / 3)
         top_bottom_rect_width = int(self.settings.space_width() / 3)
-        top_bottom_rect_height = 4
+        top_bottom_rect_height = 2
         tmp_rect = pygame.Rect.copy(self.logic.coords_to_rect(coords))
 
         # calculate rects for the sides
