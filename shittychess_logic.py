@@ -20,9 +20,9 @@ class ShittyLogic:
 
     def coords_to_indexes(self, coords: str) -> tuple:  # type hinting can be more precise here
         """
-        takes chess coordinates, example: 'f4'
+        takes chess coordinates
         returns the corresponding zero-indexed tuple with 2D list indexes for the board space,
-        example: (0, 5)
+        0, 5 = ShittyLogic.coords_to_indexes('f4')
         """
 
         if coords in self.__coords_to_indexes:
@@ -31,9 +31,9 @@ class ShittyLogic:
 
     def coords_to_rect(self, coords: str) -> pygame.Rect:
         """
-        takes chess coordinates, example: 'f4'
+        takes chess coordinates
         returns a pygame.Rect object of the corresponding board space,
-        example: pygame.Rect(0, 120, 60, 60)
+        pygame.Rect(0, 120, 60, 60) = ShittyLogic.coords_to_rect('f4')
         """
 
         if coords not in self.__coords_to_rect:
@@ -46,9 +46,9 @@ class ShittyLogic:
 
     def indexes_to_coords(self, indexes: tuple) -> str:  # type hinting can be more precise here
         """
-        takes a zero-indexed tuple with 2D list indexes, example: '(0, 5)'
+        takes a zero-indexed tuple with 2D list indexes
         returns the corresponding chess notation for a board space,
-        example: 'f4'
+        'f4' = ShittyLogic.indexes_to_coords(0, 5)
         """
 
         if indexes in self.__indexes_to_coords:
@@ -57,18 +57,18 @@ class ShittyLogic:
 
     def indexes_to_rect(self, indexes: tuple) -> pygame.Rect:
         """
-        takes a zero-indexed tuple with 2D list indexes, example: '(0, 5)'
+        takes a zero-indexed tuple with 2D list indexes
         returns a pygame.Rect object of the corresponding board space,
-        example: pygame.Rect(0, 120, 60, 60)
+        pygame.Rect(0, 120, 60, 60) = ShittyLogic.indexes_to_rect(0, 5)
         """
 
         return self.coords_to_rect(self.indexes_to_coords(indexes))
 
     def rect_to_coords(self, rect: pygame.Rect) -> str:
         """
-        takes a pygame.Rect object, example: pygame.Rect(0, 120, 60, 60)
+        takes a pygame.Rect object
         returns the corresponding chess notation for a board space,
-        example: 'f4'
+        'f4' = ShittyLogic.rect_to_coords(pygame.Rect(0, 120, 60, 60))
         """
 
         left = rect.left
@@ -85,9 +85,9 @@ class ShittyLogic:
 
     def rect_to_indexes(self, rect: pygame.Rect) -> tuple:
         """
-        takes a pygame.Rect object, example: pygame.Rect(0, 120, 60, 60)
+        takes a pygame.Rect object
         returns the corresponding zero-indexed tuple with 2D list indexes for the board space,
-        example: (0, 5)
+        0, 5 = ShittyLogic.rect_to_indexes(pygame.Rect(0, 120, 60, 60))
         """
 
         return self.coords_to_indexes(self.rect_to_coords(rect))
