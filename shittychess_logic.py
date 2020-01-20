@@ -15,47 +15,7 @@ class ShittyLogic:
         self.__rect_to_coords = {}
         self.__coords_to_indexes = {}
         self.__indexes_to_coords = {}
-        self.board_grid = []  # for debugging
         self.configure_layout()
-        self.initialize_board_grid()
-
-        if self.settings.debug:
-            pass
-            # self.print_dicts_debug()
-
-    def initialize_board_grid(self) -> None:
-        """just a temporary function to make a grid of chess notation strings for use in debugging"""
-
-        for row_number in self.settings.row_headers:
-            row_list = []
-            for col_letter in self.settings.col_headers:
-                row_list.append(f'{col_letter}{row_number}')
-            self.board_grid.append(row_list)
-
-    def print_dicts_debug(self) -> None:
-        """debug print method just for testing to make sure all the conversion methods work"""
-
-        indexes_grid = []
-        print()
-        for row in self.board_grid:
-            indexes_row = []
-            for coords in row:
-                print(f'{coords} - {self.coords_to_indexes(coords)}', end=' | ')
-                indexes_row.append(self.coords_to_indexes(coords))
-            indexes_grid.append(indexes_row)
-            print()
-        print()
-        for row in indexes_grid:
-            for indexes in row:
-                print(f'{indexes} - {self.indexes_to_coords(indexes)}', end=' | ')
-            print()
-        print()
-        for row in self.board_grid:
-            for coords in row:
-                tmp_rect = self.coords_to_rect(coords)
-                print(f'{coords} - {tmp_rect.left}, {tmp_rect.top}, {tmp_rect.width}, {tmp_rect.height}', end=' | ')
-            print()
-        print()
 
     def coords_to_indexes(self, coords: str) -> tuple:  # type hinting can be more precise here
         """
