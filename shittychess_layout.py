@@ -47,7 +47,6 @@ class ShittyLayout:
 
         self.reset()
 
-
     def reset(self) -> None:
         """
         reset the board to a new game state
@@ -62,14 +61,12 @@ class ShittyLayout:
         for sprite in itertools.chain(self.sprite_group_black, self.sprite_group_white):
             self.sprite_group_all.add(sprite)
 
-
     def draw(self) -> None:
         """
         draw all the pieces
         """
 
         self.sprite_group_all.draw(self.screen)
-
 
     def clear(self) -> None:
         """
@@ -80,7 +77,6 @@ class ShittyLayout:
         self.sprite_group_black.empty()
         self.sprite_group_white.empty()
         self.sprite_group_all.empty()
-
 
     def resize(self) -> None:
         """
