@@ -8,10 +8,14 @@ from shittychess_logic import ShittyLogic
 
 
 class ShittyBoard:
-    """This class represents a board."""
+    """
+    This class represents a chess board
+    """
 
     def __init__(self, screen: pygame.Surface, settings: ShittySettings, logic: ShittyLogic) -> None:
-        """Initialize the board's attributes."""
+        """
+        Initialize the board's properties
+        """
 
         self.screen = screen
         self.settings = settings
@@ -24,6 +28,11 @@ class ShittyBoard:
 
 
     def resize_header_label_font(self, font_sz: int) -> None:
+        """
+        can be used to resize the header labels
+        it is not currently being used anywhere
+        """
+
         self.settings.header_font_sz = font_sz
         self.col_header_labels.clear()
         self.row_header_labels.clear()
@@ -31,6 +40,11 @@ class ShittyBoard:
 
 
     def render_header_labels(self) -> None:
+        """
+        renders the header labels and stores them in lists
+        """
+
+
         header_font = pygame.font.Font(self.settings.header_font_path, self.settings.header_font_sz)
         for label in self.settings.col_headers:
             self.col_header_labels.append(header_font.render(label, True, self.settings.header_font_color, None))
@@ -43,18 +57,33 @@ class ShittyBoard:
 
 
     def draw(self) -> None:
+        """
+        draws all board elements on the screen
+        """
+
+        # draws the board
         for i in range(self.settings.board_start_y(), self.settings.board_height(), self.settings.tile_h):
             for j in range(self.settings.board_start_x(), self.settings.board_width(), self.settings.tile_w):
                 self.tile_rect.x = i
                 self.tile_rect.y = j
                 self.screen.blit(self.tile_image, self.tile_rect)
+
+        # draws headers if enabled
         if self.settings.headers_enabled:
             self.draw_headers()
+
+        # debug testing space highlight
         if self.settings.debug:
             self.highlight_space('a1')
 
 
     def draw_headers(self) -> None:
+        """
+        draws the headers around the board
+        called if headers are enabled
+        """
+
+        # column headers
         loop_stop = self.settings.board_width() + self.settings.col_header_x_start()
         for label, x in zip(self.col_header_labels, range(self.settings.col_header_x_start(), loop_stop, self.settings.space_width())):
             tmp_rect = label.get_rect()
@@ -64,6 +93,7 @@ class ShittyBoard:
             tmp_rect.top = self.settings.col_header_y_bottom()
             self.screen.blit(label, tmp_rect)
 
+        # row headers
         loop_stop = self.settings.board_height() + self.settings.row_header_y_start()
         for label, y in zip(self.row_header_labels, range(self.settings.row_header_y_start(), loop_stop, self.settings.space_height())):
             tmp_rect = label.get_rect()
@@ -75,6 +105,11 @@ class ShittyBoard:
 
 
     def highlight_space(self, coords: str) -> None:
+        """
+        highlights and borders a space on the board
+        should be used to show available moves to a player
+        """
+
         side_rect_width = 2
         side_rect_height = int(self.settings.space_height() / 3)
         top_bottom_rect_width = int(self.settings.space_width() / 3)
