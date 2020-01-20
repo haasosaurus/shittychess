@@ -13,6 +13,7 @@ class ShittyBoard:
         self.screen = None  # pygame.Surface
         self.settings = None  # ShittySettings
         self.logic = None  # ShittyLogic
+        self.layout = None # ShittyLayout
         self.tile_image = None  # pygame.image
         self.tile_rect = None  # pygame.Rect
         self.col_header_labels = []
@@ -53,7 +54,7 @@ class ShittyBoard:
             self.settings.header_font_width = tmp_rect.width
             self.settings.header_font_height = tmp_rect.height
 
-    def draw(self, debug_piece=None) -> None:
+    def draw(self, debug_coords=None) -> None:
         """
         draws all board elements on the screen
         """
@@ -70,8 +71,8 @@ class ShittyBoard:
             self.draw_headers()
 
         # debug testing space highlight
-        if self.settings.debug and debug_piece:
-            self.highlight_valid_moves(debug_piece)
+        if self.settings.debug and debug_coords:
+            self.highlight_valid_moves(self.layout.coords_to_sprite(debug_coords))
 
     def draw_headers(self) -> None:
         """
