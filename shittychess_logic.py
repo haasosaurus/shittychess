@@ -14,7 +14,7 @@ class ShittyLogic:
 
     def __init__(self) -> None:
         self.settings = None  # ShittySettings
-        self.board = None
+        self.board = None  # ShittyBoard
         self.__coords_to_rect = {}
         self.__rect_to_coords = {}
         self.__coords_to_indexes = {}
