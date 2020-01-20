@@ -11,7 +11,25 @@ class ShittyLogic:
     def __init__(self, settings: ShittySettings) -> None:
         self.settings = settings
         self.__coords = {}
+        self.board_grid = []  # i don't know if this is needed
         self.configure_layout()
+        self.initialize_board_grid()
+
+
+    def initialize_board_grid(self) -> None:
+        for row_number in self.settings.row_headers:
+            row_list = []
+            for col_letter in self.settings.col_headers:
+                row_list.append(f'{col_letter}{row_number}')
+            self.board_grid.append(row_list)
+
+        if self.settings.debug:
+            self.print_board_grid()
+
+
+    def print_board_grid(self) -> None:
+        for row in self.board_grid:
+            print(' '.join(row))
 
 
     def configure_layout(self) -> None:

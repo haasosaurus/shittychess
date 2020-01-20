@@ -8,6 +8,7 @@ class ShittySettings:
 
     def __init__(self) -> None:
         # general declarations/initializations
+        self.debug = True
         self.cols = 8
         self.rows = 8
         self.tile_image_path_obj = pathlib.Path('shitty_art/shittychess_tile.png')

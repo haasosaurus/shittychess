@@ -19,7 +19,7 @@ class ShittyChess:
         self.screen = pygame.display.set_mode((self.settings.screen_width(), self.settings.screen_height()))
         self.board = ShittyBoard(self.screen, self.settings)
         self.logic = ShittyLogic(self.settings)
-        self.layout = ShittyLayout(self.screen, self.logic)
+        self.layout = ShittyLayout(self.screen, self.settings, self.logic)
         self.event_monitor = ShittyEventMonitor(self.screen, self.settings, self.layout)
         self.exiting = False
 
