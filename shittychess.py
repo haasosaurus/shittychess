@@ -11,10 +11,10 @@ from shittychess_layout import ShittyLayout
 
 
 class ShittyChess:
+    """base class for the game"""
 
-    # need to change a lot of these classes from setting their properties with
-    # contructor to just setting the property with the assignment operator
     def __init__(self) -> None:
+        # need to change a lot of these classes from setting their properties with
         pygame.init()
         pygame.display.set_caption("Shitty Chess")
         self.settings = ShittySettings()
@@ -34,6 +34,8 @@ class ShittyChess:
 
 
     def main_loop(self) -> None:
+        """main loop of the program"""
+
         while not self.exiting:
             self.event_monitor.process_events()
             if self.settings.headers_enabled:

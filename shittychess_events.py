@@ -16,10 +16,6 @@ class ShittyEventMonitor:
     """
 
     def __init__(self, screen: pygame.Surface, settings: ShittySettings, layout: ShittyLayout) -> None:
-        """
-        initialize an instance of the class
-        """
-
         self.screen = screen
         self.settings = settings
         self.layout = layout

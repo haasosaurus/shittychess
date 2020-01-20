@@ -7,6 +7,7 @@ import pygame
 
 
 class ShittyPiece(pygame.sprite.Sprite):
+    """base sprite class for pieces"""
 
     def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str) -> None:
         pygame.sprite.Sprite.__init__(self)
@@ -16,22 +17,28 @@ class ShittyPiece(pygame.sprite.Sprite):
         self.coords = coords
         self.image = None
 
-
     def move(self, x: int, y: int) -> None:
+        """
+        changes the piece's rect coordinates
+        """
+
         self.rect.left = x
         self.rect.top = y
 
-
     def set_size(self, width: int, height: int) -> None:
+        """
+        changes the piece's rect size
+        """
+
         self.rect.width = width
         self.rect.height = height
-
 
     def update(self) -> None:
         pass
 
 
 class ShittyPawn(ShittyPiece):
+    """pawn sprite class"""
 
     def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str) -> None:
         super().__init__(screen, black, rect, coords)
@@ -45,6 +52,7 @@ class ShittyPawn(ShittyPiece):
 
 
 class ShittyRook(ShittyPiece):
+    """rook sprite class"""
 
     def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str) -> None:
         super().__init__(screen, black, rect, coords)
@@ -58,6 +66,7 @@ class ShittyRook(ShittyPiece):
 
 
 class ShittyBishop(ShittyPiece):
+    """bishop sprite class"""
 
     def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str) -> None:
         super().__init__(screen, black, rect, coords)
@@ -70,6 +79,7 @@ class ShittyBishop(ShittyPiece):
 
 
 class ShittyKnight(ShittyPiece):
+    """knight sprite class"""
 
     def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str) -> None:
         super().__init__(screen, black, rect, coords)
@@ -82,6 +92,7 @@ class ShittyKnight(ShittyPiece):
 
 
 class ShittyQueen(ShittyPiece):
+    """queen sprite class"""
 
     def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str) -> None:
         super().__init__(screen, black, rect, coords)
@@ -94,6 +105,7 @@ class ShittyQueen(ShittyPiece):
 
 
 class ShittyKing(ShittyPiece):
+    """king sprite class"""
 
     def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str) -> None:
         super().__init__(screen, black, rect, coords)

@@ -13,10 +13,6 @@ class ShittyBoard:
     """
 
     def __init__(self, screen: pygame.Surface, settings: ShittySettings, logic: ShittyLogic) -> None:
-        """
-        Initialize the board's properties
-        """
-
         self.screen = screen
         self.settings = settings
         self.logic = logic

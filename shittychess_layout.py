@@ -22,10 +22,6 @@ class ShittyLayout:
     """
 
     def __init__(self, screen: pygame.Surface, settings: ShittySettings, logic: ShittyLogic) -> None:
-        """
-        construct an instance of the class
-        """
-
         self.screen = screen
         self.settings = settings
         self.logic = logic
