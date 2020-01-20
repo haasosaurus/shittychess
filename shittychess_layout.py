@@ -74,6 +74,15 @@ class ShittyLayout:
         if tmp_sprite:
             return tmp_sprite
 
+    def sprite_exists_all(self, coords: str) -> bool:
+        return self.sprite_group_all.sprite_exists(coords)
+
+    def sprite_exists_black(self, coords: str) -> bool:
+        return self.sprite_group_black.sprite_exists(coords)
+
+    def sprite_exists_white(self, coords: str) -> bool:
+        return self.sprite_group_white.sprite_exists(coords)
+
     def reset(self) -> None:
         """
         reset the board to a new game state
