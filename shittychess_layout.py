@@ -2,9 +2,12 @@
 
 
 import itertools
+from typing import NoReturn
+from typing import Union
 
 import pygame
 
+from shittychess_utils import ShittyMousePointer
 from shittychess_pieces import ShittyPiece
 from shittychess_pieces import ShittyPawn
 from shittychess_pieces import ShittyKnight
@@ -28,11 +31,11 @@ class ShittyGroup(pygame.sprite.Group):
                 return True
         return False
 
-    def coords_to_sprite(self, coords: str) -> ShittyPiece:
+    def coords_to_sprite(self, coords: str) -> Union[ShittyPiece, None]:
         for sprite in self.sprites():
             if sprite.coords == coords:
                 return sprite
-        return ShittyPiece(None, True, pygame.Rect(0, 0, 0, 0), '')
+        return None
 
 
 class ShittyLayout:
@@ -41,7 +44,7 @@ class ShittyLayout:
     might want to use this as a property of ShittyBoard
     """
 
-    def __init__(self) -> None:
+    def __init__(self) -> NoReturn:
         self.screen = None  # pygame.Surface
         self.settings = None  # ShittySettings
         self.logic = None  # ShittyLogic
@@ -79,18 +82,38 @@ class ShittyLayout:
                 ['e1', ShittyKing, False], ['f1', ShittyBishop, False], ['g1', ShittyKnight, False], ['h1', ShittyRook, False],
             ]
 
-    def configure(self) -> None:
+    def configure(self) -> NoReturn:
         """
         configure layout's properties after they have been assigned externally
         """
 
         self.reset()
 
-    def coords_to_sprite(self, coords: str) -> ShittyPiece:
-        # return self.sprite_group_all.coords_to_sprite(coords)
-        tmp_sprite = self.sprite_group_all.coords_to_sprite(coords)
-        if tmp_sprite:
-            return tmp_sprite
+    def sprite_clicked(self, x: int, y: int, black: bool) -> bool:
+        target_group = None
+        if black:
+            target_group = self.sprite_group_black
+        else:
+            target_group = self.sprite_group_white
+        collisions = pygame.sprite.spritecollide(ShittyMousePointer(x, y), target_group, False)
+        if len(collisions) == 1:
+            return True
+        return False
+
+    def click_to_sprite(self, x: int, y: int, black: bool) -> Union[ShittyPiece, None]:
+        target_group = None
+        if black:
+            target_group = self.sprite_group_black
+        else:
+            target_group = self.sprite_group_white
+        collisions = pygame.sprite.spritecollide(ShittyMousePointer(x, y), target_group, False)
+        if len(collisions) == 1:
+            return collisions[0]
+        return None
+
+    def coords_to_sprite(self, coords: str) -> Union[ShittyPiece, None]:
+        # yeah i think this needs error checking or vigilant usage
+        return self.sprite_group_all.coords_to_sprite(coords)
 
     # rename this method
     def sprite_exists_all(self, coords: str) -> bool:
@@ -104,7 +127,7 @@ class ShittyLayout:
     def sprite_exists_white(self, coords: str) -> bool:
         return self.sprite_group_white.sprite_exists(coords)
 
-    def reset(self) -> None:
+    def reset(self) -> NoReturn:
         """
         reset the board to a new game state
         """
@@ -118,14 +141,14 @@ class ShittyLayout:
         for sprite in itertools.chain(self.sprite_group_black, self.sprite_group_white):
             self.sprite_group_all.add(sprite)
 
-    def draw(self) -> None:
+    def draw(self) -> NoReturn:
         """
         draw all the pieces
         """
 
         self.sprite_group_all.draw(self.screen)
 
-    def clear(self) -> None:
+    def clear(self) -> NoReturn:
         """
         remove all the pieces from the sprite group containers
         this will clear the board of all pieces
@@ -135,7 +158,7 @@ class ShittyLayout:
         self.sprite_group_white.empty()
         self.sprite_group_all.empty()
 
-    def resize(self) -> None:
+    def resize(self) -> NoReturn:
         """
         reposition all the pieces to their current correct position
         this should be used if the board size is changed, or headers
@@ -144,4 +167,4 @@ class ShittyLayout:
 
         for sprite in self.sprite_group_all:
             tmp_rect = self.logic.coords_to_rect(sprite.coords)
-            sprite.move(tmp_rect.left, tmp_rect.top)
+            sprite.set_rect(pygame.Rect(tmp_rect.left, tmp_rect.top, sprite.rect.width, sprite.rect.height))
