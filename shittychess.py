@@ -2,6 +2,7 @@
 
 
 from typing import NoReturn
+import pathlib
 
 import pygame
 
@@ -19,6 +20,7 @@ class ShittyChess:
         # setup pygame
         pygame.init()
         pygame.display.set_caption("Shitty Chess")
+        pygame.display.set_icon(pygame.image.load(str(pathlib.Path('shitty_art/shittyknightwhite.png'))))
 
         # initialize our property classes
         self.settings = ShittySettings()

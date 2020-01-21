@@ -28,11 +28,11 @@ class ShittyLogic:
     def __init__(self) -> NoReturn:
         self.settings = None  # ShittySettings
         self.board = None  # ShittyBoard
-        self.layout = None # ShittyLayout
+        self.layout = None  # ShittyLayout
         self.__coords_to_rect = {}
         self.__rect_to_coords = {}
-        self.__coords_to_indexes = {}
-        self.__indexes_to_coords = {}
+        self.__coords_to_indexes = {}  # this might be pointless, can just index cols and rows to get indexes maybe
+        self.__indexes_to_coords = {}  # this might be pointless, can just index cols and rows to get indexes maybe
         self.__spaces_to_coords = {}
         self.__spaces_group = pygame.sprite.Group()
 
