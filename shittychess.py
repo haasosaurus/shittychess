@@ -51,6 +51,9 @@ class ShittyChess:
         self.exiting = False
         self.local_debug = False
 
+    def __del__(self):
+        pygame.quit()
+        print('ShittyChess.__del__ called, pygame.quit() called too i guess')
 
     def run_game(self) -> None:
         """This is the main function of the program which runs the code."""
@@ -69,10 +72,11 @@ class ShittyChess:
             # just testing to see if my ShittyPiece __bool__ method works, and attempting to highlight a piece's
             # available moves by coords
             if self.settings.debug:
-                if self.layout.sprite_exists_all('b1'):
+                test_sprite_coords = 'b2'
+                if self.layout.sprite_exists_all(test_sprite_coords):
                     if self.local_debug:
                         print('sprite is a valid game piece, calling self.board.draw(sprite)')
-                    self.board.draw('b1')
+                    self.board.draw(test_sprite_coords)
                 else:
                     if self.local_debug:
                         print('sprite is not a valid chess piece, calling self.board.draw()')
