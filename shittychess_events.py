@@ -108,11 +108,14 @@ class ShittyEventMonitor:
 
                     # highlight available moves
                     if not self.holding_piece:
-                        x, y = pygame.mouse.get_pos()
-                        if self.layout.sprite_clicked(x, y, black=self.settings.turn_black):
-                            sprite = self.layout.click_to_sprite(x, y, black=self.settings.turn_black)
-                            if sprite:
-                                self.board.sprite_to_highlight = sprite
+                        if not self.board.sprite_to_highlight:
+                            x, y = pygame.mouse.get_pos()
+                            if self.layout.sprite_clicked(x, y, black=self.settings.turn_black):
+                                sprite = self.layout.click_to_sprite(x, y, black=self.settings.turn_black)
+                                if sprite:
+                                    self.board.sprite_to_highlight = sprite
+                                else:
+                                    self.board.sprite_to_highlight = None
                             else:
                                 self.board.sprite_to_highlight = None
                         else:

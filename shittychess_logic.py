@@ -44,8 +44,8 @@ class ShittyLogic:
         """
 
         self.settings.coords_list = []
-        for row, y in zip(self.settings.row_headers, range(0, int(self.settings.board_height()), self.settings.space_height())):
-            for col, x in zip(self.settings.col_headers, range(0, int(self.settings.board_width()), self.settings.space_width())):
+        for row, y in zip(self.settings.row_headers, range(0, self.settings.board_height(), self.settings.space_height())):
+            for col, x in zip(self.settings.col_headers, range(0, self.settings.board_width(), self.settings.space_width())):
                 pos_name = col + row
                 tmp_rect = pygame.Rect(x, y, self.settings.space_width(), self.settings.space_height())
                 self.__coords_to_rect.update({pos_name: tmp_rect})
