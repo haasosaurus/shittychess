@@ -35,9 +35,9 @@ class ShittyLogic:
                 tmp_rect = pygame.Rect(x, y, self.settings.space_width(), self.settings.space_height())
                 self.__coords_to_rect.update({pos_name: tmp_rect})
                 self.settings.coords_list.append(pos_name)
-        for i, row_number in enumerate(self.settings.row_headers):
-            for j, col_letter in enumerate(self.settings.col_headers):
-                self.__coords_to_indexes.update({f'{col_letter}{row_number}': (i, j)})
+        for y, row_number in enumerate(self.settings.row_headers):
+            for x, col_letter in enumerate(self.settings.col_headers):
+                self.__coords_to_indexes.update({f'{col_letter}{row_number}': (x, y)})
         for coords, indexes in self.__coords_to_indexes.items():
             self.__indexes_to_coords.update({indexes: coords})
         for coords, rect in self.__coords_to_rect.items():
@@ -126,13 +126,13 @@ class ShittyLogic:
 
         space_coords = []
         piece_indexes = self.coords_to_indexes(piece.coords)
-        if piece.move_patterns.horizontal > 0:
+        if piece.move_patterns().horizontal > 0:
             pass
-        if piece.move_patterns.vertical > 0:
+        if piece.move_patterns().vertical > 0:
             pass
-        if piece.move_patterns.diagonal > 0:
+        if piece.move_patterns().diagonal > 0:
             pass
-        for pattern in piece.move_patterns.pattern_list:
+        for pattern in piece.move_patterns().pattern_list:
             x = piece_indexes[0] + pattern[0]
             if x >= self.settings.cols or x < 0:
                 continue
@@ -158,6 +158,19 @@ class ShittyLogic:
             else:
                 if self.layout.sprite_exists_white(coords):
                     invalid_move_coords.append(coords)
+
+        # pawn
+        if piece.__class__.__name__ == 'ShittyPawn':
+            for coords in valid_move_coords:
+                if self.coords_to_indexes(coords)[0] != self.coords_to_indexes(piece.coords)[0]:
+                    if piece_black:
+                        if not self.layout.sprite_exists_white(coords):
+                            invalid_move_coords.append(coords)
+                    else:
+                        if not self.layout.sprite_exists_black(coords):
+                            invalid_move_coords.append(coords)
+
+        # remove invalid coords from list
         for coords in reversed(invalid_move_coords):
             while coords in valid_move_coords:
                 valid_move_coords.remove(coords)
