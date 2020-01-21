@@ -1,13 +1,15 @@
 # coding=utf-8
 
 
+from typing import NoReturn
+
 import pathlib
 
 
 class ShittySettings:
     """class to store the game settings in"""
 
-    def __init__(self) -> None:
+    def __init__(self) -> NoReturn:
         # general declarations/initializations
         self.debug = True
         self.cols = 8
@@ -40,6 +42,10 @@ class ShittySettings:
         self.color_white = (255, 255, 255)
         self.color_light_blue = (140, 240, 255)
         self.color_blue = (0, 0, 255)
+
+        # game state variables
+        self.exiting = False
+        self.turn_black = False
 
     def horizontal_tile_count(self) -> int:
         """returns the amount of tiles needed to the draw board - horizontally"""
