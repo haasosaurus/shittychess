@@ -1,6 +1,8 @@
 # coding=utf-8
 
 
+from typing import NoReturn
+
 import pygame
 
 from shittychess_pieces import ShittyPiece
@@ -9,7 +11,7 @@ from shittychess_pieces import ShittyPiece
 class ShittyBoard:
     """this class represents a chess board"""
 
-    def __init__(self) -> None:
+    def __init__(self) -> NoReturn:
         self.screen = None  # pygame.Surface
         self.settings = None  # ShittySettings
         self.logic = None  # ShittyLogic
@@ -19,7 +21,9 @@ class ShittyBoard:
         self.col_header_labels = []
         self.row_header_labels = []
 
-    def configure(self) -> None:
+        self.sprite_to_highlight = None
+
+    def configure(self) -> NoReturn:
         """
         configure class's properties after they have been assigned externally
         """
@@ -28,7 +32,7 @@ class ShittyBoard:
         self.tile_rect = self.tile_image.get_rect()
         self.render_header_labels()
 
-    def resize_header_label_font(self, font_sz: int) -> None:
+    def resize_header_label_font(self, font_sz: int) -> NoReturn:
         """
         can be used to resize the header labels
         it is not currently being used anywhere
@@ -39,7 +43,7 @@ class ShittyBoard:
         self.row_header_labels.clear()
         self.render_header_labels()
 
-    def render_header_labels(self) -> None:
+    def render_header_labels(self) -> NoReturn:
         """
         renders the header labels and stores them in lists
         """
@@ -54,7 +58,7 @@ class ShittyBoard:
             self.settings.header_font_width = tmp_rect.width
             self.settings.header_font_height = tmp_rect.height
 
-    def draw(self, debug_coords=None) -> None:
+    def draw(self, debug_coords=None) -> NoReturn:
         """
         draws all board elements on the screen
         """
@@ -74,7 +78,11 @@ class ShittyBoard:
         if self.settings.debug and debug_coords:
             self.highlight_valid_moves(self.layout.coords_to_sprite(debug_coords))
 
-    def draw_headers(self) -> None:
+        if self.sprite_to_highlight:
+            self.highlight_valid_moves(self.sprite_to_highlight)
+
+
+    def draw_headers(self) -> NoReturn:
         """
         draws the headers around the board
         called if headers are enabled
@@ -101,7 +109,7 @@ class ShittyBoard:
             self.screen.blit(label, tmp_rect)
 
 
-    def draw_space_border(self, rect: pygame.Rect, color=(255, 255, 255), alpha=255) -> None:
+    def draw_space_border(self, rect: pygame.Rect, color=(255, 255, 255), alpha=255) -> NoReturn:
         """
         borders a space based on rect argument
         """
@@ -141,7 +149,7 @@ class ShittyBoard:
         pygame.draw.rect(self.screen, tmp_color, top_right)
         pygame.draw.rect(self.screen, tmp_color, bottom_right)
 
-    def draw_space_highlight(self, rect: pygame.Rect, color=(255, 255, 255), alpha=100) -> None:
+    def draw_space_highlight(self, rect: pygame.Rect, color=(255, 255, 255), alpha=100) -> NoReturn:
         """
         highlights a space based on rect argument
         """
@@ -152,7 +160,7 @@ class ShittyBoard:
         tmp_surface.fill(tmp_color)
         self.screen.blit(tmp_surface, rect)
 
-    def highlight_space(self, coords: str, space_color=(255, 255, 255), space_alpha=100) -> None:
+    def highlight_space(self, coords: str, space_color=(255, 255, 255), space_alpha=100) -> NoReturn:
         """
         takes chess coordinates and gets a rect for it, then calls self.draw_space_highlight on that rect
         """
@@ -160,7 +168,7 @@ class ShittyBoard:
         tmp_rect = pygame.Rect.copy(self.logic.coords_to_rect(coords))
         self.draw_space_highlight(tmp_rect, color=space_color, alpha=space_alpha)
 
-    def highlight_and_border_space(self, coords: str, space_color=(255, 255, 255), space_alpha=100, border_color=(255, 255, 255), border_alpha=255) -> None:
+    def highlight_and_border_space(self, coords: str, space_color=(255, 255, 255), space_alpha=100, border_color=(255, 255, 255), border_alpha=255) -> NoReturn:
         """
         highlights and borders a space on the board from a chess coord str
         should be used to show available moves to a player
@@ -170,7 +178,7 @@ class ShittyBoard:
         self.draw_space_highlight(tmp_rect, color=space_color, alpha=space_alpha)
         self.draw_space_border(tmp_rect, color=border_color, alpha=border_alpha)
 
-    def highlight_valid_moves(self, piece: ShittyPiece) -> None:
+    def highlight_valid_moves(self, piece: ShittyPiece) -> NoReturn:
         """
         takes a reference to a ShittyPiece and highlights that piece,
         then it highlights and borders all valid moves for that piece
