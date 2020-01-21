@@ -213,7 +213,6 @@ class ShittyLogic:
         return valid_move_coords
 
     def move_piece_xy(self, sprite: pygame.sprite.Sprite, x, y) -> bool:
-        print('logic.move_piece_xy')
         target_coords = self.xy_to_coords(x, y)
         if target_coords:
             if target_coords != sprite.coords:
