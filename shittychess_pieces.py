@@ -25,7 +25,7 @@ class ShittyPiece(pygame.sprite.Sprite):
         self.screen = screen
         self.rect = rect
         self.coords = coords
-        self.move_patterns = ShittyMovementPatterns()
+        self.movement_patterns = ShittyMovementPatterns()
         self.image = None
 
         self.local_debug = False
@@ -37,21 +37,18 @@ class ShittyPiece(pygame.sprite.Sprite):
             print(type(self).__name__ != 'ShittyPiece')
         return type(self).__name__ != 'ShittyPiece'
 
-    def move(self, x: int, y: int) -> None:
+    def set_rect(self, rect: pygame.Rect) -> None:
         """
-        changes the piece's rect coordinates
-        """
-
-        self.rect.left = x
-        self.rect.top = y
-
-    def set_size(self, width: int, height: int) -> None:
-        """
-        changes the piece's rect size
+        sets the piece's rect with another pygame.Rect
         """
 
-        self.rect.width = width
-        self.rect.height = height
+        self.rect.left = rect.left
+        self.rect.top = rect.top
+        self.rect.width = rect.width
+        self.rect.height = rect.height
+
+    def move_patterns(self) -> ShittyMovementPatterns:
+        return self.movement_patterns
 
     def update(self) -> None:
         pass
@@ -62,13 +59,49 @@ class ShittyPawn(ShittyPiece):
 
     def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str) -> None:
         super().__init__(screen, black, rect, coords)
+
+        # image stuff
         img_path = None
         if self.black:
             img_path = pathlib.Path('shitty_art/shittypawnblack.png')
         else:
             img_path = pathlib.Path('shitty_art/shittypawnwhite.png')
         self.image = pygame.image.load(str(img_path))
+
+        # movement stuff
         self.initial_position = True
+        self.black_move_patterns_initial = ShittyMovementPatterns()
+        self.black_move_patterns_initial.pattern_list = [
+            (0, 1), (0, 2),
+            (1, 1), (-1, 1)
+        ]
+        self.black_move_patterns = ShittyMovementPatterns()
+        self.black_move_patterns.pattern_list = [
+            (0, 1),
+            (1, 1), (-1, 1)
+        ]
+        self.white_move_patterns_initial = ShittyMovementPatterns()
+        self.white_move_patterns_initial.pattern_list = [
+            (0, -1), (0, -2),
+            (1, -1), (-1, -1)
+        ]
+        self.white_move_patterns = ShittyMovementPatterns()
+        self.white_move_patterns.pattern_list = [
+            (0, -1),
+            (1, -1), (-1, -1)
+        ]
+
+    def move_patterns(self) -> ShittyMovementPatterns:
+        if self.black:
+            if self.initial_position:
+                return self.black_move_patterns_initial
+            else:
+                return self.black_move_patterns
+        else:
+            if self.initial_position:
+                return self.white_move_patterns_initial
+            else:
+                return self.white_move_patterns
 
 
 class ShittyRook(ShittyPiece):
@@ -83,6 +116,8 @@ class ShittyRook(ShittyPiece):
             img_path = pathlib.Path('shitty_art/shittyrookwhite.png')
         self.image = pygame.image.load(str(img_path))
         self.initial_position = True
+        self.movement_patterns.horizontal = 7
+        self.movement_patterns.vertical = 7
 
 
 class ShittyBishop(ShittyPiece):
@@ -96,6 +131,7 @@ class ShittyBishop(ShittyPiece):
         else:
             img_path = pathlib.Path('shitty_art/shittybishopwhite.png')
         self.image = pygame.image.load(str(img_path))
+        self.movement_patterns.diagonal = 7
 
 
 class ShittyKnight(ShittyPiece):
@@ -109,14 +145,12 @@ class ShittyKnight(ShittyPiece):
         else:
             img_path = pathlib.Path('shitty_art/shittyknightwhite.png')
         self.image = pygame.image.load(str(img_path))
-        self.move_patterns.pattern_list.append((1, 2))
-        self.move_patterns.pattern_list.append((1, -2))
-        self.move_patterns.pattern_list.append((2, 1))
-        self.move_patterns.pattern_list.append((2, -1))
-        self.move_patterns.pattern_list.append((-2, 1))
-        self.move_patterns.pattern_list.append((-2, -1))
-        self.move_patterns.pattern_list.append((-1, 2))
-        self.move_patterns.pattern_list.append((-1, -2))
+        self.movement_patterns.pattern_list = [
+            (1, 2), (1, -2),
+            (2, 1), (2, -1),
+            (-2, 1), (-2, -1),
+            (-1, 2), (-1, -2),
+        ]
 
 
 class ShittyQueen(ShittyPiece):
@@ -130,6 +164,9 @@ class ShittyQueen(ShittyPiece):
         else:
             img_path = pathlib.Path('shitty_art/shittyqueenwhite.png')
         self.image = pygame.image.load(str(img_path))
+        self.movement_patterns.horizontal = 7
+        self.movement_patterns.vertical = 7
+        self.movement_patterns.diagonal = 7
 
 
 class ShittyKing(ShittyPiece):
@@ -144,3 +181,6 @@ class ShittyKing(ShittyPiece):
             img_path = pathlib.Path('shitty_art/shittykingwhite.png')
         self.image = pygame.image.load(str(img_path))
         self.initial_position = True
+        self.movement_patterns.horizontal = 1
+        self.movement_patterns.vertical = 1
+        self.movement_patterns.diagonal = 1
