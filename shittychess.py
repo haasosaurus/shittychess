@@ -1,6 +1,8 @@
 # coding=utf-8
 
 
+from typing import NoReturn
+
 import pygame
 
 from shittychess_settings import ShittySettings
@@ -13,7 +15,7 @@ from shittychess_layout import ShittyLayout
 class ShittyChess:
     """base class for the game"""
 
-    def __init__(self) -> None:
+    def __init__(self) -> NoReturn:
         # setup pygame
         pygame.init()
         pygame.display.set_caption("Shitty Chess")
@@ -40,6 +42,8 @@ class ShittyChess:
         self.event_monitor.screen = self.screen
         self.event_monitor.settings = self.settings
         self.event_monitor.layout = self.layout
+        self.event_monitor.logic = self.logic
+        self.event_monitor.board = self.board
 
         # configure our property classes
         self.logic.configure()
@@ -48,42 +52,25 @@ class ShittyChess:
         # self.event_monitor.configure()
 
         # assorted properties
-        self.exiting = False
         self.local_debug = False
 
     def __del__(self):
         pygame.quit()
-        print('ShittyChess.__del__ called, pygame.quit() called too i guess')
 
-    def run_game(self) -> None:
+    def run_game(self) -> NoReturn:
         """This is the main function of the program which runs the code."""
 
         self.main_loop()
 
 
-    def main_loop(self) -> None:
+    def main_loop(self) -> NoReturn:
         """main loop of the program"""
 
-        while not self.exiting:
+        while not self.settings.exiting:
             self.event_monitor.process_events()
             if self.settings.headers_enabled:
                 self.screen.fill(self.settings.header_background_color)
-
-            # just testing to see if my ShittyPiece __bool__ method works, and attempting to highlight a piece's
-            # available moves by coords
-            if self.settings.debug:
-                test_sprite_coords = 'b2'
-                if self.layout.sprite_exists_all(test_sprite_coords):
-                    if self.local_debug:
-                        print('sprite is a valid game piece, calling self.board.draw(sprite)')
-                    self.board.draw(test_sprite_coords)
-                else:
-                    if self.local_debug:
-                        print('sprite is not a valid chess piece, calling self.board.draw()')
-                    self.board.draw()
-            else:
-                self.board.draw()
-
+            self.board.draw()
             self.layout.draw()
             pygame.display.flip()
 
