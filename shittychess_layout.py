@@ -7,7 +7,7 @@ from typing import Union
 
 import pygame
 
-from shittychess_utils import ShittyMousePointer
+from shittychess_sprites import ShittyMousePointer
 from shittychess_pieces import ShittyPiece
 from shittychess_pieces import ShittyPawn
 from shittychess_pieces import ShittyKnight
@@ -77,6 +77,7 @@ class ShittyLayout:
             ['f7', ShittyPawn, True, self.settings.pawn_path_black()],
             ['g7', ShittyPawn, True, self.settings.pawn_path_black()],
             ['h7', ShittyPawn, True, self.settings.pawn_path_black()],
+
             ['a2', ShittyPawn, False, self.settings.pawn_path_white()],
             ['b2', ShittyPawn, False, self.settings.pawn_path_white()],
             ['c2', ShittyPawn, False, self.settings.pawn_path_white()],
@@ -106,14 +107,12 @@ class ShittyLayout:
         for piece in self.initial_piece_layout:
             if piece[2]:
                 self.sprite_group_black.add(piece[1](
-                    self.screen,
                     piece[2],
                     self.logic.coords_to_rect(piece[0]),
                     piece[0],
                     piece[3]))
             else:
                 self.sprite_group_white.add(piece[1](
-                    self.screen,
                     piece[2],
                     self.logic.coords_to_rect(piece[0]),
                     piece[0],
