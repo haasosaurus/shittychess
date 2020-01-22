@@ -64,7 +64,6 @@ class ShittyChess:
 
         self.main_loop()
 
-
     def main_loop(self) -> NoReturn:
         """main loop of the program"""
 
