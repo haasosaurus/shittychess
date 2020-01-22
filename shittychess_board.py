@@ -7,16 +7,7 @@ from typing import Tuple
 import pygame
 
 from shittychess_pieces import ShittyPiece
-
-
-class ShittySpace(pygame.sprite.Sprite):
-
-    def __init__(self) -> NoReturn:
-        pygame.sprite.Sprite.__init__(self)
-        self.rect = None  # pygame.Rect
-        self.image = None  # pygame.image
-        self.coords = None  # str
-        self.indexes = None  # Tuple[int, int]
+from shittychess_sprites import ShittySpace
 
 
 class ShittyBoard:
@@ -33,7 +24,6 @@ class ShittyBoard:
 
         self.current_board_start_x = 0
         self.current_board_start_y = 0
-        self.board_spaces = []
         self.board_space_group = pygame.sprite.Group()
 
     def configure(self) -> NoReturn:
@@ -47,31 +37,50 @@ class ShittyBoard:
         self.create_board_space_group()
 
     def create_board_space_group(self) -> NoReturn:
+        """
+        creates all of the black and white board spaces and puts them all in a sprite group
+        """
+
         for y, number in enumerate(self.settings.row_headers):
             for x, letter in enumerate(self.settings.col_headers):
-                space_image_path = ''
-                # if row even and col even or if row odd and col odd
+                black = True
+                space_image_path = None  # Union[PathLike, str]
+
+                # if row even and col even or if row odd and col odd: white
                 if ((y % 2 == 0) and (x % 2 == 0)) or ((x % 2 != 0) and (y % 2 != 0)):
                     space_image_path = self.settings.space_path_white()
+                    black = False
+
+                # else: black
                 else:
                     space_image_path = self.settings.space_path_black()
-                tmp_space = ShittySpace()
+
+                # calculate space properties
                 pos_x = x * self.settings.space_width() + self.current_board_start_x
                 pos_y = y * self.settings.space_height() + self.current_board_start_y
                 width = self.settings.space_width()
                 height = self.settings.space_height()
-                tmp_space.rect = pygame.Rect(pos_x, pos_y, width, height)
-                tmp_space.image = pygame.image.load(space_image_path)
-                tmp_space.coords = f'{letter}{number}'
+
+                # make a temp space
+                tmp_space = ShittySpace(
+                    black,
+                    pygame.Rect(pos_x, pos_y, width, height),
+                    f'{letter}{number}',
+                    space_image_path,
+                )
                 tmp_space.indexes = x, y
-                self.board_spaces.append(tmp_space)
-        for space in self.board_spaces:
-            self.board_space_group.add(space)
+
+                # add space to board_space_group pygame.sprite.Group
+                self.board_space_group.add(tmp_space)
 
     def resize(self) -> NoReturn:
+        """
+        changes all the x, y coordinates of the board space sprites if the screen size changes
+        """
+
         x_change = self.settings.board_start_x() - self.current_board_start_x
         y_change = self.settings.board_start_y() - self.current_board_start_y
-        for space in self.board_spaces:
+        for space in self.board_space_group.sprites():
             space.rect.left += x_change
             space.rect.top += y_change
         self.current_board_start_x = self.settings.board_start_x()
@@ -119,7 +128,6 @@ class ShittyBoard:
         if self.sprite_to_highlight:
             self.highlight_valid_moves(self.sprite_to_highlight)
 
-
     def draw_headers(self) -> NoReturn:
         """
         draws the headers around the board
@@ -145,7 +153,6 @@ class ShittyBoard:
             self.screen.blit(label, tmp_rect)
             tmp_rect.left = self.settings.row_header_x_right()
             self.screen.blit(label, tmp_rect)
-
 
     # there should be a way to make this method accept any sequence of 3 ints, or a pygame.Color, and still work
     def draw_space_border(self, rect: pygame.Rect, color: Tuple[int, int, int], alpha: int) -> NoReturn:
