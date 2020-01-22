@@ -23,8 +23,8 @@ class ShittyLogic:
         self.board = None  # ShittyBoard
         self.layout = None  # ShittyLayout
         self.__coords_to_space = {}
-        self.__coords_to_indexes = {}  # this might be pointless, can just index cols and rows to get indexes maybe
-        self.__indexes_to_coords = {}  # this might be pointless, can just index cols and rows to get indexes maybe
+        self.__coords_to_indexes = {}
+        self.__indexes_to_coords = {}
 
     def configure(self) -> NoReturn:
         """
