@@ -92,7 +92,7 @@ class ShittyEventMonitor:
                     if not self.holding_piece:
                         self.board.sprite_to_highlight = None
                         x, y = pygame.mouse.get_pos()
-                        _, _ = pygame.mouse.get_rel()
+                        pygame.mouse.get_rel()
                         if self.layout.sprite_clicked(x, y, black=self.settings.turn_black):
                             sprite = self.layout.click_to_sprite(x, y, black=self.settings.turn_black)
                             self.board.sprite_to_highlight = sprite
@@ -160,8 +160,6 @@ class ShittyEventMonitor:
                     x, y = pygame.mouse.get_rel()
                     self.holding_piece_sprite.rect.left += x
                     self.holding_piece_sprite.rect.top += y
-
-
 
         # set mouse button last frame to current one
         self.left_mouse_last_frame = self.left_mouse_pressed
