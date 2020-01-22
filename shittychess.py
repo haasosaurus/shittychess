@@ -48,8 +48,8 @@ class ShittyChess:
         self.event_monitor.board = self.board
 
         # configure our property classes
+        self.board.configure()  # this should probably come before logic
         self.logic.configure()
-        self.board.configure()
         self.layout.configure()
         # self.event_monitor.configure()
 
