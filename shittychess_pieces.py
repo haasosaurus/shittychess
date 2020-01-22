@@ -69,16 +69,9 @@ class ShittyPiece(pygame.sprite.Sprite):
 class ShittyPawn(ShittyPiece):
     """pawn sprite class"""
 
-    def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str) -> NoReturn:
+    def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str, img_path: str) -> NoReturn:
         super().__init__(screen, black, rect, coords)
-
-        # image stuff
-        img_path = None
-        if self.black:
-            img_path = pathlib.Path('shitty_art/shittypawnblack.png')
-        else:
-            img_path = pathlib.Path('shitty_art/shittypawnwhite.png')
-        self.image = pygame.image.load(str(img_path))
+        self.image = pygame.image.load(img_path)
 
         # movement stuff
         self.black_move_patterns_initial = ShittyMovementPatterns()
@@ -118,14 +111,9 @@ class ShittyPawn(ShittyPiece):
 class ShittyRook(ShittyPiece):
     """rook sprite class"""
 
-    def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str) -> NoReturn:
+    def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str, img_path: str) -> NoReturn:
         super().__init__(screen, black, rect, coords)
-        img_path = None
-        if self.black:
-            img_path = pathlib.Path('shitty_art/shittyrookblack.png')
-        else:
-            img_path = pathlib.Path('shitty_art/shittyrookwhite.png')
-        self.image = pygame.image.load(str(img_path))
+        self.image = pygame.image.load(img_path)
         self.movement_patterns.horizontal = 7
         self.movement_patterns.vertical = 7
 
@@ -133,28 +121,18 @@ class ShittyRook(ShittyPiece):
 class ShittyBishop(ShittyPiece):
     """bishop sprite class"""
 
-    def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str) -> NoReturn:
+    def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str, img_path: str) -> NoReturn:
         super().__init__(screen, black, rect, coords)
-        img_path = None
-        if self.black:
-            img_path = pathlib.Path('shitty_art/shittybishopblack.png')
-        else:
-            img_path = pathlib.Path('shitty_art/shittybishopwhite.png')
-        self.image = pygame.image.load(str(img_path))
+        self.image = pygame.image.load(img_path)
         self.movement_patterns.diagonal = 7
 
 
 class ShittyKnight(ShittyPiece):
     """knight sprite class"""
 
-    def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str) -> NoReturn:
+    def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str, img_path: str) -> NoReturn:
         super().__init__(screen, black, rect, coords)
-        img_path = None
-        if self.black:
-            img_path = pathlib.Path('shitty_art/shittyknightblack.png')
-        else:
-            img_path = pathlib.Path('shitty_art/shittyknightwhite.png')
-        self.image = pygame.image.load(str(img_path))
+        self.image = pygame.image.load(img_path)
         self.movement_patterns.pattern_list = [
             (1, 2), (1, -2),
             (2, 1), (2, -1),
@@ -166,14 +144,9 @@ class ShittyKnight(ShittyPiece):
 class ShittyQueen(ShittyPiece):
     """queen sprite class"""
 
-    def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str) -> NoReturn:
+    def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str, img_path: str) -> NoReturn:
         super().__init__(screen, black, rect, coords)
-        img_path = None
-        if self.black:
-            img_path = pathlib.Path('shitty_art/shittyqueenblack.png')
-        else:
-            img_path = pathlib.Path('shitty_art/shittyqueenwhite.png')
-        self.image = pygame.image.load(str(img_path))
+        self.image = pygame.image.load(img_path)
         self.movement_patterns.horizontal = 7
         self.movement_patterns.vertical = 7
         self.movement_patterns.diagonal = 7
@@ -182,14 +155,9 @@ class ShittyQueen(ShittyPiece):
 class ShittyKing(ShittyPiece):
     """king sprite class"""
 
-    def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str) -> NoReturn:
+    def __init__(self, screen: pygame.Surface, black: bool, rect: pygame.Rect, coords: str, img_path: str) -> NoReturn:
         super().__init__(screen, black, rect, coords)
-        img_path = None
-        if self.black:
-            img_path = pathlib.Path('shitty_art/shittykingblack.png')
-        else:
-            img_path = pathlib.Path('shitty_art/shittykingwhite.png')
-        self.image = pygame.image.load(str(img_path))
+        self.image = pygame.image.load(img_path)
         self.movement_patterns.horizontal = 1
         self.movement_patterns.vertical = 1
         self.movement_patterns.diagonal = 1
