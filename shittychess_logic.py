@@ -8,7 +8,7 @@ from typing import NoReturn
 
 import pygame
 
-from shittychess_utils import ShittyMousePointer
+from shittychess_sprites import ShittyMousePointer
 from shittychess_pieces import ShittyPiece
 
 
@@ -33,7 +33,7 @@ class ShittyLogic:
         make this 'logic' work
         """
 
-        for space in self.board.board_spaces:
+        for space in self.board.board_space_group.sprites():
             self.__coords_to_space.update({space.coords: space})
             self.__coords_to_indexes.update({space.coords: space.indexes})
             self.__indexes_to_coords.update({space.indexes: space.coords})
@@ -43,6 +43,7 @@ class ShittyLogic:
         takes mouse position (x and y) and returns chess coordinates
         """
 
+        # this should throw an exception if len(collisions) > 1
         collisions = pygame.sprite.spritecollide(ShittyMousePointer(x, y), self.board.board_space_group, False)
         if len(collisions) == 1:
             return collisions[0].coords
@@ -98,7 +99,7 @@ class ShittyLogic:
         'f4' = ShittyLogic.rect_to_coords(pygame.Rect(0, 120, 60, 60))
         """
 
-        for space in self.board.board_spaces:
+        for space in self.board.board_space_group.sprites():
             if space.rect == rect:
                 return space.coords
         return None
