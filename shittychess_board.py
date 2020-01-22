@@ -158,7 +158,6 @@ class ShittyBoard:
         bar_sz = 2
         h_bar_width = int(self.settings.space_width() / 3)
         v_bar_height = int(self.settings.space_height() / 3)
-
         h_bar_h_movement = self.settings.space_width() - h_bar_width
         h_bar_v_movement = self.settings.space_height() - bar_sz
         v_bar_h_movement = self.settings.space_width() - bar_sz
