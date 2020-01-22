@@ -55,39 +55,71 @@ class ShittyLayout:
 
         self.initial_piece_layout = []
 
-        self.local_debug = True
-        # self.local_debug = False
-
-        if self.local_debug:
-            self.initial_piece_layout = [
-                ['a8', ShittyRook, True], ['b8', ShittyKnight, True], ['c8', ShittyBishop, True], ['d8', ShittyQueen, True],
-                ['e8', ShittyKing, True], ['f8', ShittyBishop, True], ['g8', ShittyKnight, True], ['h8', ShittyRook, True],
-                ['c3', ShittyPawn, True], ['b7', ShittyPawn, True], ['c7', ShittyPawn, True], ['d7', ShittyPawn, True],
-                ['e7', ShittyPawn, True], ['f7', ShittyPawn, True], ['g7', ShittyPawn, True], ['h7', ShittyPawn, True],
-                ['a2', ShittyPawn, False], ['b2', ShittyPawn, False], ['c2', ShittyPawn, False], ['d2', ShittyPawn, False],
-                ['e2', ShittyPawn, False], ['f2', ShittyPawn, False], ['g2', ShittyPawn, False], ['h2', ShittyPawn, False],
-                ['a1', ShittyRook, False], ['b1', ShittyKnight, False], ['c1', ShittyBishop, False], ['d1', ShittyQueen, False],
-                ['e1', ShittyKing, False], ['f1', ShittyBishop, False], ['g1', ShittyKnight, False], ['h1', ShittyRook, False],
-            ]
-
-        else:
-            self.initial_piece_layout = [
-                ['a8', ShittyRook, True], ['b8', ShittyKnight, True], ['c8', ShittyBishop, True], ['d8', ShittyQueen, True],
-                ['e8', ShittyKing, True], ['f8', ShittyBishop, True], ['g8', ShittyKnight, True], ['h8', ShittyRook, True],
-                ['a7', ShittyPawn, True], ['b7', ShittyPawn, True], ['c7', ShittyPawn, True], ['d7', ShittyPawn, True],
-                ['e7', ShittyPawn, True], ['f7', ShittyPawn, True], ['g7', ShittyPawn, True], ['h7', ShittyPawn, True],
-                ['a2', ShittyPawn, False], ['b2', ShittyPawn, False], ['c2', ShittyPawn, False], ['d2', ShittyPawn, False],
-                ['e2', ShittyPawn, False], ['f2', ShittyPawn, False], ['g2', ShittyPawn, False], ['h2', ShittyPawn, False],
-                ['a1', ShittyRook, False], ['b1', ShittyKnight, False], ['c1', ShittyBishop, False], ['d1', ShittyQueen, False],
-                ['e1', ShittyKing, False], ['f1', ShittyBishop, False], ['g1', ShittyKnight, False], ['h1', ShittyRook, False],
-            ]
-
     def configure(self) -> NoReturn:
         """
         configure layout's properties after they have been assigned externally
         """
 
+        self.initial_piece_layout = [
+            ['a8', ShittyRook, True, self.settings.rook_path_black()],
+            ['b8', ShittyKnight, True, self.settings.knight_path_black()],
+            ['c8', ShittyBishop, True, self.settings.bishop_path_black()],
+            ['d8', ShittyQueen, True, self.settings.queen_path_black()],
+            ['e8', ShittyKing, True, self.settings.king_path_black()],
+            ['f8', ShittyBishop, True, self.settings.bishop_path_black()],
+            ['g8', ShittyKnight, True, self.settings.knight_path_black()],
+            ['h8', ShittyRook, True, self.settings.rook_path_black()],
+            ['a7', ShittyPawn, True, self.settings.pawn_path_black()],
+            ['b7', ShittyPawn, True, self.settings.pawn_path_black()],
+            ['c7', ShittyPawn, True, self.settings.pawn_path_black()],
+            ['d7', ShittyPawn, True, self.settings.pawn_path_black()],
+            ['e7', ShittyPawn, True, self.settings.pawn_path_black()],
+            ['f7', ShittyPawn, True, self.settings.pawn_path_black()],
+            ['g7', ShittyPawn, True, self.settings.pawn_path_black()],
+            ['h7', ShittyPawn, True, self.settings.pawn_path_black()],
+            ['a2', ShittyPawn, False, self.settings.pawn_path_white()],
+            ['b2', ShittyPawn, False, self.settings.pawn_path_white()],
+            ['c2', ShittyPawn, False, self.settings.pawn_path_white()],
+            ['d2', ShittyPawn, False, self.settings.pawn_path_white()],
+            ['e2', ShittyPawn, False, self.settings.pawn_path_white()],
+            ['f2', ShittyPawn, False, self.settings.pawn_path_white()],
+            ['g2', ShittyPawn, False, self.settings.pawn_path_white()],
+            ['h2', ShittyPawn, False, self.settings.pawn_path_white()],
+            ['a1', ShittyRook, False, self.settings.rook_path_white()],
+            ['b1', ShittyKnight, False, self.settings.knight_path_white()],
+            ['c1', ShittyBishop, False, self.settings.bishop_path_white()],
+            ['d1', ShittyQueen, False, self.settings.queen_path_white()],
+            ['e1', ShittyKing, False, self.settings.king_path_white()],
+            ['f1', ShittyBishop, False, self.settings.bishop_path_white()],
+            ['g1', ShittyKnight, False, self.settings.knight_path_white()],
+            ['h1', ShittyRook, False, self.settings.rook_path_white()],
+        ]
+
         self.reset()
+
+    def reset(self) -> NoReturn:
+        """
+        reset the board to a new game state
+        """
+
+        self.clear()
+        for piece in self.initial_piece_layout:
+            if piece[2]:
+                self.sprite_group_black.add(piece[1](
+                    self.screen,
+                    piece[2],
+                    self.logic.coords_to_rect(piece[0]),
+                    piece[0],
+                    piece[3]))
+            else:
+                self.sprite_group_white.add(piece[1](
+                    self.screen,
+                    piece[2],
+                    self.logic.coords_to_rect(piece[0]),
+                    piece[0],
+                    piece[3]))
+        for sprite in itertools.chain(self.sprite_group_black, self.sprite_group_white):
+            self.sprite_group_all.add(sprite)
 
     def sprite_clicked(self, x: int, y: int, black: bool) -> bool:
         target_group = None
@@ -126,20 +158,6 @@ class ShittyLayout:
     # rename this method
     def sprite_exists_white(self, coords: str) -> bool:
         return self.sprite_group_white.sprite_exists(coords)
-
-    def reset(self) -> NoReturn:
-        """
-        reset the board to a new game state
-        """
-
-        self.clear()
-        for piece in self.initial_piece_layout:
-            if piece[2]:
-                self.sprite_group_black.add(piece[1](self.screen, piece[2], self.logic.coords_to_rect(piece[0]), piece[0]))
-            else:
-                self.sprite_group_white.add(piece[1](self.screen, piece[2], self.logic.coords_to_rect(piece[0]), piece[0]))
-        for sprite in itertools.chain(self.sprite_group_black, self.sprite_group_white):
-            self.sprite_group_all.add(sprite)
 
     def draw(self) -> NoReturn:
         """
