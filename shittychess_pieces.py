@@ -2,8 +2,6 @@
 
 from typing import NoReturn
 
-import pathlib
-
 import pygame
 
 
