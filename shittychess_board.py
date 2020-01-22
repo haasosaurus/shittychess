@@ -2,6 +2,7 @@
 
 
 from typing import NoReturn
+from typing import Tuple
 
 import pygame
 
@@ -109,33 +110,33 @@ class ShittyBoard:
             self.screen.blit(label, tmp_rect)
 
 
-    def draw_space_border(self, rect: pygame.Rect, color=(255, 255, 255), alpha=255) -> NoReturn:
+    # there should be a way to make this method accept any sequence of 3 ints, or a pygame.Color, and still work
+    def draw_space_border(self, rect: pygame.Rect, color: Tuple[int, int, int], alpha: int) -> NoReturn:
         """
         borders a space based on rect argument
         """
 
-        side_rect_width = 2
+        thickness = 2
         side_rect_height = int(self.settings.space_height() / 3)
         top_bottom_rect_width = int(self.settings.space_width() / 3)
-        top_bottom_rect_height = 2
 
         # calculate rects for the sides
-        right_top = pygame.Rect(rect.left, rect.top, side_rect_width, side_rect_height)
+        right_top = pygame.Rect(rect.left, rect.top, thickness, side_rect_height)
         right_bottom = pygame.Rect.copy(right_top)
         right_bottom.top += self.settings.space_height() - side_rect_height
         left_top = pygame.Rect.copy(right_top)
-        left_top.left += self.settings.space_width() - side_rect_width
+        left_top.left += self.settings.space_width() - thickness
         left_bottom = pygame.Rect.copy(right_bottom)
-        left_bottom.left += self.settings.space_width() - side_rect_width
+        left_bottom.left += self.settings.space_width() - thickness
 
         # calculate rects for the top and bottom
-        top_left = pygame.Rect(rect.left, rect.top, top_bottom_rect_width, top_bottom_rect_height)
+        top_left = pygame.Rect(rect.left, rect.top, top_bottom_rect_width, thickness)
         bottom_left = pygame.Rect.copy(top_left)
-        bottom_left.top += self.settings.space_height() - top_bottom_rect_height
+        bottom_left.top += self.settings.space_height() - thickness
         top_right = pygame.Rect.copy(top_left)
         top_right.left += self.settings.space_width() - top_bottom_rect_width
         bottom_right = pygame.Rect.copy(top_right)
-        bottom_right.top += self.settings.space_height() - top_bottom_rect_height
+        bottom_right.top += self.settings.space_height() - thickness
 
         # draw the lines around the target square
         tmp_color = pygame.Color(*color)
@@ -149,16 +150,16 @@ class ShittyBoard:
         pygame.draw.rect(self.screen, tmp_color, top_right)
         pygame.draw.rect(self.screen, tmp_color, bottom_right)
 
-    def draw_space_highlight(self, rect: pygame.Rect, color=(255, 255, 255), alpha=100) -> NoReturn:
+    def draw_space_highlight(self, rect: pygame.Rect, color: Tuple[int, int, int], alpha: int) -> NoReturn:
         """
         highlights a space based on rect argument
         """
 
-        tmp_color = pygame.Color(*color)
-        tmp_color.a = alpha
-        tmp_surface = pygame.Surface((self.settings.space_width(), self.settings.space_height())).convert_alpha()
-        tmp_surface.fill(tmp_color)
-        self.screen.blit(tmp_surface, rect)
+        width = self.settings.space_width()
+        height = self.settings.space_height()
+        translucent_surface = pygame.Surface((width, height)).convert_alpha()
+        translucent_surface.fill(pygame.Color(*color, alpha))
+        self.screen.blit(translucent_surface, rect)
 
     def highlight_space(self, coords: str, space_color=(255, 255, 255), space_alpha=100) -> NoReturn:
         """
