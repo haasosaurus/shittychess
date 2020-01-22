@@ -9,6 +9,16 @@ import pygame
 from shittychess_pieces import ShittyPiece
 
 
+class ShittySpace(pygame.sprite.Sprite):
+
+    def __init__(self) -> NoReturn:
+        pygame.sprite.Sprite.__init__(self)
+        self.rect = None  # pygame.Rect
+        self.image = None  # pygame.image
+        self.coords = None  # str
+        self.indexes = None  # Tuple[int, int]
+
+
 class ShittyBoard:
     """this class represents a chess board"""
 
@@ -16,22 +26,56 @@ class ShittyBoard:
         self.screen = None  # pygame.Surface
         self.settings = None  # ShittySettings
         self.logic = None  # ShittyLogic
-        self.layout = None # ShittyLayout
-        self.tile_image = None  # pygame.image
-        self.tile_rect = None  # pygame.Rect
+        self.layout = None  # ShittyLayout
         self.col_header_labels = []
         self.row_header_labels = []
-
         self.sprite_to_highlight = None
+
+        self.current_board_start_x = 0
+        self.current_board_start_y = 0
+        self.board_spaces = []
+        self.board_space_group = pygame.sprite.Group()
 
     def configure(self) -> NoReturn:
         """
         configure class's properties after they have been assigned externally
         """
 
-        self.tile_image = pygame.image.load(self.settings.tile_image_path)
-        self.tile_rect = self.tile_image.get_rect()
         self.render_header_labels()
+        self.current_board_start_x = self.settings.board_start_x()
+        self.current_board_start_y = self.settings.board_start_y()
+        self.create_board_space_group()
+
+    def create_board_space_group(self) -> NoReturn:
+        for y, number in enumerate(self.settings.row_headers):
+            for x, letter in enumerate(self.settings.col_headers):
+                space_image_path = ''
+                # if row even and col even or if row odd and col odd
+                if ((y % 2 == 0) and (x % 2 == 0)) or ((x % 2 != 0) and (y % 2 != 0)):
+                    space_image_path = self.settings.space_path_white()
+                else:
+                    space_image_path = self.settings.space_path_black()
+                tmp_space = ShittySpace()
+                pos_x = x * self.settings.space_width() + self.current_board_start_x
+                pos_y = y * self.settings.space_height() + self.current_board_start_y
+                width = self.settings.space_width()
+                height = self.settings.space_height()
+                tmp_space.rect = pygame.Rect(pos_x, pos_y, width, height)
+                tmp_space.image = pygame.image.load(space_image_path)
+                tmp_space.coords = f'{letter}{number}'
+                tmp_space.indexes = x, y
+                self.board_spaces.append(tmp_space)
+        for space in self.board_spaces:
+            self.board_space_group.add(space)
+
+    def resize(self) -> NoReturn:
+        x_change = self.settings.board_start_x() - self.current_board_start_x
+        y_change = self.settings.board_start_y() - self.current_board_start_y
+        for space in self.board_spaces:
+            space.rect.left += x_change
+            space.rect.top += y_change
+        self.current_board_start_x = self.settings.board_start_x()
+        self.current_board_start_y = self.settings.board_start_y()
 
     def resize_header_label_font(self, font_sz: int) -> NoReturn:
         """
@@ -59,26 +103,19 @@ class ShittyBoard:
             self.settings.header_font_width = tmp_rect.width
             self.settings.header_font_height = tmp_rect.height
 
-    def draw(self, debug_coords=None) -> NoReturn:
+    def draw(self) -> NoReturn:
         """
         draws all board elements on the screen
         """
 
-        # draws the board
-        for i in range(self.settings.board_start_y(), self.settings.board_height(), self.settings.tile_h):
-            for j in range(self.settings.board_start_x(), self.settings.board_width(), self.settings.tile_w):
-                self.tile_rect.x = i
-                self.tile_rect.y = j
-                self.screen.blit(self.tile_image, self.tile_rect)
+        # draw the board
+        self.board_space_group.draw(self.screen)
 
         # draws headers if enabled
         if self.settings.headers_enabled:
             self.draw_headers()
 
-        # debug testing space highlight
-        if self.settings.debug and debug_coords:
-            self.highlight_valid_moves(self.layout.coords_to_sprite(debug_coords))
-
+        # highlight a sprite and its available moves if needed
         if self.sprite_to_highlight:
             self.highlight_valid_moves(self.sprite_to_highlight)
 
