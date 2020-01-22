@@ -44,7 +44,6 @@ class ShittyBoard:
         for y, number in enumerate(self.settings.row_headers):
             for x, letter in enumerate(self.settings.col_headers):
                 black = True
-                space_image_path = None  # Union[PathLike, str]
 
                 # if row even and col even or if row odd and col odd: white
                 if ((y % 2 == 0) and (x % 2 == 0)) or ((x % 2 != 0) and (y % 2 != 0)):

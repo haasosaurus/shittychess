@@ -53,7 +53,7 @@ class ShittyPiece(ShittySprite):
 
     def move(self, rect: pygame.Rect) -> NoReturn:
         """
-        moves the piece during gameplay
+        moves the piece during game play
         """
 
         if self.rect != rect:

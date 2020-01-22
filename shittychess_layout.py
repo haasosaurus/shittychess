@@ -121,7 +121,6 @@ class ShittyLayout:
             self.sprite_group_all.add(sprite)
 
     def sprite_clicked(self, x: int, y: int, black: bool) -> bool:
-        target_group = None
         if black:
             target_group = self.sprite_group_black
         else:
@@ -132,7 +131,6 @@ class ShittyLayout:
         return False
 
     def click_to_sprite(self, x: int, y: int, black: bool) -> Union[ShittyPiece, None]:
-        target_group = None
         if black:
             target_group = self.sprite_group_black
         else:

@@ -175,9 +175,9 @@ class ShittyLogic:
         # return a list of chess coordinates strings
         return valid_move_coords
 
-    def move_piece_with_mouse(self, sprite: pygame.sprite.Sprite, x, y) -> bool:
+    def move_piece_with_mouse(self, sprite: ShittyPiece, x, y) -> bool:
         """
-        attemps to move argument sprite to mouse coordinate arguments
+        attempts to move argument sprite to mouse coordinate arguments
         returns True if it succeeds, False if it fails
         """
 
