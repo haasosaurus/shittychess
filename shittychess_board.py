@@ -29,7 +29,7 @@ class ShittyBoard:
         self.layout = None  # ShittyLayout
         self.col_header_labels = []
         self.row_header_labels = []
-        self.sprite_to_highlight = None
+        self.sprite_to_highlight = None  # ShittyPiece
 
         self.current_board_start_x = 0
         self.current_board_start_y = 0
@@ -153,39 +153,36 @@ class ShittyBoard:
         borders a space based on rect argument
         """
 
-        thickness = 2
-        side_rect_height = int(self.settings.space_height() / 3)
-        top_bottom_rect_width = int(self.settings.space_width() / 3)
+        bar_color = pygame.Color(*color)
+        bar_color.a = alpha
+        bar_sz = 2
+        h_bar_width = int(self.settings.space_width() / 3)
+        v_bar_height = int(self.settings.space_height() / 3)
 
-        # calculate rects for the sides
-        right_top = pygame.Rect(rect.left, rect.top, thickness, side_rect_height)
-        right_bottom = pygame.Rect.copy(right_top)
-        right_bottom.top += self.settings.space_height() - side_rect_height
-        left_top = pygame.Rect.copy(right_top)
-        left_top.left += self.settings.space_width() - thickness
-        left_bottom = pygame.Rect.copy(right_bottom)
-        left_bottom.left += self.settings.space_width() - thickness
+        h_bar_h_movement = self.settings.space_width() - h_bar_width
+        h_bar_v_movement = self.settings.space_height() - bar_sz
+        v_bar_h_movement = self.settings.space_width() - bar_sz
+        v_bar_v_movement = self.settings.space_height() - v_bar_height
 
-        # calculate rects for the top and bottom
-        top_left = pygame.Rect(rect.left, rect.top, top_bottom_rect_width, thickness)
-        bottom_left = pygame.Rect.copy(top_left)
-        bottom_left.top += self.settings.space_height() - thickness
-        top_right = pygame.Rect.copy(top_left)
-        top_right.left += self.settings.space_width() - top_bottom_rect_width
-        bottom_right = pygame.Rect.copy(top_right)
-        bottom_right.top += self.settings.space_height() - thickness
+        # draws vertical border bars
+        v_bar = pygame.Rect(rect.left, rect.top, bar_sz, v_bar_height)
+        pygame.draw.rect(self.screen, bar_color, v_bar)
+        v_bar.top += v_bar_v_movement
+        pygame.draw.rect(self.screen, bar_color, v_bar)
+        v_bar.left += v_bar_h_movement
+        pygame.draw.rect(self.screen, bar_color, v_bar)
+        v_bar.top -= v_bar_v_movement
+        pygame.draw.rect(self.screen, bar_color, v_bar)
 
-        # draw the lines around the target square
-        tmp_color = pygame.Color(*color)
-        tmp_color.a = alpha
-        pygame.draw.rect(self.screen, tmp_color, right_bottom)
-        pygame.draw.rect(self.screen, tmp_color, right_top)
-        pygame.draw.rect(self.screen, tmp_color, left_top)
-        pygame.draw.rect(self.screen, tmp_color, left_bottom)
-        pygame.draw.rect(self.screen, tmp_color, top_left)
-        pygame.draw.rect(self.screen, tmp_color, bottom_left)
-        pygame.draw.rect(self.screen, tmp_color, top_right)
-        pygame.draw.rect(self.screen, tmp_color, bottom_right)
+        # draws horizontal border bars
+        h_bar = pygame.Rect(rect.left, rect.top, h_bar_width, bar_sz)
+        pygame.draw.rect(self.screen, bar_color, h_bar)
+        h_bar.top += h_bar_v_movement
+        pygame.draw.rect(self.screen, bar_color, h_bar)
+        h_bar.left += h_bar_h_movement
+        pygame.draw.rect(self.screen, bar_color, h_bar)
+        h_bar.top -= h_bar_v_movement
+        pygame.draw.rect(self.screen, bar_color, h_bar)
 
     def draw_space_highlight(self, rect: pygame.Rect, color: Tuple[int, int, int], alpha: int) -> NoReturn:
         """
