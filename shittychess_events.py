@@ -68,8 +68,8 @@ class ShittyEventMonitor:
                 if event.key == pygame.K_h:
                     self.settings.headers_enabled = not self.settings.headers_enabled
                     self.screen = pygame.display.set_mode((self.settings.screen_width(), self.settings.screen_height()))
+                    self.board.resize()
                     self.layout.resize()
-                    self.logic.resize()
 
                 # toggle player turn
                 if event.key == pygame.K_t:
@@ -137,7 +137,7 @@ class ShittyEventMonitor:
                     # piece movement - dropping
                     if self.holding_piece:
                         x, y = pygame.mouse.get_pos()
-                        if not self.logic.move_piece_xy(self.holding_piece_sprite, x, y):
+                        if not self.logic.move_piece_with_mouse(self.holding_piece_sprite, x, y):
                             self.holding_piece_sprite.rect = self.holding_piece_original_rect
                         self.board.sprite_to_highlight = None
                         self.holding_piece = False
