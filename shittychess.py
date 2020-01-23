@@ -21,6 +21,7 @@ class ShittyChess:
         pygame.init()
         pygame.display.set_caption("Shitty Chess")
         pygame.display.set_icon(pygame.image.load(str(pathlib.Path('shitty_art/shitty_knight_white.png'))))
+        self.clock = pygame.time.Clock()
 
         # initialize our property classes
         self.settings = ShittySettings()
@@ -74,6 +75,7 @@ class ShittyChess:
             self.board.draw()
             self.layout.draw()
             pygame.display.flip()
+            self.clock.tick(60)
 
 
 if __name__ == '__main__':
