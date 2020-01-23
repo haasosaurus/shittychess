@@ -146,26 +146,35 @@ class ShittyLogic:
 
         # check to see if a friendly piece is blocking
         valid_move_coords = self.__valid_space_coords(piece)
-        piece_black = piece.black
         invalid_move_coords = []
         for coords in valid_move_coords:
-            if piece_black:
-                if self.layout.sprite_exists_black(coords):
-                    invalid_move_coords.append(coords)
-            else:
-                if self.layout.sprite_exists_white(coords):
+            sprite = self.layout.coords_to_sprite(coords)
+
+            # if there is a sprite at coords
+            if sprite:
+
+                # and it is friendly
+                if sprite.black == piece.black:
+
+                    # move not allowed, can't kill your friend
                     invalid_move_coords.append(coords)
 
         # pawn
         if piece.__class__.__name__ == 'ShittyPawn':
             for coords in valid_move_coords:
+
+                # if moving diagonally
                 if self.coords_to_indexes(coords)[0] != self.coords_to_indexes(piece.coords)[0]:
-                    if piece_black:
-                        if not self.layout.sprite_exists_white(coords):
-                            invalid_move_coords.append(coords)
-                    else:
-                        if not self.layout.sprite_exists_black(coords):
-                            invalid_move_coords.append(coords)
+                    sprite = self.layout.coords_to_sprite(coords)
+
+                    # if a sprite is not there
+                    if not sprite:
+
+                        # move not allowed, pawns can only go diagonally while attacking
+                        invalid_move_coords.append(coords)
+
+                # if moving vertically
+
 
         # remove invalid coords from list
         for coords in reversed(invalid_move_coords):

@@ -36,21 +36,6 @@ class ShittyPiece(ShittySprite):
         self.initial_position = True
         self.movement_patterns = ShittyMovementPatterns()
 
-        self.local_debug = True
-
-    # this needs to be fixed for sure
-    def __bool__(self) -> bool:
-        """bool"""
-
-        # if self.local_debug:
-        #     print(type(self).__name__)
-        #     print(type(self).__name__ != 'ShittyPiece')
-        return type(self).__name__ != 'ShittyPiece'
-
-        # if self.local_debug:
-        #     print(f'ShittyPiece.__bool__() isinstance(self, ShittyPiece)  != {isinstance(self, ShittyPiece)}')
-        # return not isinstance(self, ShittyPiece)
-
     def set_rect(self, rect: pygame.Rect) -> NoReturn:
         """
         sets the piece's rect with another pygame.Rect
@@ -78,7 +63,8 @@ class ShittyPiece(ShittySprite):
     def update(self) -> NoReturn:
         """pygame sprite group helper method"""
 
-        pass
+        # placeholder since it's giving me a warning using pass
+        print(f'{self.__class__.__name__} updated')
 
 
 class ShittyPawn(ShittyPiece):
@@ -124,13 +110,11 @@ class ShittyPawn(ShittyPiece):
         if self.black:
             if self.initial_position:
                 return self.black_move_patterns_initial
-            else:
-                return self.black_move_patterns
+            return self.black_move_patterns
         else:
             if self.initial_position:
                 return self.white_move_patterns_initial
-            else:
-                return self.white_move_patterns
+            return self.white_move_patterns
 
 
 class ShittyRook(ShittyPiece):

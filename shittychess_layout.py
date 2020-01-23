@@ -17,11 +17,11 @@ from shittychess_pieces import ShittyQueen
 from shittychess_pieces import ShittyKing
 
 
-class ShittyGroup(pygame.sprite.Group):
+class ShittyGroup(pygame.sprite.LayeredUpdates):
     """subclassing sprite Group to add more functionality"""
 
     def __init__(self):
-        pygame.sprite.Group.__init__(self)
+        pygame.sprite.LayeredUpdates.__init__(self)
 
     def sprite_exists(self, coords: str) -> bool:
         for sprite in self.sprites():
@@ -122,22 +122,7 @@ class ShittyLayout:
         ):
             self.sprite_group_all.add(sprite)
 
-    def sprite_clicked(self, x: int, y: int, black: bool) -> bool:
-        """returns true if sprite clicked"""
-
-        if black:
-            target_group = self.sprite_group_black
-        else:
-            target_group = self.sprite_group_white
-        collisions = pygame.sprite.spritecollide(
-            ShittyMousePointer(x, y),
-            target_group,
-            False
-        )
-        if len(collisions) == 1:
-            return True
-        return False
-
+    # events: 2 -
     def click_to_sprite(
             self,
             x: int,
@@ -167,19 +152,19 @@ class ShittyLayout:
 
         return self.sprite_group_all.coords_to_sprite(coords)
 
-    # rename this method
+    # logic 1 -
     def sprite_exists_all(self, coords: str) -> bool:
         """returns True if sprite any sprite at coords, else returns False"""
 
         return self.sprite_group_all.sprite_exists(coords)
 
-    # rename this method
+    # logic 1 -
     def sprite_exists_black(self, coords: str) -> bool:
         """returns True if any black sprite is at coords, else returns False"""
 
         return self.sprite_group_black.sprite_exists(coords)
 
-    # rename this method
+    # logic 1 -
     def sprite_exists_white(self, coords: str) -> bool:
         """returns True if any white sprite is at coords, else returns False"""
 

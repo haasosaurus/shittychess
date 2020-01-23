@@ -79,13 +79,15 @@ class ShittyEventHandler:
                     if not self.holding_piece:
                         self.board.sprite_to_highlight = None
                         x, y = pygame.mouse.get_pos()
-                        pygame.mouse.get_rel()
-                        if self.layout.sprite_clicked(x, y, black=self.settings.turn_black):
-                            sprite = self.layout.click_to_sprite(x, y, black=self.settings.turn_black)
+                        sprite = self.layout.click_to_sprite(x, y, black=self.settings.turn_black)
+                        if sprite:
+                            pygame.mouse.get_rel()
                             self.board.sprite_to_highlight = sprite
                             self.holding_piece_original_rect = pygame.Rect.copy(sprite.rect)
                             self.holding_piece_sprite = sprite
                             self.holding_piece = True
+                            self.layout.sprite_group_all.move_to_front(sprite)
+
 
                 # middle mouse button
                 elif event.button == 2:
