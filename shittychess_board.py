@@ -154,42 +154,60 @@ class ShittyBoard:
             self.screen.blit(label, tmp_rect)
 
     # there should be a way to make this method accept any sequence of 3 ints, or a pygame.Color, and still work
-    def draw_space_border(self, rect: pygame.Rect, color: Tuple[int, int, int], alpha: int) -> NoReturn:
+    def draw_space_border(
+        self,
+        rect: pygame.Rect,
+        color: Tuple[int, int, int],
+        color_mid: Tuple[int, int, int],
+        alpha: int,
+        alpha_mid: int,
+        bar_sz: int
+    ) -> NoReturn:
         """
         borders a space based on rect argument
         """
 
-        bar_color = pygame.Color(*color)
-        bar_color.a = alpha
-        bar_sz = 2
+        bar_color = pygame.Color(*color, alpha)
+        bar_color_mid = pygame.Color(*color_mid, alpha_mid)
         h_bar_width = int(self.settings.space_width() / 3)
         v_bar_height = int(self.settings.space_height() / 3)
-        h_bar_h_movement = self.settings.space_width() - h_bar_width
         h_bar_v_movement = self.settings.space_height() - bar_sz
         v_bar_h_movement = self.settings.space_width() - bar_sz
-        v_bar_v_movement = self.settings.space_height() - v_bar_height
 
         # draws vertical border bars
         v_bar = pygame.Rect(rect.left, rect.top, bar_sz, v_bar_height)
         pygame.draw.rect(self.screen, bar_color, v_bar)
-        v_bar.top += v_bar_v_movement
+        v_bar.top += v_bar_height
+        pygame.draw.rect(self.screen, bar_color_mid, v_bar)
+        v_bar.top += v_bar_height
         pygame.draw.rect(self.screen, bar_color, v_bar)
         v_bar.left += v_bar_h_movement
         pygame.draw.rect(self.screen, bar_color, v_bar)
-        v_bar.top -= v_bar_v_movement
+        v_bar.top -= v_bar_height
+        pygame.draw.rect(self.screen, bar_color_mid, v_bar)
+        v_bar.top -= v_bar_height
         pygame.draw.rect(self.screen, bar_color, v_bar)
 
         # draws horizontal border bars
         h_bar = pygame.Rect(rect.left, rect.top, h_bar_width, bar_sz)
         pygame.draw.rect(self.screen, bar_color, h_bar)
+        h_bar.left += h_bar_width
+        pygame.draw.rect(self.screen, bar_color_mid, h_bar)
+        h_bar.left += h_bar_width
+        pygame.draw.rect(self.screen, bar_color, h_bar)
         h_bar.top += h_bar_v_movement
         pygame.draw.rect(self.screen, bar_color, h_bar)
-        h_bar.left += h_bar_h_movement
-        pygame.draw.rect(self.screen, bar_color, h_bar)
-        h_bar.top -= h_bar_v_movement
+        h_bar.left -= h_bar_width
+        pygame.draw.rect(self.screen, bar_color_mid, h_bar)
+        h_bar.left -= h_bar_width
         pygame.draw.rect(self.screen, bar_color, h_bar)
 
-    def draw_space_highlight(self, rect: pygame.Rect, color: Tuple[int, int, int], alpha: int) -> NoReturn:
+    def draw_space_highlight(
+        self,
+        rect: pygame.Rect,
+        color: Tuple[int, int, int],
+        alpha: int
+    ) -> NoReturn:
         """
         highlights a space based on rect argument
         """
@@ -200,7 +218,12 @@ class ShittyBoard:
         translucent_surface.fill(pygame.Color(*color, alpha))
         self.screen.blit(translucent_surface, rect)
 
-    def highlight_space(self, coords: str, space_color=(0, 170, 255), space_alpha=100) -> NoReturn:
+    def highlight_space(
+        self,
+        coords: str,
+        space_color: Tuple[int, int, int] = (0, 170, 255),
+        space_alpha: int = 100
+    ) -> NoReturn:
         """
         takes chess coordinates and gets a rect for it, then calls self.draw_space_highlight on that rect
         """
@@ -208,7 +231,18 @@ class ShittyBoard:
         tmp_rect = pygame.Rect.copy(self.logic.coords_to_rect(coords))
         self.draw_space_highlight(tmp_rect, color=space_color, alpha=space_alpha)
 
-    def highlight_and_border_space(self, coords: str, space_color=(0, 170, 255), space_alpha=100, border_color=(0, 0, 0), border_alpha=255) -> NoReturn:
+    # make a class out of this dumb shit
+    def highlight_and_border_space(
+        self,
+        coords: str,
+        space_color: Tuple[int, int, int] = (0, 170, 255),
+        space_alpha: int = 100,
+        border_color: Tuple[int, int, int] = (0, 0, 0),
+        mid_border_color: Tuple[int, int, int] = (255, 255, 255),
+        border_alpha: int = 255,
+        mid_border_alpha: int = 255,
+        border_thickness: int = 2
+    ) -> NoReturn:
         """
         highlights and borders a space on the board from a chess coord str
         should be used to show available moves to a player
@@ -216,7 +250,14 @@ class ShittyBoard:
 
         tmp_rect = pygame.Rect.copy(self.logic.coords_to_rect(coords))
         self.draw_space_highlight(tmp_rect, color=space_color, alpha=space_alpha)
-        self.draw_space_border(tmp_rect, color=border_color, alpha=border_alpha)
+        self.draw_space_border(
+            tmp_rect,
+            color=border_color,
+            color_mid=mid_border_color,
+            alpha=border_alpha,
+            alpha_mid=mid_border_alpha,
+            bar_sz=border_thickness
+        )
 
     def highlight_valid_moves(self, piece: ShittyPiece) -> NoReturn:
         """
