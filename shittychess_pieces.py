@@ -22,7 +22,16 @@ class ShittyMovementPatterns:
 class ShittyPiece(ShittySprite):
     """base sprite class for pieces"""
 
-    def __init__(self, black: bool, rect: pygame.Rect, coords: str, img_path: Union[PathLike, str], **kwargs) -> NoReturn:
+    def __init__(
+            self,
+            black: bool,
+            rect: pygame.Rect,
+            coords: str,
+            img_path: Union[PathLike, str],
+            **kwargs
+    ) -> NoReturn:
+        """constructor"""
+
         super().__init__(black, rect, coords, img_path)
         self.initial_position = True
         self.movement_patterns = ShittyMovementPatterns()
@@ -71,7 +80,15 @@ class ShittyPiece(ShittySprite):
 class ShittyPawn(ShittyPiece):
     """pawn sprite class"""
 
-    def __init__(self, black: bool, rect: pygame.Rect, coords: str, img_path: Union[PathLike, str]) -> NoReturn:
+    def __init__(
+            self,
+            black: bool,
+            rect: pygame.Rect,
+            coords: str,
+            img_path: Union[PathLike, str]
+    ) -> NoReturn:
+        """constructor"""
+
         super().__init__(black, rect, coords, img_path)
 
 
@@ -113,7 +130,15 @@ class ShittyPawn(ShittyPiece):
 class ShittyRook(ShittyPiece):
     """rook sprite class"""
 
-    def __init__(self, black: bool, rect: pygame.Rect, coords: str, img_path: Union[PathLike, str]) -> NoReturn:
+    def __init__(
+            self,
+            black: bool,
+            rect: pygame.Rect,
+            coords: str,
+            img_path: Union[PathLike, str]
+    ) -> NoReturn:
+        """constructor"""
+
         super().__init__(black, rect, coords, img_path)
 
         # movement stuff
@@ -124,7 +149,15 @@ class ShittyRook(ShittyPiece):
 class ShittyBishop(ShittyPiece):
     """bishop sprite class"""
 
-    def __init__(self, black: bool, rect: pygame.Rect, coords: str, img_path: Union[PathLike, str]) -> NoReturn:
+    def __init__(
+            self,
+            black: bool,
+            rect: pygame.Rect,
+            coords: str,
+            img_path: Union[PathLike, str]
+    ) -> NoReturn:
+        """constructor"""
+
         super().__init__(black, rect, coords, img_path)
 
         # movement stuff
@@ -134,7 +167,15 @@ class ShittyBishop(ShittyPiece):
 class ShittyKnight(ShittyPiece):
     """knight sprite class"""
 
-    def __init__(self, black: bool, rect: pygame.Rect, coords: str, img_path: Union[PathLike, str]) -> NoReturn:
+    def __init__(
+            self,
+            black: bool,
+            rect: pygame.Rect,
+            coords: str,
+            img_path: Union[PathLike, str]
+    ) -> NoReturn:
+        """constructor"""
+
         super().__init__(black, rect, coords, img_path)
 
         # movement stuff
@@ -149,7 +190,15 @@ class ShittyKnight(ShittyPiece):
 class ShittyQueen(ShittyPiece):
     """queen sprite class"""
 
-    def __init__(self, black: bool, rect: pygame.Rect, coords: str, img_path: Union[PathLike, str]) -> NoReturn:
+    def __init__(
+            self,
+            black: bool,
+            rect: pygame.Rect,
+            coords: str,
+            img_path: Union[PathLike, str]
+    ) -> NoReturn:
+        """constructor"""
+
         super().__init__(black, rect, coords, img_path)
 
         # movement stuff
@@ -161,7 +210,15 @@ class ShittyQueen(ShittyPiece):
 class ShittyKing(ShittyPiece):
     """king sprite class"""
 
-    def __init__(self, black: bool, rect: pygame.Rect, coords: str, img_path: Union[PathLike, str]) -> NoReturn:
+    def __init__(
+            self,
+            black: bool,
+            rect: pygame.Rect,
+            coords: str,
+            img_path: Union[PathLike, str]
+    ) -> NoReturn:
+        """constructor"""
+
         super().__init__(black, rect, coords, img_path)
 
         # movement stuff

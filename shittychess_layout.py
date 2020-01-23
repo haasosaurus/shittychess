@@ -18,9 +18,7 @@ from shittychess_pieces import ShittyKing
 
 
 class ShittyGroup(pygame.sprite.Group):
-    """
-    subclassing sprite Group to add more functionality
-    """
+    """subclassing sprite Group to add more functionality"""
 
     def __init__(self):
         pygame.sprite.Group.__init__(self)
@@ -57,51 +55,52 @@ class ShittyLayout:
 
     def configure(self) -> NoReturn:
         """
-        configure layout's properties after they have been assigned externally
+        configure layout's properties after some of them have been
+        assigned externally
         """
 
         self.initial_piece_layout = [
-            ['a8', ShittyRook, True, self.settings.rook_path_black()],
-            ['b8', ShittyKnight, True, self.settings.knight_path_black()],
-            ['c8', ShittyBishop, True, self.settings.bishop_path_black()],
-            ['d8', ShittyQueen, True, self.settings.queen_path_black()],
-            ['e8', ShittyKing, True, self.settings.king_path_black()],
-            ['f8', ShittyBishop, True, self.settings.bishop_path_black()],
-            ['g8', ShittyKnight, True, self.settings.knight_path_black()],
-            ['h8', ShittyRook, True, self.settings.rook_path_black()],
-            ['a7', ShittyPawn, True, self.settings.pawn_path_black()],
-            ['b7', ShittyPawn, True, self.settings.pawn_path_black()],
-            ['c7', ShittyPawn, True, self.settings.pawn_path_black()],
-            ['d7', ShittyPawn, True, self.settings.pawn_path_black()],
-            ['e7', ShittyPawn, True, self.settings.pawn_path_black()],
-            ['f7', ShittyPawn, True, self.settings.pawn_path_black()],
-            ['g7', ShittyPawn, True, self.settings.pawn_path_black()],
-            ['h7', ShittyPawn, True, self.settings.pawn_path_black()],
+            # black
+            ['a8', ShittyRook, True, self.settings.rook_path(black=True)],
+            ['b8', ShittyKnight, True, self.settings.knight_path(black=True)],
+            ['c8', ShittyBishop, True, self.settings.bishop_path(black=True)],
+            ['d8', ShittyQueen, True, self.settings.queen_path(black=True)],
+            ['e8', ShittyKing, True, self.settings.king_path(black=True)],
+            ['f8', ShittyBishop, True, self.settings.bishop_path(black=True)],
+            ['g8', ShittyKnight, True, self.settings.knight_path(black=True)],
+            ['h8', ShittyRook, True, self.settings.rook_path(black=True)],
+            ['a7', ShittyPawn, True, self.settings.pawn_path(black=True)],
+            ['b7', ShittyPawn, True, self.settings.pawn_path(black=True)],
+            ['c7', ShittyPawn, True, self.settings.pawn_path(black=True)],
+            ['d7', ShittyPawn, True, self.settings.pawn_path(black=True)],
+            ['e7', ShittyPawn, True, self.settings.pawn_path(black=True)],
+            ['f7', ShittyPawn, True, self.settings.pawn_path(black=True)],
+            ['g7', ShittyPawn, True, self.settings.pawn_path(black=True)],
+            ['h7', ShittyPawn, True, self.settings.pawn_path(black=True)],
 
-            ['a2', ShittyPawn, False, self.settings.pawn_path_white()],
-            ['b2', ShittyPawn, False, self.settings.pawn_path_white()],
-            ['c2', ShittyPawn, False, self.settings.pawn_path_white()],
-            ['d2', ShittyPawn, False, self.settings.pawn_path_white()],
-            ['e2', ShittyPawn, False, self.settings.pawn_path_white()],
-            ['f2', ShittyPawn, False, self.settings.pawn_path_white()],
-            ['g2', ShittyPawn, False, self.settings.pawn_path_white()],
-            ['h2', ShittyPawn, False, self.settings.pawn_path_white()],
-            ['a1', ShittyRook, False, self.settings.rook_path_white()],
-            ['b1', ShittyKnight, False, self.settings.knight_path_white()],
-            ['c1', ShittyBishop, False, self.settings.bishop_path_white()],
-            ['d1', ShittyQueen, False, self.settings.queen_path_white()],
-            ['e1', ShittyKing, False, self.settings.king_path_white()],
-            ['f1', ShittyBishop, False, self.settings.bishop_path_white()],
-            ['g1', ShittyKnight, False, self.settings.knight_path_white()],
-            ['h1', ShittyRook, False, self.settings.rook_path_white()],
+            # white
+            ['a2', ShittyPawn, False, self.settings.pawn_path(black=False)],
+            ['b2', ShittyPawn, False, self.settings.pawn_path(black=False)],
+            ['c2', ShittyPawn, False, self.settings.pawn_path(black=False)],
+            ['d2', ShittyPawn, False, self.settings.pawn_path(black=False)],
+            ['e2', ShittyPawn, False, self.settings.pawn_path(black=False)],
+            ['f2', ShittyPawn, False, self.settings.pawn_path(black=False)],
+            ['g2', ShittyPawn, False, self.settings.pawn_path(black=False)],
+            ['h2', ShittyPawn, False, self.settings.pawn_path(black=False)],
+            ['a1', ShittyRook, False, self.settings.rook_path(black=False)],
+            ['b1', ShittyKnight, False, self.settings.knight_path(black=False)],
+            ['c1', ShittyBishop, False, self.settings.bishop_path(black=False)],
+            ['d1', ShittyQueen, False, self.settings.queen_path(black=False)],
+            ['e1', ShittyKing, False, self.settings.king_path(black=False)],
+            ['f1', ShittyBishop, False, self.settings.bishop_path(black=False)],
+            ['g1', ShittyKnight, False, self.settings.knight_path(black=False)],
+            ['h1', ShittyRook, False, self.settings.rook_path(black=False)],
         ]
 
         self.reset()
 
     def reset(self) -> NoReturn:
-        """
-        reset the board to a new game state
-        """
+        """reset the board to a new game state"""
 
         self.clear()
         for piece in self.initial_piece_layout:
@@ -117,49 +116,77 @@ class ShittyLayout:
                     self.logic.coords_to_rect(piece[0]),
                     piece[0],
                     piece[3]))
-        for sprite in itertools.chain(self.sprite_group_black, self.sprite_group_white):
+        for sprite in itertools.chain(
+                self.sprite_group_black,
+                self.sprite_group_white
+        ):
             self.sprite_group_all.add(sprite)
 
     def sprite_clicked(self, x: int, y: int, black: bool) -> bool:
+        """returns true if sprite clicked"""
+
         if black:
             target_group = self.sprite_group_black
         else:
             target_group = self.sprite_group_white
-        collisions = pygame.sprite.spritecollide(ShittyMousePointer(x, y), target_group, False)
+        collisions = pygame.sprite.spritecollide(
+            ShittyMousePointer(x, y),
+            target_group,
+            False
+        )
         if len(collisions) == 1:
             return True
         return False
 
-    def click_to_sprite(self, x: int, y: int, black: bool) -> Union[ShittyPiece, None]:
+    def click_to_sprite(
+            self,
+            x: int,
+            y: int,
+            black: bool
+    ) -> Union[ShittyPiece, None]:
+        """returns piece sprite if clicked, or None"""
+
         if black:
             target_group = self.sprite_group_black
         else:
             target_group = self.sprite_group_white
-        collisions = pygame.sprite.spritecollide(ShittyMousePointer(x, y), target_group, False)
+        collisions = pygame.sprite.spritecollide(
+            ShittyMousePointer(x, y),
+            target_group,
+            False
+        )
         if len(collisions) == 1:
             return collisions[0]
         return None
 
     def coords_to_sprite(self, coords: str) -> Union[ShittyPiece, None]:
-        # yeah i think this needs error checking or vigilant usage
+        """
+        pass chess coords, returns sprite if sprite exists at coords
+        else returns None
+        """
+
         return self.sprite_group_all.coords_to_sprite(coords)
 
     # rename this method
     def sprite_exists_all(self, coords: str) -> bool:
+        """returns True if sprite any sprite at coords, else returns False"""
+
         return self.sprite_group_all.sprite_exists(coords)
 
     # rename this method
     def sprite_exists_black(self, coords: str) -> bool:
+        """returns True if any black sprite is at coords, else returns False"""
+
         return self.sprite_group_black.sprite_exists(coords)
 
     # rename this method
     def sprite_exists_white(self, coords: str) -> bool:
+        """returns True if any white sprite is at coords, else returns False"""
+
         return self.sprite_group_white.sprite_exists(coords)
 
     def draw(self) -> NoReturn:
-        """
-        draw all the pieces
-        """
+        """draw all the pieces"""
 
         self.sprite_group_all.draw(self.screen)
 
@@ -182,4 +209,9 @@ class ShittyLayout:
 
         for sprite in self.sprite_group_all:
             tmp_rect = self.logic.coords_to_rect(sprite.coords)
-            sprite.set_rect(pygame.Rect(tmp_rect.left, tmp_rect.top, sprite.rect.width, sprite.rect.height))
+            sprite.set_rect(pygame.Rect(
+                tmp_rect.left,
+                tmp_rect.top,
+                sprite.rect.width,
+                sprite.rect.height
+            ))

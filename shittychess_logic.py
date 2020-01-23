@@ -29,8 +29,8 @@ class ShittyLogic:
     def configure(self) -> NoReturn:
         """
         configure class's properties after they have been assigned externally
-        this sets up all the dicts and their matching dicts that i thought we needed to
-        make this 'logic' work
+        this sets up all the dicts and their matching dicts that i thought we
+        needed to make this 'logic' work
         """
 
         for space in self.board.board_space_group.sprites():
@@ -39,21 +39,22 @@ class ShittyLogic:
             self.__indexes_to_coords.update({space.indexes: space.coords})
 
     def xy_to_coords(self, x: int, y: int) -> Union[str, None]:
-        """
-        takes mouse position (x and y) and returns chess coordinates
-        """
+        """takes mouse position (x and y) and returns chess coordinates"""
 
         # this should throw an exception if len(collisions) > 1
-        collisions = pygame.sprite.spritecollide(ShittyMousePointer(x, y), self.board.board_space_group, False)
+        collisions = pygame.sprite.spritecollide(
+            ShittyMousePointer(x, y),
+            self.board.board_space_group,
+            False
+        )
         if len(collisions) == 1:
             return collisions[0].coords
         return None
 
     def coords_to_indexes(self, coords: str) -> Union[Tuple[int, int], None]:
         """
-        takes chess coordinates
-        returns the corresponding zero-indexed tuple with 2D list indexes for the board space,
-        or None if not found
+        takes chess coordinates, returns the corresponding zero-indexed tuple
+        with 2D list indexes for the board space, or None if not found
         0, 5 = ShittyLogic.coords_to_indexes('f4')
         """
 
@@ -63,8 +64,8 @@ class ShittyLogic:
 
     def coords_to_rect(self, coords: str) -> Union[pygame.Rect, None]:
         """
-        takes chess coordinates
-        returns a pygame.Rect object of the corresponding board space or None if not found
+        takes chess coordinates, returns a pygame.Rect object of the
+        corresponding board space or None if not found
         pygame.Rect(0, 120, 60, 60) = ShittyLogic.coords_to_rect('f4')
         """
 
@@ -74,8 +75,8 @@ class ShittyLogic:
 
     def indexes_to_coords(self, indexes: Tuple[int, int]) -> Union[str, None]:
         """
-        takes a zero-indexed tuple with 2D list indexes
-        returns the corresponding chess notation for a board space or None if not found
+        takes a zero-indexed tuple with 2D list indexes, returns the
+        corresponding chess notation for a board space or None if not found
         'f4' = ShittyLogic.indexes_to_coords(0, 5)
         """
 
@@ -85,8 +86,8 @@ class ShittyLogic:
 
     def indexes_to_rect(self, indexes: Tuple[int, int]) -> Union[pygame.Rect, None]:
         """
-        takes a zero-indexed tuple with 2D list indexes
-        returns a pygame.Rect object of the corresponding board space or None if not found
+        takes a zero-indexed tuple with 2D list indexes, returns a pygame.Rect
+        object of the corresponding board space or None if not found
         pygame.Rect(0, 120, 60, 60) = ShittyLogic.indexes_to_rect(0, 5)
         """
 
@@ -94,8 +95,8 @@ class ShittyLogic:
 
     def rect_to_coords(self, rect: pygame.Rect) -> Union[str, None]:
         """
-        takes a pygame.Rect object
-        returns the corresponding chess notation for a board space or None if not found
+        takes a pygame.Rect object, returns the corresponding chess notation
+        for a board space or None if not found
         'f4' = ShittyLogic.rect_to_coords(pygame.Rect(0, 120, 60, 60))
         """
 
@@ -106,9 +107,8 @@ class ShittyLogic:
 
     def rect_to_indexes(self, rect: pygame.Rect) -> Union[Tuple[int, int], None]:
         """
-        takes a pygame.Rect object
-        returns the corresponding zero-indexed tuple with 2D list indexes for the board space,
-        or None if not found
+        takes a pygame.Rect object, returns the corresponding zero-indexed
+        tuple with 2D list indexes for the board space, or None if not found
         0, 5 = ShittyLogic.rect_to_indexes(pygame.Rect(0, 120, 60, 60))
         """
 

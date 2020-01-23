@@ -6,12 +6,8 @@ from typing import NoReturn
 import pygame
 
 
-class ShittyEventMonitor:
-    """
-    manages all the pygame events for the game
-    should be renamed to something better since
-    it does more than monitor
-    """
+class ShittyEventHandler:
+    """manages all the pygame events for the game"""
 
     def __init__(self) -> NoReturn:
         self.screen = None  # pygame.Surface
@@ -40,17 +36,8 @@ class ShittyEventMonitor:
         self.holding_piece_sprite = None
         self.holding_piece_original_rect = None
 
-    # def configure(self) -> NoReturn:
-    #     """
-    #     configure class's properties after they have been assigned externally
-    #     """
-
-    #     pass
-
     def process_events(self) -> NoReturn:
-        """
-        process pygame events
-        """
+        """process pygame events"""
 
         # complete mouse clicks with no looping
         self.left_mouse_click = False
@@ -108,18 +95,12 @@ class ShittyEventMonitor:
 
                     # highlight available moves
                     if not self.holding_piece:
-                        if not self.board.sprite_to_highlight:
-                            x, y = pygame.mouse.get_pos()
-                            if self.layout.sprite_clicked(x, y, black=self.settings.turn_black):
-                                sprite = self.layout.click_to_sprite(x, y, black=self.settings.turn_black)
-                                if sprite:
-                                    self.board.sprite_to_highlight = sprite
-                                else:
-                                    self.board.sprite_to_highlight = None
-                            else:
-                                self.board.sprite_to_highlight = None
-                        else:
+                        x, y = pygame.mouse.get_pos()
+                        sprite = self.layout.click_to_sprite(x, y, black=self.settings.turn_black)
+                        if sprite == self.board.sprite_to_highlight:
                             self.board.sprite_to_highlight = None
+                        else:
+                            self.board.sprite_to_highlight = sprite
 
                 # right mouse button
                 elif event.button == 3:

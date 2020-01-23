@@ -38,21 +38,18 @@ class ShittyBoard:
 
     def create_board_space_group(self) -> NoReturn:
         """
-        creates all of the black and white board spaces and puts them all in a sprite group
+        creates all of the black and white board spaces as sprites and puts
+        them all in a sprite group
         """
 
         for y, number in enumerate(self.settings.row_headers):
             for x, letter in enumerate(self.settings.col_headers):
-                black = True
+                is_black = True
 
                 # if row even and col even or if row odd and col odd: white
                 if ((y % 2 == 0) and (x % 2 == 0)) or ((x % 2 != 0) and (y % 2 != 0)):
-                    space_image_path = self.settings.space_path_white()
-                    black = False
-
-                # else: black
-                else:
-                    space_image_path = self.settings.space_path_black()
+                    is_black = False
+                space_image_path = self.settings.space_path(black=is_black)
 
                 # calculate space properties
                 pos_x = x * self.settings.space_width() + self.current_board_start_x
@@ -62,7 +59,7 @@ class ShittyBoard:
 
                 # make a temp space
                 tmp_space = ShittySpace(
-                    black,
+                    is_black,
                     pygame.Rect(pos_x, pos_y, width, height),
                     f'{letter}{number}',
                     space_image_path,
@@ -74,7 +71,8 @@ class ShittyBoard:
 
     def resize(self) -> NoReturn:
         """
-        changes all the x, y coordinates of the board space sprites if the screen size changes
+        changes all the x (left), y (top) coordinates of the board space
+        sprites if the screen size changes
         """
 
         x_change = self.settings.board_start_x() - self.current_board_start_x
@@ -85,36 +83,45 @@ class ShittyBoard:
         self.current_board_start_x = self.settings.board_start_x()
         self.current_board_start_y = self.settings.board_start_y()
 
-    def resize_header_label_font(self, font_sz: int) -> NoReturn:
+    def resize_header_label_font(self, font_size: int) -> NoReturn:
         """
-        can be used to resize the header labels
+        can be used to resize the header labels,
         it is not currently being used anywhere
         """
 
-        self.settings.header_font_sz = font_sz
+        self.settings.header_font_sz = font_size
         self.col_header_labels.clear()
         self.row_header_labels.clear()
         self.render_header_labels()
 
     def render_header_labels(self) -> NoReturn:
-        """
-        renders the header labels and stores them in lists
-        """
+        """renders the header labels and stores them in lists"""
 
-        header_font = pygame.font.Font(self.settings.header_font_path, self.settings.header_font_sz)
-        for label in self.settings.col_headers:
-            self.col_header_labels.append(header_font.render(label, True, self.settings.header_font_color, None))
-        for label in self.settings.row_headers:
-            self.row_header_labels.append(header_font.render(label, True, self.settings.header_font_color, None))
+        header_font = pygame.font.Font(
+            self.settings.header_font_path,
+            self.settings.header_font_sz
+        )
+        for column_header in self.settings.col_headers:
+            self.col_header_labels.append(header_font.render(
+                column_header,  # text
+                True,   # antialias
+                self.settings.header_font_color,  # color
+                None  # background
+            ))
+        for row_header in self.settings.row_headers:
+            self.row_header_labels.append(header_font.render(
+                row_header,  # text
+                True,   # antialias
+                self.settings.header_font_color,  # color
+                None  # background
+            ))
         if len(self.col_header_labels) > 0:
             tmp_rect = self.col_header_labels[0].get_rect()
             self.settings.header_font_width = tmp_rect.width
             self.settings.header_font_height = tmp_rect.height
 
     def draw(self) -> NoReturn:
-        """
-        draws all board elements on the screen
-        """
+        """draws all board elements on the screen"""
 
         # draw the board
         self.board_space_group.draw(self.screen)
@@ -128,14 +135,14 @@ class ShittyBoard:
             self.highlight_valid_moves(self.sprite_to_highlight)
 
     def draw_headers(self) -> NoReturn:
-        """
-        draws the headers around the board
-        called if headers are enabled
-        """
+        """draws the headers around the board, called if headers are enabled"""
 
         # column headers
         loop_stop = self.settings.board_width() + self.settings.col_header_x_start()
-        for label, x in zip(self.col_header_labels, range(self.settings.col_header_x_start(), loop_stop, self.settings.space_width())):
+        for label, x in zip(
+                self.col_header_labels,
+                range(self.settings.col_header_x_start(), loop_stop, self.settings.space_width())
+        ):
             tmp_rect = label.get_rect()
             tmp_rect.left = x
             tmp_rect.top = self.settings.col_header_y_top()
@@ -145,7 +152,10 @@ class ShittyBoard:
 
         # row headers
         loop_stop = self.settings.board_height() + self.settings.row_header_y_start()
-        for label, y in zip(self.row_header_labels, range(self.settings.row_header_y_start(), loop_stop, self.settings.space_height())):
+        for label, y in zip(
+                self.row_header_labels,
+                range(self.settings.row_header_y_start(), loop_stop, self.settings.space_height())
+        ):
             tmp_rect = label.get_rect()
             tmp_rect.left = self.settings.row_header_x_left()
             tmp_rect.top = y
@@ -153,29 +163,31 @@ class ShittyBoard:
             tmp_rect.left = self.settings.row_header_x_right()
             self.screen.blit(label, tmp_rect)
 
-    # there should be a way to make this method accept any sequence of 3 ints, or a pygame.Color, and still work
     def draw_space_border(
-        self,
-        rect: pygame.Rect,
-        color: Tuple[int, int, int],
-        color_mid: Tuple[int, int, int],
-        alpha: int,
-        alpha_mid: int,
-        bar_sz: int
+            self,
+            rect: pygame.Rect,
+            color: Tuple[int, int, int],
+            color_mid: Tuple[int, int, int],
+            alpha: int,
+            alpha_mid: int,
+            thickness: int
     ) -> NoReturn:
-        """
-        borders a space based on rect argument
-        """
+        """borders a space based on rect argument"""
 
         bar_color = pygame.Color(*color, alpha)
         bar_color_mid = pygame.Color(*color_mid, alpha_mid)
+
+        # edge widths
         h_bar_width = int(self.settings.space_width() / 3)
         v_bar_height = int(self.settings.space_height() / 3)
-        h_bar_v_movement = self.settings.space_height() - bar_sz
-        v_bar_h_movement = self.settings.space_width() - bar_sz
+
+        # center widths
+
+        h_bar_v_movement = self.settings.space_height() - thickness
+        v_bar_h_movement = self.settings.space_width() - thickness
 
         # draws vertical border bars
-        v_bar = pygame.Rect(rect.left, rect.top, bar_sz, v_bar_height)
+        v_bar = pygame.Rect(rect.left, rect.top, thickness, v_bar_height)
         pygame.draw.rect(self.screen, bar_color, v_bar)
         v_bar.top += v_bar_height
         pygame.draw.rect(self.screen, bar_color_mid, v_bar)
@@ -189,7 +201,7 @@ class ShittyBoard:
         pygame.draw.rect(self.screen, bar_color, v_bar)
 
         # draws horizontal border bars
-        h_bar = pygame.Rect(rect.left, rect.top, h_bar_width, bar_sz)
+        h_bar = pygame.Rect(rect.left, rect.top, h_bar_width, thickness)
         pygame.draw.rect(self.screen, bar_color, h_bar)
         h_bar.left += h_bar_width
         pygame.draw.rect(self.screen, bar_color_mid, h_bar)
@@ -203,14 +215,12 @@ class ShittyBoard:
         pygame.draw.rect(self.screen, bar_color, h_bar)
 
     def draw_space_highlight(
-        self,
-        rect: pygame.Rect,
-        color: Tuple[int, int, int],
-        alpha: int
+            self,
+            rect: pygame.Rect,
+            color: Tuple[int, int, int],
+            alpha: int
     ) -> NoReturn:
-        """
-        highlights a space based on rect argument
-        """
+        """highlights a space based on rect argument"""
 
         width = self.settings.space_width()
         height = self.settings.space_height()
@@ -219,13 +229,14 @@ class ShittyBoard:
         self.screen.blit(translucent_surface, rect)
 
     def highlight_space(
-        self,
-        coords: str,
-        space_color: Tuple[int, int, int] = (0, 170, 255),
-        space_alpha: int = 100
+            self,
+            coords: str,
+            space_color: Tuple[int, int, int] = (0, 170, 255),
+            space_alpha: int = 100
     ) -> NoReturn:
         """
-        takes chess coordinates and gets a rect for it, then calls self.draw_space_highlight on that rect
+        takes chess coordinates and gets a rect for it,
+        then calls self.draw_space_highlight on that rect
         """
 
         tmp_rect = pygame.Rect.copy(self.logic.coords_to_rect(coords))
@@ -233,15 +244,15 @@ class ShittyBoard:
 
     # make a class out of this dumb shit
     def highlight_and_border_space(
-        self,
-        coords: str,
-        space_color: Tuple[int, int, int] = (0, 170, 255),
-        space_alpha: int = 100,
-        border_color: Tuple[int, int, int] = (0, 0, 0),
-        mid_border_color: Tuple[int, int, int] = (255, 255, 255),
-        border_alpha: int = 255,
-        mid_border_alpha: int = 255,
-        border_thickness: int = 2
+            self,
+            coords: str,
+            space_color: Tuple[int, int, int] = (0, 170, 255),
+            space_alpha: int = 100,
+            border_color: Tuple[int, int, int] = (0, 0, 0),
+            mid_border_color: Tuple[int, int, int] = (255, 255, 255),
+            border_alpha: int = 255,
+            mid_border_alpha: int = 255,
+            border_thickness: int = 2
     ) -> NoReturn:
         """
         highlights and borders a space on the board from a chess coord str
@@ -251,12 +262,12 @@ class ShittyBoard:
         tmp_rect = pygame.Rect.copy(self.logic.coords_to_rect(coords))
         self.draw_space_highlight(tmp_rect, color=space_color, alpha=space_alpha)
         self.draw_space_border(
-            tmp_rect,
+            rect=tmp_rect,
             color=border_color,
             color_mid=mid_border_color,
             alpha=border_alpha,
             alpha_mid=mid_border_alpha,
-            bar_sz=border_thickness
+            thickness=border_thickness
         )
 
     def highlight_valid_moves(self, piece: ShittyPiece) -> NoReturn:

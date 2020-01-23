@@ -1,6 +1,6 @@
 # coding=utf-8
 
-
+from os import PathLike
 from typing import NoReturn
 
 import pathlib
@@ -10,7 +10,11 @@ class ShittySettings:
     """class to store the game settings in"""
 
     def __init__(self) -> NoReturn:
+        """constructor"""
+
         # general declarations/initializations
+        app_icon = pathlib.Path('shitty_art/shitty_knight_black.png')
+        self.app_icon_path = str(app_icon)
         self.debug = True
         self.cols = 8
         self.rows = 8
@@ -18,38 +22,38 @@ class ShittySettings:
         self.__space_height = 60
 
         # board theme image paths
-        self.space_path_solid_black = str(pathlib.Path('shitty_art/space_solid_black.png'))
-        self.space_path_solid_white = str(pathlib.Path('shitty_art/space_solid_white.png'))
+        self.space_path_solid_black = 'shitty_art/space_solid_black.png'
+        self.space_path_solid_white = 'shitty_art/space_solid_white.png'
 
-        self.space_path_wood_black = str(pathlib.Path('shitty_art/space_wood_black.png'))
-        self.space_path_wood_white = str(pathlib.Path('shitty_art/space_wood_white.png'))
+        self.space_path_wood_black = 'shitty_art/space_wood_black.png'
+        self.space_path_wood_white = 'shitty_art/space_wood_white.png'
 
         # game piece image paths
-        self.shitty_pawn_black_path = str(pathlib.Path('shitty_art/shitty_pawn_black.png'))
-        self.shitty_pawn_white_path = str(pathlib.Path('shitty_art/shitty_pawn_white.png'))
-        self.shitty_rook_black_path = str(pathlib.Path('shitty_art/shitty_rook_black.png'))
-        self.shitty_rook_white_path = str(pathlib.Path('shitty_art/shitty_rook_white.png'))
-        self.shitty_bishop_black_path = str(pathlib.Path('shitty_art/shitty_bishop_black.png'))
-        self.shitty_bishop_white_path = str(pathlib.Path('shitty_art/shitty_bishop_white.png'))
-        self.shitty_knight_black_path = str(pathlib.Path('shitty_art/shitty_knight_black.png'))
-        self.shitty_knight_white_path = str(pathlib.Path('shitty_art/shitty_knight_white.png'))
-        self.shitty_queen_black_path = str(pathlib.Path('shitty_art/shitty_queen_black.png'))
-        self.shitty_queen_white_path = str(pathlib.Path('shitty_art/shitty_queen_white.png'))
-        self.shitty_king_black_path = str(pathlib.Path('shitty_art/shitty_king_black.png'))
-        self.shitty_king_white_path = str(pathlib.Path('shitty_art/shitty_king_white.png'))
+        self.shitty_pawn_black_path = 'shitty_art/shitty_pawn_black.png'
+        self.shitty_pawn_white_path = 'shitty_art/shitty_pawn_white.png'
+        self.shitty_rook_black_path = 'shitty_art/shitty_rook_black.png'
+        self.shitty_rook_white_path = 'shitty_art/shitty_rook_white.png'
+        self.shitty_bishop_black_path = 'shitty_art/shitty_bishop_black.png'
+        self.shitty_bishop_white_path = 'shitty_art/shitty_bishop_white.png'
+        self.shitty_knight_black_path = 'shitty_art/shitty_knight_black.png'
+        self.shitty_knight_white_path = 'shitty_art/shitty_knight_white.png'
+        self.shitty_queen_black_path = 'shitty_art/shitty_queen_black.png'
+        self.shitty_queen_white_path = 'shitty_art/shitty_queen_white.png'
+        self.shitty_king_black_path = 'shitty_art/shitty_king_black.png'
+        self.shitty_king_white_path = 'shitty_art/shitty_king_white.png'
 
-        self.trad_pawn_black_path = str(pathlib.Path('shitty_art/trad_pawn_black.png'))
-        self.trad_pawn_white_path = str(pathlib.Path('shitty_art/trad_pawn_white.png'))
-        self.trad_rook_black_path = str(pathlib.Path('shitty_art/trad_rook_black.png'))
-        self.trad_rook_white_path = str(pathlib.Path('shitty_art/trad_rook_white.png'))
-        self.trad_bishop_black_path = str(pathlib.Path('shitty_art/trad_bishop_black.png'))
-        self.trad_bishop_white_path = str(pathlib.Path('shitty_art/trad_bishop_white.png'))
-        self.trad_knight_black_path = str(pathlib.Path('shitty_art/trad_knight_black.png'))
-        self.trad_knight_white_path = str(pathlib.Path('shitty_art/trad_knight_white.png'))
-        self.trad_queen_black_path = str(pathlib.Path('shitty_art/trad_queen_black.png'))
-        self.trad_queen_white_path = str(pathlib.Path('shitty_art/trad_queen_white.png'))
-        self.trad_king_black_path = str(pathlib.Path('shitty_art/trad_king_black.png'))
-        self.trad_king_white_path = str(pathlib.Path('shitty_art/trad_king_white.png'))
+        self.trad_pawn_black_path = 'shitty_art/trad_pawn_black.png'
+        self.trad_pawn_white_path = 'shitty_art/trad_pawn_white.png'
+        self.trad_rook_black_path = 'shitty_art/trad_rook_black.png'
+        self.trad_rook_white_path = 'shitty_art/trad_rook_white.png'
+        self.trad_bishop_black_path = 'shitty_art/trad_bishop_black.png'
+        self.trad_bishop_white_path = 'shitty_art/trad_bishop_white.png'
+        self.trad_knight_black_path = 'shitty_art/trad_knight_black.png'
+        self.trad_knight_white_path = 'shitty_art/trad_knight_white.png'
+        self.trad_queen_black_path = 'shitty_art/trad_queen_black.png'
+        self.trad_queen_white_path = 'shitty_art/trad_queen_white.png'
+        self.trad_king_black_path = 'shitty_art/trad_king_black.png'
+        self.trad_king_white_path = 'shitty_art/trad_king_white.png'
 
         # header variables declarations/initializations
         self.headers_enabled = True
@@ -62,8 +66,10 @@ class ShittySettings:
         self.header_font_sz = 15
         self.header_font_width = self.header_font_sz
         self.header_font_height = self.header_font_sz
-        self.header_font_path = str(pathlib.Path('fonts/LiberationMono-Regular.ttf'))
-        # self.header_font_bold_path = str(pathlib.Path('fonts/LiberationMono-Bold.ttf'))
+        header_font = pathlib.Path('fonts/LiberationMono-Regular.ttf')
+        self.header_font_path = str(header_font)
+        header_font_bold = pathlib.Path('fonts/LiberationMono-Bold.ttf')
+        self.header_font_bold_path = str(header_font_bold)
 
         # assorted colors
         self.color_white = (255, 255, 255)
@@ -76,81 +82,82 @@ class ShittySettings:
         self.exiting = False
         self.turn_black = False
 
-    # all these should be condensed to one method each with a bool for color
-    def pawn_path_black(self) -> str:
+    def pawn_path(self, black: bool) -> PathLike:
+        """returns pawn image path"""
+
+        if black:
+            if self.shitty_mode:
+                return pathlib.Path(self.shitty_pawn_black_path)
+            return pathlib.Path(self.trad_pawn_black_path)
         if self.shitty_mode:
-            return self.shitty_pawn_black_path
-        return self.trad_pawn_black_path
+            return pathlib.Path(self.shitty_pawn_white_path)
+        return pathlib.Path(self.trad_pawn_white_path)
 
-    def pawn_path_white(self) -> str:
+    def rook_path(self, black: bool) -> PathLike:
+        """returns rook image path"""
+
+        if black:
+            if self.shitty_mode:
+                return pathlib.Path(self.shitty_rook_black_path)
+            return pathlib.Path(self.trad_rook_black_path)
         if self.shitty_mode:
-            return self.shitty_pawn_white_path
-        return self.trad_pawn_white_path
+            return pathlib.Path(self.shitty_rook_white_path)
+        return pathlib.Path(self.trad_rook_white_path)
 
-    def rook_path_black(self) -> str:
+    def bishop_path(self, black: bool) -> PathLike:
+        """returns bishop image path"""
+
+        if black:
+            if self.shitty_mode:
+                return pathlib.Path(self.shitty_bishop_black_path)
+            return pathlib.Path(self.trad_bishop_black_path)
         if self.shitty_mode:
-            return self.shitty_rook_black_path
-        return self.trad_rook_black_path
+            return pathlib.Path(self.shitty_bishop_white_path)
+        return pathlib.Path(self.trad_bishop_white_path)
 
-    def rook_path_white(self) -> str:
+    def knight_path(self, black: bool) -> PathLike:
+        """returns knight image path"""
+
+        if black:
+            if self.shitty_mode:
+                return pathlib.Path(self.shitty_knight_black_path)
+            return pathlib.Path(self.trad_knight_black_path)
         if self.shitty_mode:
-            return self.shitty_rook_white_path
-        return self.trad_rook_white_path
+            return pathlib.Path(self.shitty_knight_white_path)
+        return pathlib.Path(self.trad_knight_white_path)
 
-    def bishop_path_black(self) -> str:
+    def queen_path(self, black: bool) -> PathLike:
+        """returns queen image path"""
+
+        if black:
+            if self.shitty_mode:
+                return pathlib.Path(self.shitty_queen_black_path)
+            return pathlib.Path(self.trad_queen_black_path)
         if self.shitty_mode:
-            return self.shitty_bishop_black_path
-        return self.trad_bishop_black_path
+            return pathlib.Path(self.shitty_queen_white_path)
+        return pathlib.Path(self.trad_queen_white_path)
 
-    def bishop_path_white(self) -> str:
+    def king_path(self, black: bool) -> PathLike:
+        """returns king image path"""
+
+        if black:
+            if self.shitty_mode:
+                return pathlib.Path(self.shitty_king_black_path)
+            return pathlib.Path(self.trad_king_black_path)
         if self.shitty_mode:
-            return self.shitty_bishop_white_path
-        return self.trad_bishop_white_path
+            return pathlib.Path(self.shitty_king_white_path)
+        return pathlib.Path(self.trad_king_white_path)
 
-    def knight_path_black(self) -> str:
-        if self.shitty_mode:
-            return self.shitty_knight_black_path
-        return self.trad_knight_black_path
+    def space_path(self, black: bool) -> PathLike:
+        """returns board space image path"""
 
-    def knight_path_white(self) -> str:
-        if self.shitty_mode:
-            return self.shitty_knight_white_path
-        return self.trad_knight_white_path
-
-    def queen_path_black(self) -> str:
-        if self.shitty_mode:
-            return self.shitty_queen_black_path
-        return self.trad_queen_black_path
-
-    def queen_path_white(self) -> str:
-        if self.shitty_mode:
-            return self.shitty_queen_white_path
-        return self.trad_queen_white_path
-
-    def king_path_black(self) -> str:
-        if self.shitty_mode:
-            return self.shitty_king_black_path
-        return self.trad_king_black_path
-
-    def king_path_white(self) -> str:
-        if self.shitty_mode:
-            return self.shitty_king_white_path
-        return self.trad_king_white_path
-
-    # these should be condensed to one method also with a bool for color
-    def space_path_black(self) -> str:
-        """returns path for current black board space image"""
-
+        if black:
+            if self.board_theme_wood:
+                return pathlib.Path(self.space_path_wood_black)
+            return pathlib.Path(self.space_path_solid_black)
         if self.board_theme_wood:
-            return self.space_path_wood_black
-        return self.space_path_solid_black
-
-    def space_path_white(self) -> str:
-        """returns path for current white board image image"""
-
-        if self.board_theme_wood:
-            return self.space_path_wood_white
-        return self.space_path_solid_white
+            return pathlib.Path(self.space_path_wood_white)
+        return pathlib.Path(self.space_path_solid_white)
 
     def row_header_width(self) -> int:
         """returns row header width in pixels"""
@@ -174,11 +181,15 @@ class ShittySettings:
 
     def row_header_y_start(self) -> int:
         """
-        returns the y coordinate to start iterating the row header labels at
+        returns the y coordinate to start iterating the row header labels at,
         increment it by self.space_height()
         """
 
-        return int(self.col_header_height() + (self.space_height() / 2) - (self.header_font_height / 2))
+        return int(
+            self.col_header_height() \
+            + (self.space_height() / 2) \
+            - (self.header_font_height / 2)
+        )
 
     def row_header_x_left(self) -> int:
         """returns the x coordinate for all left row header labels"""
@@ -188,15 +199,23 @@ class ShittySettings:
     def row_header_x_right(self) -> int:
         """returns the x coordinate for all right row header labels"""
 
-        return int(self.board_width() + self.row_header_width() + ((self.row_header_width() - self.header_font_width) / 2))
+        return int(
+            self.board_width() \
+            + self.row_header_width() \
+            + ((self.row_header_width() - self.header_font_width) / 2)
+        )
 
     def col_header_x_start(self) -> int:
         """
-        returns the x coordinate to start iterating the column header labels at
-        increment it by self.space_width()
+        returns the x coordinate to start iterating the column header labels
+        at, increment it by self.space_width()
         """
 
-        return int(self.row_header_width() + (self.space_width() / 2) - (self.header_font_width / 2))
+        return int(
+            self.row_header_width() \
+            + (self.space_width() / 2) \
+            - (self.header_font_width / 2)
+        )
 
     def col_header_y_top(self) -> int:
         """returns the y coordinate for all top column header labels"""
@@ -206,7 +225,11 @@ class ShittySettings:
     def col_header_y_bottom(self) -> int:
         """returns the y coordinate for all bottom column header labels"""
 
-        return int(self.board_height() + self.col_header_height() + ((self.col_header_height() - self.header_font_height) / 2))
+        return int(
+            self.board_height() \
+            + self.col_header_height() \
+            + ((self.col_header_height() - self.header_font_height) / 2)
+        )
 
     def space_width(self) -> int:
         """returns the width of a board space in pixels"""
