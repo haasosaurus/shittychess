@@ -17,13 +17,14 @@ class ShittySettings:
         self.__space_width = 60
         self.__space_height = 60
 
-        self.space_path_solid_black = str(pathlib.Path('shitty_art/space_black.png'))
-        self.space_path_solid_white = str(pathlib.Path('shitty_art/space_white.png'))
+        # board theme image paths
+        self.space_path_solid_black = str(pathlib.Path('shitty_art/space_solid_black.png'))
+        self.space_path_solid_white = str(pathlib.Path('shitty_art/space_solid_white.png'))
 
         self.space_path_wood_black = str(pathlib.Path('shitty_art/space_wood_black.png'))
         self.space_path_wood_white = str(pathlib.Path('shitty_art/space_wood_white.png'))
 
-        # game piece paths
+        # game piece image paths
         self.shitty_pawn_black_path = str(pathlib.Path('shitty_art/shitty_pawn_black.png'))
         self.shitty_pawn_white_path = str(pathlib.Path('shitty_art/shitty_pawn_white.png'))
         self.shitty_rook_black_path = str(pathlib.Path('shitty_art/shitty_rook_black.png'))
@@ -75,6 +76,7 @@ class ShittySettings:
         self.exiting = False
         self.turn_black = False
 
+    # all these should be condensed to one method each with a bool for color
     def pawn_path_black(self) -> str:
         if self.shitty_mode:
             return self.shitty_pawn_black_path
@@ -135,6 +137,7 @@ class ShittySettings:
             return self.shitty_king_white_path
         return self.trad_king_white_path
 
+    # these should be condensed to one method also with a bool for color
     def space_path_black(self) -> str:
         """returns path for current black board space image"""
 
