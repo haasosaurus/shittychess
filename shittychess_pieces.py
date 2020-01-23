@@ -40,6 +40,8 @@ class ShittyPiece(ShittySprite):
 
     # this needs to be fixed for sure
     def __bool__(self) -> bool:
+        """bool"""
+
         # if self.local_debug:
         #     print(type(self).__name__)
         #     print(type(self).__name__ != 'ShittyPiece')
@@ -61,9 +63,7 @@ class ShittyPiece(ShittySprite):
         self.rect.height = rect.height
 
     def move(self, rect: pygame.Rect) -> NoReturn:
-        """
-        moves the piece during game play
-        """
+        """moves the piece during game play"""
 
         if self.rect != rect:
             self.set_rect(rect)
@@ -71,9 +71,13 @@ class ShittyPiece(ShittySprite):
                 self.initial_position = False
 
     def move_patterns(self) -> ShittyMovementPatterns:
+        """returns move patters for this piece"""
+
         return self.movement_patterns
 
     def update(self) -> NoReturn:
+        """pygame sprite group helper method"""
+
         pass
 
 
@@ -115,6 +119,8 @@ class ShittyPawn(ShittyPiece):
         ]
 
     def move_patterns(self) -> ShittyMovementPatterns:
+        """returns specific move patterns for the pawn's current state"""
+
         if self.black:
             if self.initial_position:
                 return self.black_move_patterns_initial
