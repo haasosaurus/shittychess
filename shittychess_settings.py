@@ -16,6 +16,10 @@ class ShittySettings:
         self.rows = 8
         self.__space_width = 60
         self.__space_height = 60
+
+        self.space_path_solid_black = str(pathlib.Path('shitty_art/space_black.png'))
+        self.space_path_solid_white = str(pathlib.Path('shitty_art/space_white.png'))
+
         self.space_path_wood_black = str(pathlib.Path('shitty_art/space_wood_black.png'))
         self.space_path_wood_white = str(pathlib.Path('shitty_art/space_wood_white.png'))
 
@@ -67,6 +71,7 @@ class ShittySettings:
 
         # game state variables
         self.shitty_mode = False
+        self.board_theme_wood = False
         self.exiting = False
         self.turn_black = False
 
@@ -133,12 +138,16 @@ class ShittySettings:
     def space_path_black(self) -> str:
         """returns path for current black board space image"""
 
-        return self.space_path_wood_black
+        if self.board_theme_wood:
+            return self.space_path_wood_black
+        return self.space_path_solid_black
 
     def space_path_white(self) -> str:
         """returns path for current white board image image"""
 
-        return self.space_path_wood_white
+        if self.board_theme_wood:
+            return self.space_path_wood_white
+        return self.space_path_solid_white
 
     def row_header_width(self) -> int:
         """returns row header width in pixels"""
