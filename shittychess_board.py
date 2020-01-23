@@ -200,7 +200,7 @@ class ShittyBoard:
         translucent_surface.fill(pygame.Color(*color, alpha))
         self.screen.blit(translucent_surface, rect)
 
-    def highlight_space(self, coords: str, space_color=(255, 255, 255), space_alpha=100) -> NoReturn:
+    def highlight_space(self, coords: str, space_color=(0, 170, 255), space_alpha=100) -> NoReturn:
         """
         takes chess coordinates and gets a rect for it, then calls self.draw_space_highlight on that rect
         """
@@ -208,7 +208,7 @@ class ShittyBoard:
         tmp_rect = pygame.Rect.copy(self.logic.coords_to_rect(coords))
         self.draw_space_highlight(tmp_rect, color=space_color, alpha=space_alpha)
 
-    def highlight_and_border_space(self, coords: str, space_color=(255, 255, 255), space_alpha=100, border_color=(255, 255, 255), border_alpha=255) -> NoReturn:
+    def highlight_and_border_space(self, coords: str, space_color=(0, 170, 255), space_alpha=100, border_color=(0, 0, 0), border_alpha=255) -> NoReturn:
         """
         highlights and borders a space on the board from a chess coord str
         should be used to show available moves to a player
