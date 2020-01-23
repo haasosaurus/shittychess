@@ -22,107 +22,84 @@ class ShittyLogic:
         self.settings = None  # ShittySettings
         self.board = None  # ShittyBoard
         self.layout = None  # ShittyLayout
-        self.__coords_to_space = {}
-        self.__coords_to_indexes = {}
-        self.__indexes_to_coords = {}
+        self.coords_to_chess_coords = {}
+        self.chess_coords_to_coords = {}
 
     def configure(self) -> NoReturn:
         """
         configure class's properties after they have been assigned externally
-        this sets up all the dicts and their matching dicts that i thought we
-        needed to make this 'logic' work
         """
 
-        for space in self.board.board_space_group.sprites():
-            self.__coords_to_space.update({space.coords: space})
-            self.__coords_to_indexes.update({space.coords: space.indexes})
-            self.__indexes_to_coords.update({space.indexes: space.coords})
+        for y, number in enumerate(self.settings.row_headers):
+            for x, letter in enumerate(self.settings.col_headers):
+                chess_coords = f'{letter}{number}'
+                coords = x, y
+                self.coords_to_chess_coords.update({coords: chess_coords})
+                self.chess_coords_to_coords.update({chess_coords: coords})
 
-    def xy_to_coords(self, x: int, y: int) -> Union[str, None]:
-        """takes mouse position (x and y) and returns chess coordinates"""
+    def mouse_to_coords(self, x: int, y: int) -> Union[Tuple[int, int], None]:
+        """
+        takes mouse position (x and y) and returns zero-indexed x, y
+        coordinates
+        """
 
-        # this should throw an exception if len(collisions) > 1
         collisions = pygame.sprite.spritecollide(
             ShittyMousePointer(x, y),
-            self.board.board_space_group,
+            self.board.spaces_group,
             False
         )
         if len(collisions) == 1:
             return collisions[0].coords
         return None
 
-    def coords_to_indexes(self, coords: str) -> Union[Tuple[int, int], None]:
-        """
-        takes chess coordinates, returns the corresponding zero-indexed tuple
-        with 2D list indexes for the board space, or None if not found
-        0, 5 = ShittyLogic.coords_to_indexes('f4')
-        """
+    def mouse_to_sprite(
+            self,
+            x: int,
+            y: int,
+            black: bool
+    ) -> Union[ShittyPiece, None]:
+        """returns piece sprite if clicked, or None"""
 
-        if coords in self.__coords_to_indexes:
-            return self.__coords_to_indexes[coords]
+        if black:
+            target_group = self.layout.sprite_group_black
+        else:
+            target_group = self.layout.sprite_group_white
+        collisions = pygame.sprite.spritecollide(
+            ShittyMousePointer(x, y),
+            target_group,
+            False
+        )
+        if len(collisions) == 1:
+            return collisions[0]
         return None
 
-    def coords_to_rect(self, coords: str) -> Union[pygame.Rect, None]:
+    def coords_to_rect(self, coords: Tuple[int, int]) -> Union[pygame.Rect, None]:
         """
-        takes chess coordinates, returns a pygame.Rect object of the
-        corresponding board space or None if not found
-        pygame.Rect(0, 120, 60, 60) = ShittyLogic.coords_to_rect('f4')
+        takes zero-indexed x, y board space coordinates to board space and
+        returns a pygame.Rect
         """
 
-        if coords in self.__coords_to_space:
-            return pygame.Rect.copy(self.__coords_to_space[coords].rect)
+        return pygame.Rect.copy(self.board.spaces[coords].rect)
+
+    def coords_to_sprite(self, coords: Tuple[int, int]) -> Union[ShittyPiece, None]:
+        """
+        takes zero-indexed x, y board space coordinates and returns sprite if
+        sprite exists at coords else returns None
+        """
+
+        for sprite in self.layout.sprite_group_all.sprites():
+            if sprite.coords == coords:
+                return sprite
         return None
 
-    def indexes_to_coords(self, indexes: Tuple[int, int]) -> Union[str, None]:
-        """
-        takes a zero-indexed tuple with 2D list indexes, returns the
-        corresponding chess notation for a board space or None if not found
-        'f4' = ShittyLogic.indexes_to_coords(0, 5)
-        """
-
-        if indexes in self.__indexes_to_coords:
-            return self.__indexes_to_coords[indexes]
-        return None
-
-    def indexes_to_rect(self, indexes: Tuple[int, int]) -> Union[pygame.Rect, None]:
-        """
-        takes a zero-indexed tuple with 2D list indexes, returns a pygame.Rect
-        object of the corresponding board space or None if not found
-        pygame.Rect(0, 120, 60, 60) = ShittyLogic.indexes_to_rect(0, 5)
-        """
-
-        return self.coords_to_rect(self.indexes_to_coords(indexes))
-
-    def rect_to_coords(self, rect: pygame.Rect) -> Union[str, None]:
-        """
-        takes a pygame.Rect object, returns the corresponding chess notation
-        for a board space or None if not found
-        'f4' = ShittyLogic.rect_to_coords(pygame.Rect(0, 120, 60, 60))
-        """
-
-        for space in self.board.board_space_group.sprites():
-            if space.rect == rect:
-                return space.coords
-        return None
-
-    def rect_to_indexes(self, rect: pygame.Rect) -> Union[Tuple[int, int], None]:
-        """
-        takes a pygame.Rect object, returns the corresponding zero-indexed
-        tuple with 2D list indexes for the board space, or None if not found
-        0, 5 = ShittyLogic.rect_to_indexes(pygame.Rect(0, 120, 60, 60))
-        """
-
-        return self.coords_to_indexes(self.rect_to_coords(rect))
-
-    def __valid_space_coords(self, piece: ShittyPiece) -> List[str]:
+    def __valid_space_coords(self, piece: ShittyPiece) -> List[Tuple[int, int]]:
         """
         make a list of valid moves for a piece that are on the game board,
-        no other error checking performed. return them as a list of chess
-        coordinate strings
+        no other error checking performed. return them as a list of
+        zero-indexed x, y board space coordinates
         """
 
         space_coords = []
-        piece_indexes = self.coords_to_indexes(piece.coords)
         if piece.move_patterns().horizontal > 0:
             pass
         if piece.move_patterns().vertical > 0:
@@ -130,15 +107,15 @@ class ShittyLogic:
         if piece.move_patterns().diagonal > 0:
             pass
         for pattern in piece.move_patterns().pattern_list:
-            x = piece_indexes[0] + pattern[0]
+            x = piece.coords[0] + pattern[0]
             if x >= self.settings.cols or x < 0:
                 continue
-            y = piece_indexes[1] + pattern[1]
+            y = piece.coords[1] + pattern[1]
             if self.settings.rows > y >= 0:
-                space_coords.append(self.indexes_to_coords((x, y)))
+                space_coords.append((x, y))
         return space_coords
 
-    def valid_move_coords(self, piece: ShittyPiece) -> List[str]:
+    def valid_move_coords(self, piece: ShittyPiece) -> List[Tuple[int, int]]:
         """
         get valid move space list from self.__valid_space_coords, and run more in
         depth tests on them to make sure they are really valid move coordinates
@@ -148,7 +125,7 @@ class ShittyLogic:
         valid_move_coords = self.__valid_space_coords(piece)
         invalid_move_coords = []
         for coords in valid_move_coords:
-            sprite = self.layout.coords_to_sprite(coords)
+            sprite = self.coords_to_sprite(coords)
 
             # if there is a sprite at coords
             if sprite:
@@ -164,8 +141,8 @@ class ShittyLogic:
             for coords in valid_move_coords:
 
                 # if moving diagonally
-                if self.coords_to_indexes(coords)[0] != self.coords_to_indexes(piece.coords)[0]:
-                    sprite = self.layout.coords_to_sprite(coords)
+                if coords[0] != piece.coords[0]:
+                    sprite = self.coords_to_sprite(coords)
 
                     # if a sprite is not there
                     if not sprite:
@@ -190,7 +167,7 @@ class ShittyLogic:
         returns True if it succeeds, False if it fails
         """
 
-        target_coords = self.xy_to_coords(x, y)
+        target_coords = self.mouse_to_coords(x, y)
         if target_coords:
             if target_coords != sprite.coords:
                 valid_move_coords = self.valid_move_coords(sprite)

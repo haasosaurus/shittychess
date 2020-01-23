@@ -21,7 +21,7 @@ class ShittySprite(pygame.sprite.Sprite):
             self,
             black: bool,
             rect: pygame.Rect,
-            coords: str,
+            coords: Tuple[int, int],
             img_path: Union[PathLike, str],
             **kwargs
     ) -> NoReturn:
@@ -47,11 +47,10 @@ class ShittySpace(ShittySprite):
             self,
             black: bool,
             rect: pygame.Rect,
-            coords: str,
+            coords: Tuple[int, int],
             img_path: Union[PathLike, str],
             **kwargs
     ) -> NoReturn:
         """constructor"""
 
         super().__init__(black, rect, coords, img_path, **kwargs)
-        self.indexes: Union[Tuple[int, int], None] = None

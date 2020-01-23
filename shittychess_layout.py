@@ -3,12 +3,9 @@
 
 import itertools
 from typing import NoReturn
-from typing import Union
 
 import pygame
 
-from shittychess_sprites import ShittyMousePointer
-from shittychess_pieces import ShittyPiece
 from shittychess_pieces import ShittyPawn
 from shittychess_pieces import ShittyKnight
 from shittychess_pieces import ShittyBishop
@@ -18,22 +15,13 @@ from shittychess_pieces import ShittyKing
 
 
 class ShittyGroup(pygame.sprite.LayeredUpdates):
-    """subclassing sprite Group to add more functionality"""
+    """
+    subclassing sprite Group to add more functionality
+    probably don't need this anymore
+    """
 
     def __init__(self):
         pygame.sprite.LayeredUpdates.__init__(self)
-
-    def sprite_exists(self, coords: str) -> bool:
-        for sprite in self.sprites():
-            if sprite.coords == coords:
-                return True
-        return False
-
-    def coords_to_sprite(self, coords: str) -> Union[ShittyPiece, None]:
-        for sprite in self.sprites():
-            if sprite.coords == coords:
-                return sprite
-        return None
 
 
 class ShittyLayout:
@@ -104,71 +92,25 @@ class ShittyLayout:
 
         self.clear()
         for piece in self.initial_piece_layout:
+            coords = self.logic.chess_coords_to_coords[piece[0]]
             if piece[2]:
                 self.sprite_group_black.add(piece[1](
                     piece[2],
-                    self.logic.coords_to_rect(piece[0]),
-                    piece[0],
+                    self.logic.coords_to_rect(coords),
+                    coords,
                     piece[3]))
             else:
                 self.sprite_group_white.add(piece[1](
                     piece[2],
-                    self.logic.coords_to_rect(piece[0]),
-                    piece[0],
+                    self.logic.coords_to_rect(coords),
+                    coords,
                     piece[3]))
+
         for sprite in itertools.chain(
                 self.sprite_group_black,
                 self.sprite_group_white
         ):
             self.sprite_group_all.add(sprite)
-
-    # events: 2 -
-    def click_to_sprite(
-            self,
-            x: int,
-            y: int,
-            black: bool
-    ) -> Union[ShittyPiece, None]:
-        """returns piece sprite if clicked, or None"""
-
-        if black:
-            target_group = self.sprite_group_black
-        else:
-            target_group = self.sprite_group_white
-        collisions = pygame.sprite.spritecollide(
-            ShittyMousePointer(x, y),
-            target_group,
-            False
-        )
-        if len(collisions) == 1:
-            return collisions[0]
-        return None
-
-    def coords_to_sprite(self, coords: str) -> Union[ShittyPiece, None]:
-        """
-        pass chess coords, returns sprite if sprite exists at coords
-        else returns None
-        """
-
-        return self.sprite_group_all.coords_to_sprite(coords)
-
-    # logic 1 -
-    def sprite_exists_all(self, coords: str) -> bool:
-        """returns True if sprite any sprite at coords, else returns False"""
-
-        return self.sprite_group_all.sprite_exists(coords)
-
-    # logic 1 -
-    def sprite_exists_black(self, coords: str) -> bool:
-        """returns True if any black sprite is at coords, else returns False"""
-
-        return self.sprite_group_black.sprite_exists(coords)
-
-    # logic 1 -
-    def sprite_exists_white(self, coords: str) -> bool:
-        """returns True if any white sprite is at coords, else returns False"""
-
-        return self.sprite_group_white.sprite_exists(coords)
 
     def draw(self) -> NoReturn:
         """draw all the pieces"""

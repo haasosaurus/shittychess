@@ -24,7 +24,8 @@ class ShittyBoard:
 
         self.current_board_start_x = 0
         self.current_board_start_y = 0
-        self.board_space_group = pygame.sprite.Group()
+        self.spaces = {}
+        self.spaces_group = pygame.sprite.Group()
 
     def configure(self) -> NoReturn:
         """
@@ -34,16 +35,16 @@ class ShittyBoard:
         self.render_header_labels()
         self.current_board_start_x = self.settings.board_start_x()
         self.current_board_start_y = self.settings.board_start_y()
-        self.create_board_space_group()
+        self.create_spaces()
 
-    def create_board_space_group(self) -> NoReturn:
+    def create_spaces(self) -> NoReturn:
         """
         creates all of the black and white board spaces as sprites and puts
         them all in a sprite group
         """
 
-        for y, number in enumerate(self.settings.row_headers):
-            for x, letter in enumerate(self.settings.col_headers):
+        for y in range(self.settings.rows):
+            for x in range(self.settings.cols):
                 is_black = True
 
                 # if row even and col even or if row odd and col odd: white
@@ -61,13 +62,17 @@ class ShittyBoard:
                 tmp_space = ShittySpace(
                     is_black,
                     pygame.Rect(pos_x, pos_y, width, height),
-                    f'{letter}{number}',
+                    (x, y),
                     space_image_path,
                 )
-                tmp_space.indexes = x, y
 
-                # add space to board_space_group pygame.sprite.Group
-                self.board_space_group.add(tmp_space)
+                # add to spaces dict
+                self.spaces.update({(x, y): tmp_space})
+
+                for space in self.spaces.values():
+
+                    # add space to spaces_group pygame.sprite.Group
+                    self.spaces_group.add(space)
 
     def resize(self) -> NoReturn:
         """
@@ -77,7 +82,7 @@ class ShittyBoard:
 
         x_change = self.settings.board_start_x() - self.current_board_start_x
         y_change = self.settings.board_start_y() - self.current_board_start_y
-        for space in self.board_space_group.sprites():
+        for space in self.spaces_group.sprites():
             space.rect.left += x_change
             space.rect.top += y_change
         self.current_board_start_x = self.settings.board_start_x()
@@ -124,7 +129,7 @@ class ShittyBoard:
         """draws all board elements on the screen"""
 
         # draw the board
-        self.board_space_group.draw(self.screen)
+        self.spaces_group.draw(self.screen)
 
         # draws headers if enabled
         if self.settings.headers_enabled:
@@ -230,22 +235,21 @@ class ShittyBoard:
 
     def highlight_space(
             self,
-            coords: str,
+            coords: Tuple[int, int],
             space_color: Tuple[int, int, int] = (0, 170, 255),
             space_alpha: int = 100
     ) -> NoReturn:
         """
-        takes chess coordinates and gets a rect for it,
+        takes zero-indexed x, y board coordinates and gets a rect for it,
         then calls self.draw_space_highlight on that rect
         """
 
-        tmp_rect = pygame.Rect.copy(self.logic.coords_to_rect(coords))
+        tmp_rect = pygame.Rect.copy(self.spaces[coords].rect)
         self.draw_space_highlight(tmp_rect, color=space_color, alpha=space_alpha)
 
-    # make a class out of this dumb shit
     def highlight_and_border_space(
             self,
-            coords: str,
+            coords: Tuple[int, int],
             space_color: Tuple[int, int, int] = (0, 170, 255),
             space_alpha: int = 100,
             border_color: Tuple[int, int, int] = (0, 0, 0),
@@ -255,11 +259,11 @@ class ShittyBoard:
             border_thickness: int = 2
     ) -> NoReturn:
         """
-        highlights and borders a space on the board from a chess coord str
-        should be used to show available moves to a player
+        highlights and borders a space on the board from zero-indexed x, y board
+        coordinates should be used to show available moves to a player
         """
 
-        tmp_rect = pygame.Rect.copy(self.logic.coords_to_rect(coords))
+        tmp_rect = pygame.Rect.copy(self.spaces[coords].rect)
         self.draw_space_highlight(tmp_rect, color=space_color, alpha=space_alpha)
         self.draw_space_border(
             rect=tmp_rect,

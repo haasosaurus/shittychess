@@ -2,6 +2,7 @@
 
 from os import PathLike
 from typing import Union
+from typing import Tuple
 from typing import NoReturn
 
 import pygame
@@ -26,7 +27,7 @@ class ShittyPiece(ShittySprite):
             self,
             black: bool,
             rect: pygame.Rect,
-            coords: str,
+            coords: Tuple[int, int],
             img_path: Union[PathLike, str],
             **kwargs
     ) -> NoReturn:
@@ -42,10 +43,7 @@ class ShittyPiece(ShittySprite):
         used for resizing and such not moving a piece
         """
 
-        self.rect.left = rect.left
-        self.rect.top = rect.top
-        self.rect.width = rect.width
-        self.rect.height = rect.height
+        self.rect = pygame.Rect.copy(rect)
 
     def move(self, rect: pygame.Rect) -> NoReturn:
         """moves the piece during game play"""
@@ -56,7 +54,7 @@ class ShittyPiece(ShittySprite):
                 self.initial_position = False
 
     def move_patterns(self) -> ShittyMovementPatterns:
-        """returns move patters for this piece"""
+        """returns move patterns for this piece"""
 
         return self.movement_patterns
 
@@ -74,7 +72,7 @@ class ShittyPawn(ShittyPiece):
             self,
             black: bool,
             rect: pygame.Rect,
-            coords: str,
+            coords: Tuple[int, int],
             img_path: Union[PathLike, str]
     ) -> NoReturn:
         """constructor"""
@@ -124,7 +122,7 @@ class ShittyRook(ShittyPiece):
             self,
             black: bool,
             rect: pygame.Rect,
-            coords: str,
+            coords: Tuple[int, int],
             img_path: Union[PathLike, str]
     ) -> NoReturn:
         """constructor"""
@@ -143,7 +141,7 @@ class ShittyBishop(ShittyPiece):
             self,
             black: bool,
             rect: pygame.Rect,
-            coords: str,
+            coords: Tuple[int, int],
             img_path: Union[PathLike, str]
     ) -> NoReturn:
         """constructor"""
@@ -161,7 +159,7 @@ class ShittyKnight(ShittyPiece):
             self,
             black: bool,
             rect: pygame.Rect,
-            coords: str,
+            coords: Tuple[int, int],
             img_path: Union[PathLike, str]
     ) -> NoReturn:
         """constructor"""
@@ -184,7 +182,7 @@ class ShittyQueen(ShittyPiece):
             self,
             black: bool,
             rect: pygame.Rect,
-            coords: str,
+            coords: Tuple[int, int],
             img_path: Union[PathLike, str]
     ) -> NoReturn:
         """constructor"""
@@ -204,7 +202,7 @@ class ShittyKing(ShittyPiece):
             self,
             black: bool,
             rect: pygame.Rect,
-            coords: str,
+            coords: Tuple[int, int],
             img_path: Union[PathLike, str]
     ) -> NoReturn:
         """constructor"""

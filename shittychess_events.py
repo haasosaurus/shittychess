@@ -79,7 +79,7 @@ class ShittyEventHandler:
                     if not self.holding_piece:
                         self.board.sprite_to_highlight = None
                         x, y = pygame.mouse.get_pos()
-                        sprite = self.layout.click_to_sprite(x, y, black=self.settings.turn_black)
+                        sprite = self.logic.mouse_to_sprite(x, y, black=self.settings.turn_black)
                         if sprite:
                             pygame.mouse.get_rel()
                             self.board.sprite_to_highlight = sprite
@@ -98,7 +98,7 @@ class ShittyEventHandler:
                     # highlight available moves
                     if not self.holding_piece:
                         x, y = pygame.mouse.get_pos()
-                        sprite = self.layout.click_to_sprite(x, y, black=self.settings.turn_black)
+                        sprite = self.logic.mouse_to_sprite(x, y, black=self.settings.turn_black)
                         if sprite == self.board.sprite_to_highlight:
                             self.board.sprite_to_highlight = None
                         else:

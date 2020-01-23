@@ -52,8 +52,8 @@ class ShittyChess:
         self.event_handler.board = self.board
 
         # configure our property classes
-        self.board.configure()  # this should come before logic
         self.logic.configure()
+        self.board.configure()  # this should come before logic
         self.layout.configure()
         # self.event_handler.configure()
 
