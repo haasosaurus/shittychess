@@ -62,6 +62,7 @@ class ShittyChess:
 
         # assorted properties
         self.local_debug = False
+        self.launching = True
 
     def __del__(self):
         """destructor"""
@@ -77,12 +78,16 @@ class ShittyChess:
         """main loop of the program"""
 
         while not self.settings.exiting:
-            self.event_handler.process_events()
-            if self.settings.headers_enabled:
-                self.screen.fill(self.settings.header_background_color)
-            self.board.draw()
-            self.layout.draw()
-            pygame.display.flip()
+            redraw = self.event_handler.process_events()
+            if self.launching:
+                redraw = True
+                self.launching = False
+            if redraw:
+                if self.settings.headers_enabled:
+                    self.screen.fill(self.settings.header_background_color)
+                self.board.draw()
+                self.layout.draw()
+                pygame.display.flip()
             self.clock.tick(60)
 
 

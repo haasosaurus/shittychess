@@ -36,8 +36,10 @@ class ShittyEventHandler:
         self.holding_piece_sprite = None
         self.holding_piece_original_rect = None
 
-    def process_events(self) -> NoReturn:
+    def process_events(self) -> bool:
         """process pygame events"""
+
+        redraw_required = False
 
         # complete mouse clicks with no looping
         self.left_mouse_click = False
@@ -45,6 +47,17 @@ class ShittyEventHandler:
         self.right_mouse_click = False
 
         for event in pygame.event.get():
+
+            if (
+                    event.type == pygame.KEYDOWN
+                    or event.type == pygame.KEYUP
+                    or event.type == pygame.QUIT
+                    or event.type == pygame.MOUSEBUTTONDOWN
+                    or event.type == pygame.MOUSEBUTTONUP
+            ):
+                # set flag to update the screen
+                redraw_required = True
+
             if event.type == pygame.KEYDOWN:
 
                 # exit game
@@ -85,8 +98,8 @@ class ShittyEventHandler:
                             self.board.sprite_to_highlight = sprite
                             self.holding_piece_original_rect = pygame.Rect.copy(sprite.rect)
                             self.holding_piece_sprite = sprite
+                            sprite.move_to_front()
                             self.holding_piece = True
-                            self.layout.sprite_group_all.move_to_front(sprite)
 
 
                 # middle mouse button
@@ -99,9 +112,17 @@ class ShittyEventHandler:
                     if not self.holding_piece:
                         x, y = pygame.mouse.get_pos()
                         sprite = self.logic.mouse_to_sprite(x, y, black=self.settings.turn_black)
+
+                        # clicked the sprite you're already highlighting
                         if sprite == self.board.sprite_to_highlight:
+
+                            # disable highlighting
                             self.board.sprite_to_highlight = None
+
+                        # clicked somewhere else
                         else:
+
+                            # highlight clicked sprite, or none if you didn't click on any
                             self.board.sprite_to_highlight = sprite
 
                 # right mouse button
@@ -141,10 +162,16 @@ class ShittyEventHandler:
                 # piece movement - motion
                 if self.holding_piece:
                     x, y = pygame.mouse.get_rel()
-                    self.holding_piece_sprite.rect.left += x
-                    self.holding_piece_sprite.rect.top += y
+                    tmp_rect = pygame.Rect.copy(self.holding_piece_sprite.rect)
+                    tmp_rect.left += x
+                    tmp_rect.top += y
+                    if tmp_rect != self.holding_piece_sprite.rect:
+                        self.holding_piece_sprite.set_rect(tmp_rect)
+                        redraw_required = True
 
         # set mouse button last frame to current one
         self.left_mouse_last_frame = self.left_mouse_pressed
         self.middle_mouse_last_frame = self.middle_mouse_pressed
         self.right_mouse_last_frame = self.right_mouse_pressed
+
+        return redraw_required
