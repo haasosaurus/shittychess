@@ -109,14 +109,14 @@ class ShittyBoard:
         for column_header in self.settings.col_headers:
             self.col_header_labels.append(header_font.render(
                 column_header,  # text
-                True,   # antialias
+                True,   # anti-alias
                 self.settings.header_font_color,  # color
                 None  # background
             ))
         for row_header in self.settings.row_headers:
             self.row_header_labels.append(header_font.render(
                 row_header,  # text
-                True,   # antialias
+                True,   # anti-alias
                 self.settings.header_font_color,  # color
                 None  # background
             ))

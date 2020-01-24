@@ -101,7 +101,6 @@ class ShittyEventHandler:
                             sprite.move_to_front()
                             self.holding_piece = True
 
-
                 # middle mouse button
                 elif event.button == 2:
                     self.middle_mouse_pressed = True

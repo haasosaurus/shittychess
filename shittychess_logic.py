@@ -112,7 +112,7 @@ class ShittyLogic:
                 max_right = min(piece.coords[0] + movement.horizontal + 1, self.settings.cols)
                 max_left = max((piece.coords[0] - movement.horizontal - 1), -1)
 
-                 # check to the right
+                # check to the right
                 for x in range(piece.coords[0] + 1, max_right):
                     sprite = self.coords_to_sprite((x, piece.coords[1]))
                     if sprite:
@@ -143,7 +143,6 @@ class ShittyLogic:
 
                     # nobody's there, free to move there
                     valid_spaces.append((x, piece.coords[1]))
-
 
             if movement.vertical > 0:
                 max_down = min(piece.coords[1] + movement.vertical + 1, self.settings.rows)
@@ -193,7 +192,6 @@ class ShittyLogic:
 
                     # nobody's there, free to move there
                     valid_spaces.append((piece.coords[0], y))
-
 
             if movement.diagonal > 0:
                 max_right = min(piece.coords[0] + movement.diagonal + 1, self.settings.cols)

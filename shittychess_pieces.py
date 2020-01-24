@@ -1,9 +1,10 @@
 # coding=utf-8
 
 from os import PathLike
-from typing import Union
-from typing import Tuple
+from typing import List
 from typing import NoReturn
+from typing import Tuple
+from typing import Union
 
 import pygame
 
@@ -35,8 +36,7 @@ class ShittyPiece(ShittySprite):
             black: bool,
             rect: pygame.Rect,
             coords: Tuple[int, int],
-            img_path: Union[PathLike, str],
-            **kwargs
+            img_path: Union[PathLike, str]
     ) -> NoReturn:
         """constructor"""
 
@@ -60,7 +60,7 @@ class ShittyPiece(ShittySprite):
             if self.initial_position:
                 self.initial_position = False
 
-    def move_patterns(self) -> ShittyMovementPatterns:
+    def move_patterns(self) -> List[ShittyMovementPatterns]:  # change to tuple
         """returns move patterns for this piece"""
 
         return self.movements
@@ -108,6 +108,7 @@ class ShittyPawn(ShittyPiece):
                 for index in reversed(sorted(indexes)):
                     del self.movements[index]
 
+
 class ShittyRook(ShittyPiece):
     """rook sprite class"""
 
@@ -126,6 +127,7 @@ class ShittyRook(ShittyPiece):
             vertical=7,
         ))
 
+
 class ShittyBishop(ShittyPiece):
     """bishop sprite class"""
 
@@ -142,6 +144,7 @@ class ShittyBishop(ShittyPiece):
         self.movements.append(ShittyMovementPatterns(
             diagonal=7
         ))
+
 
 class ShittyKnight(ShittyPiece):
     """knight sprite class"""
@@ -184,6 +187,7 @@ class ShittyQueen(ShittyPiece):
             vertical=7,
             diagonal=7,
         ))
+
 
 class ShittyKing(ShittyPiece):
     """king sprite class"""

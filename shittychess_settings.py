@@ -194,8 +194,8 @@ class ShittySettings:
         """
 
         return int(
-            self.col_header_height() \
-            + (self.space_height() / 2) \
+            self.col_header_height()
+            + (self.space_height() / 2)
             - (self.header_font_height / 2)
         )
 
@@ -208,8 +208,8 @@ class ShittySettings:
         """returns the x coordinate for all right row header labels"""
 
         return int(
-            self.board_width() \
-            + self.row_header_width() \
+            self.board_width()
+            + self.row_header_width()
             + ((self.row_header_width() - self.header_font_width) / 2)
         )
 
@@ -220,8 +220,8 @@ class ShittySettings:
         """
 
         return int(
-            self.row_header_width() \
-            + (self.space_width() / 2) \
+            self.row_header_width()
+            + (self.space_width() / 2)
             - (self.header_font_width / 2)
         )
 
@@ -234,8 +234,8 @@ class ShittySettings:
         """returns the y coordinate for all bottom column header labels"""
 
         return int(
-            self.board_height() \
-            + self.col_header_height() \
+            self.board_height()
+            + self.col_header_height()
             + ((self.col_header_height() - self.header_font_height) / 2)
         )
 
