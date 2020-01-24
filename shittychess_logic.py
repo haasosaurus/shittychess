@@ -1,6 +1,6 @@
 # coding=utf-8
 
-
+import itertools
 from typing import List
 from typing import Tuple
 from typing import Union
@@ -22,8 +22,8 @@ class ShittyLogic:
         self.settings = None  # ShittySettings
         self.board = None  # ShittyBoard
         self.layout = None  # ShittyLayout
-        self.coords_to_chess_coords = {}
-        self.chess_coords_to_coords = {}
+        self.coords_to_chess_coords = {}  # Dict[Tuple[int, int], str]
+        self.chess_coords_to_coords = {}  # Dict[str, Tuple[int, int]]
 
     def configure(self) -> NoReturn:
         """
@@ -87,7 +87,10 @@ class ShittyLogic:
         sprite exists at coords else returns None
         """
 
-        for sprite in self.layout.sprite_group_all.sprites():
+        for sprite in itertools.chain(
+                self.layout.sprite_group_black.sprites(),
+                self.layout.sprite_group_white
+        ):
             if sprite.coords == coords:
                 return sprite
         return None
@@ -98,6 +101,20 @@ class ShittyLogic:
         no other error checking performed. return them as a list of
         zero-indexed x, y board space coordinates
         """
+
+        # patterns = piece.patterns
+        # for v, h, d in zip(
+        #   		range(patterns.vertical),
+        #   		range(patterns.horizontal),
+        #   		range(patterns.diagonal)
+        # ):
+        #     pass
+
+        # knight class
+        # self.movement_patterns = []
+        # self.movement_patterns.append(ShittyMovementPatterns(horizontal=1, vertical=2))
+        # self.movement_patterns.append(ShittyMovementPatterns(horizontal=2, vertical=1))
+
 
         space_coords = []
         if piece.move_patterns().horizontal > 0:
