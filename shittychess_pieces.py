@@ -13,11 +13,28 @@ from shittychess_sprites import ShittySprite
 class ShittyMovementPatterns:
     """class to save a piece's movement patterns"""
 
-    def __init__(self):
-        self.horizontal = 0
-        self.vertical = 0
-        self.diagonal = 0
+    def __init__(
+      		self,
+      		horizontal: int = 0,
+      		vertical: int = 0,
+      		diagonal: int = 0
+    ) -> NoReturn:
+        """constructor"""
+
+        self.horizontal = horizontal
+        self.vertical = vertical
+        self.diagonal = diagonal
         self.pattern_list = []
+
+
+# class ShittyMovementPatterns2:
+#     """class to save a piece's movement patterns"""
+
+#     def __init__(self):
+#         self.horizontal = 0
+#         self.vertical = 0
+#         self.diagonal = 0
+#         self.pattern_list = []
 
 
 class ShittyPiece(ShittySprite):
