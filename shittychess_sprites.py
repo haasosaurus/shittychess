@@ -39,6 +39,16 @@ class ShittySprite(pygame.sprite.Sprite):
             img_path if isinstance(img_path, str) else str(img_path)
         )
 
+    def move_to_front(self) -> bool:
+        for group in self.groups():
+            try:
+                group.move_to_front(self)
+                return True
+            except AttributeError as e:
+                print(f'{e}\ncontinuing...')
+                continue
+        return False
+
 
 class ShittySpace(ShittySprite):
     """sprite class for board spaces"""
