@@ -1,7 +1,6 @@
 # coding=utf-8
 
 
-import itertools
 from typing import NoReturn
 
 import pygame
@@ -35,9 +34,8 @@ class ShittyLayout:
         self.settings = None  # ShittySettings
         self.logic = None  # ShittyLogic
 
-        self.sprite_group_black = ShittyGroup()
-        self.sprite_group_white = ShittyGroup()
-        self.sprite_group_all = ShittyGroup()
+        self.sprite_group_black = pygame.sprite.LayeredUpdates()
+        self.sprite_group_white = pygame.sprite.LayeredUpdates()
 
         self.initial_piece_layout = []
 
@@ -106,16 +104,11 @@ class ShittyLayout:
                     coords,
                     piece[3]))
 
-        for sprite in itertools.chain(
-                self.sprite_group_black,
-                self.sprite_group_white
-        ):
-            self.sprite_group_all.add(sprite)
-
     def draw(self) -> NoReturn:
         """draw all the pieces"""
 
-        self.sprite_group_all.draw(self.screen)
+        self.sprite_group_black.draw(self.screen)
+        self.sprite_group_white.draw(self.screen)
 
     def clear(self) -> NoReturn:
         """
@@ -125,7 +118,6 @@ class ShittyLayout:
 
         self.sprite_group_black.empty()
         self.sprite_group_white.empty()
-        self.sprite_group_all.empty()
 
     def resize(self) -> NoReturn:
         """
@@ -134,7 +126,7 @@ class ShittyLayout:
         are disabled or enabled, as that will change the board size
         """
 
-        for sprite in self.sprite_group_all:
+        for sprite in zip(self.sprite_group_black, self.sprite_group_white):
             tmp_rect = self.logic.coords_to_rect(sprite.coords)
             sprite.set_rect(pygame.Rect(
                 tmp_rect.left,
