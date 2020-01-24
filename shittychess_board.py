@@ -7,7 +7,7 @@ from typing import Tuple
 import pygame
 
 from shittychess_pieces import ShittyPiece
-from shittychess_sprites import ShittySpace
+from shittychess_sprites import ShittySprite
 
 
 class ShittyBoard:
@@ -59,7 +59,7 @@ class ShittyBoard:
                 height = self.settings.space_height()
 
                 # make a temp space
-                tmp_space = ShittySpace(
+                tmp_space = ShittySprite(
                     is_black,
                     pygame.Rect(pos_x, pos_y, width, height),
                     (x, y),
@@ -182,12 +182,10 @@ class ShittyBoard:
         bar_color = pygame.Color(*color, alpha)
         bar_color_mid = pygame.Color(*color_mid, alpha_mid)
 
-        # edge widths
         h_bar_width = int(self.settings.space_width() / 3)
+        h_bar_width_mid = self.settings.space_width() - h_bar_width * 2
         v_bar_height = int(self.settings.space_height() / 3)
-
-        # center widths
-
+        v_bar_height_mid = self.settings.space_height() - v_bar_height * 2
         h_bar_v_movement = self.settings.space_height() - thickness
         v_bar_h_movement = self.settings.space_width() - thickness
 
@@ -195,28 +193,36 @@ class ShittyBoard:
         v_bar = pygame.Rect(rect.left, rect.top, thickness, v_bar_height)
         pygame.draw.rect(self.screen, bar_color, v_bar)
         v_bar.top += v_bar_height
+        v_bar.height = v_bar_height_mid
         pygame.draw.rect(self.screen, bar_color_mid, v_bar)
-        v_bar.top += v_bar_height
+        v_bar.top += v_bar_height_mid
+        v_bar.height = v_bar_height
         pygame.draw.rect(self.screen, bar_color, v_bar)
         v_bar.left += v_bar_h_movement
         pygame.draw.rect(self.screen, bar_color, v_bar)
         v_bar.top -= v_bar_height
+        v_bar.height = v_bar_height_mid
         pygame.draw.rect(self.screen, bar_color_mid, v_bar)
-        v_bar.top -= v_bar_height
+        v_bar.top -= v_bar_height_mid
+        v_bar.height = v_bar_height
         pygame.draw.rect(self.screen, bar_color, v_bar)
 
         # draws horizontal border bars
         h_bar = pygame.Rect(rect.left, rect.top, h_bar_width, thickness)
         pygame.draw.rect(self.screen, bar_color, h_bar)
         h_bar.left += h_bar_width
+        h_bar.width = h_bar_width_mid
         pygame.draw.rect(self.screen, bar_color_mid, h_bar)
-        h_bar.left += h_bar_width
+        h_bar.left += h_bar_width_mid
+        h_bar.width = h_bar_width
         pygame.draw.rect(self.screen, bar_color, h_bar)
         h_bar.top += h_bar_v_movement
         pygame.draw.rect(self.screen, bar_color, h_bar)
         h_bar.left -= h_bar_width
+        h_bar.width = h_bar_width_mid
         pygame.draw.rect(self.screen, bar_color_mid, h_bar)
-        h_bar.left -= h_bar_width
+        h_bar.left -= h_bar_width_mid
+        h_bar.width = h_bar_width
         pygame.draw.rect(self.screen, bar_color, h_bar)
 
     def draw_space_highlight(

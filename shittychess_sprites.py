@@ -10,7 +10,7 @@ class ShittyMousePointer(pygame.sprite.Sprite):
     def __init__(self, x, y) -> NoReturn:
         """constructor"""
 
-        super(pygame.sprite.Sprite, self).__init__()
+        pygame.sprite.Sprite.__init__(self)
         self.rect = pygame.Rect(x, y, 1, 1)
 
 
@@ -22,12 +22,12 @@ class ShittySprite(pygame.sprite.Sprite):
             black: bool,
             rect: pygame.Rect,
             coords: Tuple[int, int],
-            img_path: Union[PathLike, str],
-            **kwargs
+            img_path: Union[PathLike, str]
     ) -> NoReturn:
         """constructor"""
 
-        super().__init__(**kwargs)
+        # super().__init__(self)
+        pygame.sprite.Sprite.__init__(self)
         self.rect = rect
         self.black = black
         self.image: Union[pygame.image, None] = None
@@ -38,6 +38,11 @@ class ShittySprite(pygame.sprite.Sprite):
         self.image = pygame.image.load(
             img_path if isinstance(img_path, str) else str(img_path)
         )
+        width = 75
+        height = 75
+        rect = self.image.get_rect()
+        if rect.width != width or rect.height != height:
+            self.image = pygame.transform.smoothscale(self.image, (width, height))
 
     def move_to_front(self) -> bool:
         for group in self.groups():
@@ -50,17 +55,16 @@ class ShittySprite(pygame.sprite.Sprite):
         return False
 
 
-class ShittySpace(ShittySprite):
-    """sprite class for board spaces"""
+# class ShittySpace(ShittySprite):
+#     """sprite class for board spaces"""
 
-    def __init__(
-            self,
-            black: bool,
-            rect: pygame.Rect,
-            coords: Tuple[int, int],
-            img_path: Union[PathLike, str],
-            **kwargs
-    ) -> NoReturn:
-        """constructor"""
+#     def __init__(
+#             self,
+#             black: bool,
+#             rect: pygame.Rect,
+#             coords: Tuple[int, int],
+#             img_path: Union[PathLike, str]
+#     ) -> NoReturn:
+#         """constructor"""
 
-        super().__init__(black, rect, coords, img_path, **kwargs)
+#         super().__init__(black, rect, coords, img_path)

@@ -1,6 +1,6 @@
 # coding=utf-8
 
-
+import itertools
 from typing import NoReturn
 
 import pygame
@@ -11,16 +11,6 @@ from shittychess_pieces import ShittyBishop
 from shittychess_pieces import ShittyRook
 from shittychess_pieces import ShittyQueen
 from shittychess_pieces import ShittyKing
-
-
-class ShittyGroup(pygame.sprite.LayeredUpdates):
-    """
-    subclassing sprite Group to add more functionality
-    probably don't need this anymore
-    """
-
-    def __init__(self):
-        pygame.sprite.LayeredUpdates.__init__(self)
 
 
 class ShittyLayout:
@@ -107,8 +97,13 @@ class ShittyLayout:
     def draw(self) -> NoReturn:
         """draw all the pieces"""
 
-        self.sprite_group_black.draw(self.screen)
-        self.sprite_group_white.draw(self.screen)
+        # temporary, fix this soon
+        if self.settings.turn_black:
+            self.sprite_group_white.draw(self.screen)
+            self.sprite_group_black.draw(self.screen)
+        else:
+            self.sprite_group_black.draw(self.screen)
+            self.sprite_group_white.draw(self.screen)
 
     def clear(self) -> NoReturn:
         """
@@ -126,7 +121,7 @@ class ShittyLayout:
         are disabled or enabled, as that will change the board size
         """
 
-        for sprite in zip(self.sprite_group_black, self.sprite_group_white):
+        for sprite in itertools.chain(self.sprite_group_black, self.sprite_group_white):
             tmp_rect = self.logic.coords_to_rect(sprite.coords)
             sprite.set_rect(pygame.Rect(
                 tmp_rect.left,

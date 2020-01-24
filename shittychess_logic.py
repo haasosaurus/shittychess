@@ -89,94 +89,256 @@ class ShittyLogic:
 
         for sprite in itertools.chain(
                 self.layout.sprite_group_black.sprites(),
-                self.layout.sprite_group_white
+                self.layout.sprite_group_white.sprites()
         ):
             if sprite.coords == coords:
                 return sprite
         return None
 
-    def __valid_space_coords(self, piece: ShittyPiece) -> List[Tuple[int, int]]:
+    def valid_move_coords(self, piece: ShittyPiece) -> List[Tuple[int, int]]:
         """
         make a list of valid moves for a piece that are on the game board,
         no other error checking performed. return them as a list of
         zero-indexed x, y board space coordinates
         """
 
-        # patterns = piece.patterns
-        # for v, h, d in zip(
-        #   		range(patterns.vertical),
-        #   		range(patterns.horizontal),
-        #   		range(patterns.diagonal)
-        # ):
-        #     pass
+        if piece.__class__.__name__ == 'ShittyKnight':
+            return self.__knight_valid_move_coords(piece)
 
-        # knight class
-        # self.movement_patterns = []
-        # self.movement_patterns.append(ShittyMovementPatterns(horizontal=1, vertical=2))
-        # self.movement_patterns.append(ShittyMovementPatterns(horizontal=2, vertical=1))
+        valid_spaces = []
 
+        for movement in piece.movements:
+            if movement.horizontal > 0:
+                max_right = min(piece.coords[0] + movement.horizontal + 1, self.settings.cols)
+                max_left = max((piece.coords[0] - movement.horizontal - 1), -1)
 
-        space_coords = []
-        if piece.move_patterns().horizontal > 0:
-            pass
-        if piece.move_patterns().vertical > 0:
-            pass
-        if piece.move_patterns().diagonal > 0:
-            pass
-        for pattern in piece.move_patterns().pattern_list:
-            x = piece.coords[0] + pattern[0]
-            if x >= self.settings.cols or x < 0:
-                continue
-            y = piece.coords[1] + pattern[1]
-            if self.settings.rows > y >= 0:
-                space_coords.append((x, y))
-        return space_coords
+                 # check to the right
+                for x in range(piece.coords[0] + 1, max_right):
+                    sprite = self.coords_to_sprite((x, piece.coords[1]))
+                    if sprite:
 
-    def valid_move_coords(self, piece: ShittyPiece) -> List[Tuple[int, int]]:
-        """
-        get valid move space list from self.__valid_space_coords, and run more in
-        depth tests on them to make sure they are really valid move coordinates
-        """
+                        # blocked by a friendly
+                        if piece.black == sprite.black:
+                            break
 
-        # check to see if a friendly piece is blocking
-        valid_move_coords = self.__valid_space_coords(piece)
-        invalid_move_coords = []
-        for coords in valid_move_coords:
-            sprite = self.coords_to_sprite(coords)
+                        # enemy there, can kill them but go no further
+                        valid_spaces.append((x, piece.coords[1]))
+                        break
 
-            # if there is a sprite at coords
-            if sprite:
+                    # nobody's there, free to move there
+                    valid_spaces.append((x, piece.coords[1]))
 
-                # and it is friendly
-                if sprite.black == piece.black:
+                # check to the left
+                for x in range(piece.coords[0] - 1, max_left, -1):
+                    sprite = self.coords_to_sprite((x, piece.coords[1]))
+                    if sprite:
 
-                    # move not allowed, can't kill your friend
-                    invalid_move_coords.append(coords)
+                        # blocked by a friendly
+                        if piece.black == sprite.black:
+                            break
 
-        # pawn
-        if piece.__class__.__name__ == 'ShittyPawn':
-            for coords in valid_move_coords:
+                        # enemy there, can kill them but go no further
+                        valid_spaces.append((x, piece.coords[1]))
+                        break
 
-                # if moving diagonally
-                if coords[0] != piece.coords[0]:
-                    sprite = self.coords_to_sprite(coords)
-
-                    # if a sprite is not there
-                    if not sprite:
-
-                        # move not allowed, pawns can only go diagonally while attacking
-                        invalid_move_coords.append(coords)
-
-                # if moving vertically
+                    # nobody's there, free to move there
+                    valid_spaces.append((x, piece.coords[1]))
 
 
-        # remove invalid coords from list
-        for coords in reversed(invalid_move_coords):
-            while coords in valid_move_coords:
-                valid_move_coords.remove(coords)
+            if movement.vertical > 0:
+                max_down = min(piece.coords[1] + movement.vertical + 1, self.settings.rows)
+                max_up = max((piece.coords[1] - movement.vertical - 1), -1)
 
-        # return a list of chess coordinates strings
-        return valid_move_coords
+                # some pawn stuff
+                if piece.__class__.__name__ == 'ShittyPawn':
+                    if piece.black:
+                        if self.settings.black_top:
+                            max_up = piece.coords[1]
+                        else:
+                            max_down = piece.coords[1]
+                    else:
+                        if self.settings.black_top:
+                            max_down = piece.coords[1]
+                        else:
+                            max_up = piece.coords[1]
+
+                # check down
+                for y in range(piece.coords[1] + 1, max_down):
+                    sprite = self.coords_to_sprite((piece.coords[0], y))
+                    if sprite:
+
+                        # blocked by a friendly
+                        if piece.black == sprite.black or piece.__class__.__name__ == 'ShittyPawn':
+                            break
+
+                        # enemy there, can kill them but go no further
+                        valid_spaces.append((piece.coords[0], y))
+                        break
+
+                    # nobody's there, free to move there
+                    valid_spaces.append((piece.coords[0], y))
+
+                # check up
+                for y in range(piece.coords[1] - 1, max_up, -1):
+                    sprite = self.coords_to_sprite((piece.coords[0], y))
+                    if sprite:
+
+                        # blocked by a friendly
+                        if piece.black == sprite.black or piece.__class__.__name__ == 'ShittyPawn':
+                            break
+
+                        # enemy there, can kill them but go no further
+                        valid_spaces.append((piece.coords[0], y))
+                        break
+
+                    # nobody's there, free to move there
+                    valid_spaces.append((piece.coords[0], y))
+
+
+            if movement.diagonal > 0:
+                max_right = min(piece.coords[0] + movement.diagonal + 1, self.settings.cols)
+                max_left = max((piece.coords[0] - movement.diagonal - 1), -1)
+                max_down = min(piece.coords[1] + movement.diagonal + 1, self.settings.rows)
+                max_up = max((piece.coords[1] - movement.diagonal - 1), -1)
+
+                # pawn stuff
+                if piece.__class__.__name__ == 'ShittyPawn':
+
+                    if piece.black:
+                        if self.settings.black_top:
+                            max_up = piece.coords[1]
+                        else:
+                            max_down = piece.coords[1]
+                    else:
+                        if self.settings.black_top:
+                            max_down = piece.coords[1]
+                        else:
+                            max_up = piece.coords[1]
+
+                # check right/down
+                for x, y in zip(
+                        range(piece.coords[0] + 1, max_right),
+                        range(piece.coords[1] + 1, max_down)
+                ):
+
+                    sprite = self.coords_to_sprite((x, y))
+
+                    # pawn stuff
+                    if piece.__class__.__name__ == 'ShittyPawn':
+                        if not sprite or sprite.black == piece.black:
+                            break
+
+                    if sprite:
+
+                        # blocked by a friendly
+                        if piece.black == sprite.black:
+                            break
+
+                        # enemy there, can kill them but go no further
+                        valid_spaces.append((x, y))
+                        break
+
+                    # nobody's there, free to move there
+                    valid_spaces.append((x, y))
+
+                # check right/up
+                for x, y in zip(
+                        range(piece.coords[0] + 1, max_right),
+                        range(piece.coords[1] - 1, max_up, -1)
+                ):
+                    sprite = self.coords_to_sprite((x, y))
+
+                    # pawn stuff
+                    if piece.__class__.__name__ == 'ShittyPawn':
+                        if not sprite or sprite.black == piece.black:
+                            break
+
+                    if sprite:
+
+                        # blocked by a friendly
+                        if piece.black == sprite.black:
+                            break
+
+                        # enemy there, can kill them but go no further
+                        valid_spaces.append((x, y))
+                        break
+
+                    # nobody's there, free to move there
+                    valid_spaces.append((x, y))
+
+                # check left/down
+                for x, y in zip(
+                        range(piece.coords[0] - 1, max_left, -1),
+                        range(piece.coords[1] + 1, max_down)
+                ):
+                    sprite = self.coords_to_sprite((x, y))
+
+                    # pawn stuff
+                    if piece.__class__.__name__ == 'ShittyPawn':
+                        if not sprite or sprite.black == piece.black:
+                            break
+
+                    if sprite:
+
+                        # blocked by a friendly
+                        if piece.black == sprite.black:
+                            break
+
+                        # enemy there, can kill them but go no further
+                        valid_spaces.append((x, y))
+                        break
+
+                    # nobody's there, free to move there
+                    valid_spaces.append((x, y))
+
+                # check left/up
+                for x, y in zip(
+                        range(piece.coords[0] - 1, max_left, -1),
+                        range(piece.coords[1] - 1, max_up, -1)
+                ):
+                    sprite = self.coords_to_sprite((x, y))
+
+                    # pawn stuff
+                    if piece.__class__.__name__ == 'ShittyPawn':
+                        if not sprite or sprite.black == piece.black:
+                            break
+
+                    if sprite:
+
+                        # blocked by a friendly
+                        if piece.black == sprite.black:
+                            break
+
+                        # enemy there, can kill them but go no further
+                        valid_spaces.append((x, y))
+                        break
+
+                    # nobody's there, free to move there
+                    valid_spaces.append((x, y))
+
+        return valid_spaces
+
+    def __knight_valid_move_coords(self, piece: ShittyPiece) -> List[Tuple[int, int]]:
+        """get knight specif valid spaces"""
+
+        valid_spaces = []
+        for movement in piece.movements:
+            coords_list = list(itertools.product(*((x, -x) for x in (movement.horizontal, movement.vertical))))
+            for x_movement, y_movement in coords_list:
+                x = piece.coords[0] + x_movement
+                y = piece.coords[1] + y_movement
+                if 0 <= x < self.settings.cols and 0 <= y < self.settings.rows:
+                    sprite = self.coords_to_sprite((x, y))
+                    if sprite:
+
+                        # blocked by a friendly
+                        if piece.black == sprite.black:
+                            continue
+
+                    # either an open space or an enemy to kill
+                    valid_spaces.append((x, y))
+
+        return valid_spaces
 
     def move_piece_with_mouse(self, sprite: ShittyPiece, x, y) -> bool:
         """
@@ -191,5 +353,10 @@ class ShittyLogic:
                 if target_coords in valid_move_coords:
                     sprite.move(self.coords_to_rect(target_coords))
                     sprite.coords = target_coords
+                    pygame.sprite.spritecollide(
+                        sprite,
+                        self.layout.sprite_group_white if sprite.black else self.layout.sprite_group_black,
+                        True
+                    )
                     return True
         return False

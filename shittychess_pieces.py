@@ -14,27 +14,17 @@ class ShittyMovementPatterns:
     """class to save a piece's movement patterns"""
 
     def __init__(
-      		self,
-      		horizontal: int = 0,
-      		vertical: int = 0,
-      		diagonal: int = 0
+            self,
+            horizontal: int = 0,
+            vertical: int = 0,
+            diagonal: int = 0,
     ) -> NoReturn:
         """constructor"""
 
         self.horizontal = horizontal
         self.vertical = vertical
         self.diagonal = diagonal
-        self.pattern_list = []
-
-
-# class ShittyMovementPatterns2:
-#     """class to save a piece's movement patterns"""
-
-#     def __init__(self):
-#         self.horizontal = 0
-#         self.vertical = 0
-#         self.diagonal = 0
-#         self.pattern_list = []
+        # self.pattern_list = []
 
 
 class ShittyPiece(ShittySprite):
@@ -52,7 +42,7 @@ class ShittyPiece(ShittySprite):
 
         super().__init__(black, rect, coords, img_path)
         self.initial_position = True
-        self.movement_patterns = ShittyMovementPatterns()
+        self.movements = []
 
     def set_rect(self, rect: pygame.Rect) -> NoReturn:
         """
@@ -73,7 +63,7 @@ class ShittyPiece(ShittySprite):
     def move_patterns(self) -> ShittyMovementPatterns:
         """returns move patterns for this piece"""
 
-        return self.movement_patterns
+        return self.movements
 
     def update(self) -> NoReturn:
         """pygame sprite group helper method"""
@@ -95,42 +85,28 @@ class ShittyPawn(ShittyPiece):
         """constructor"""
 
         super().__init__(black, rect, coords, img_path)
+        self.movements.append(ShittyMovementPatterns(
+            vertical=1,
+            diagonal=1
+        ))
+        self.movements.append(ShittyMovementPatterns(
+            vertical=2,
+            diagonal=1
+        ))
 
+    def move(self, rect: pygame.Rect) -> NoReturn:
+        """moves the piece during game play"""
 
-        # movement stuff
-        self.black_move_patterns_initial = ShittyMovementPatterns()
-        self.black_move_patterns_initial.pattern_list = [
-            (0, 1), (0, 2),
-            (1, 1), (-1, 1)
-        ]
-        self.black_move_patterns = ShittyMovementPatterns()
-        self.black_move_patterns.pattern_list = [
-            (0, 1),
-            (1, 1), (-1, 1)
-        ]
-        self.white_move_patterns_initial = ShittyMovementPatterns()
-        self.white_move_patterns_initial.pattern_list = [
-            (0, -1), (0, -2),
-            (1, -1), (-1, -1)
-        ]
-        self.white_move_patterns = ShittyMovementPatterns()
-        self.white_move_patterns.pattern_list = [
-            (0, -1),
-            (1, -1), (-1, -1)
-        ]
-
-    def move_patterns(self) -> ShittyMovementPatterns:
-        """returns specific move patterns for the pawn's current state"""
-
-        if self.black:
+        if self.rect != rect:
+            self.set_rect(rect)
             if self.initial_position:
-                return self.black_move_patterns_initial
-            return self.black_move_patterns
-        else:
-            if self.initial_position:
-                return self.white_move_patterns_initial
-            return self.white_move_patterns
-
+                self.initial_position = False
+                indexes = []
+                for index, movement in enumerate(self.movements):
+                    if movement.vertical > 1:
+                        indexes.append(index)
+                for index in reversed(sorted(indexes)):
+                    del self.movements[index]
 
 class ShittyRook(ShittyPiece):
     """rook sprite class"""
@@ -145,11 +121,10 @@ class ShittyRook(ShittyPiece):
         """constructor"""
 
         super().__init__(black, rect, coords, img_path)
-
-        # movement stuff
-        self.movement_patterns.horizontal = 7
-        self.movement_patterns.vertical = 7
-
+        self.movements.append(ShittyMovementPatterns(
+            horizontal=7,
+            vertical=7,
+        ))
 
 class ShittyBishop(ShittyPiece):
     """bishop sprite class"""
@@ -164,10 +139,9 @@ class ShittyBishop(ShittyPiece):
         """constructor"""
 
         super().__init__(black, rect, coords, img_path)
-
-        # movement stuff
-        self.movement_patterns.diagonal = 7
-
+        self.movements.append(ShittyMovementPatterns(
+            diagonal=7
+        ))
 
 class ShittyKnight(ShittyPiece):
     """knight sprite class"""
@@ -182,14 +156,14 @@ class ShittyKnight(ShittyPiece):
         """constructor"""
 
         super().__init__(black, rect, coords, img_path)
-
-        # movement stuff
-        self.movement_patterns.pattern_list = [
-            (1, 2), (1, -2),
-            (2, 1), (2, -1),
-            (-2, 1), (-2, -1),
-            (-1, 2), (-1, -2),
-        ]
+        self.movements.append(ShittyMovementPatterns(
+            horizontal=2,
+            vertical=1,
+        ))
+        self.movements.append(ShittyMovementPatterns(
+            horizontal=1,
+            vertical=2,
+        ))
 
 
 class ShittyQueen(ShittyPiece):
@@ -205,12 +179,11 @@ class ShittyQueen(ShittyPiece):
         """constructor"""
 
         super().__init__(black, rect, coords, img_path)
-
-        # movement stuff
-        self.movement_patterns.horizontal = 7
-        self.movement_patterns.vertical = 7
-        self.movement_patterns.diagonal = 7
-
+        self.movements.append(ShittyMovementPatterns(
+            horizontal=7,
+            vertical=7,
+            diagonal=7,
+        ))
 
 class ShittyKing(ShittyPiece):
     """king sprite class"""
@@ -225,8 +198,8 @@ class ShittyKing(ShittyPiece):
         """constructor"""
 
         super().__init__(black, rect, coords, img_path)
-
-        # movement stuff
-        self.movement_patterns.horizontal = 1
-        self.movement_patterns.vertical = 1
-        self.movement_patterns.diagonal = 1
+        self.movements.append(ShittyMovementPatterns(
+            horizontal=1,
+            vertical=1,
+            diagonal=1,
+        ))

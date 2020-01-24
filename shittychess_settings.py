@@ -18,42 +18,55 @@ class ShittySettings:
         self.debug = True
         self.cols = 8
         self.rows = 8
-        self.__space_width = 60
-        self.__space_height = 60
+        self.__space_width = 75
+        self.__space_height = 75
 
-        # board theme image paths
-        self.space_path_solid_black = 'shitty_art/space_solid_black.png'
-        self.space_path_solid_white = 'shitty_art/space_solid_white.png'
+        self.space_solid_img_paths = {
+            'black': 'shitty_art/space_solid_black.png',
+            'white': 'shitty_art/space_solid_white.png',
+        }
 
-        self.space_path_wood_black = 'shitty_art/space_wood_black.png'
-        self.space_path_wood_white = 'shitty_art/space_wood_white.png'
+        self.space_wood_img_paths = {
+            'black': 'shitty_art/space_wood_black.png',
+            'white': 'shitty_art/space_wood_white.png',
+        }
 
-        # game piece image paths
-        self.shitty_pawn_black_path = 'shitty_art/shitty_pawn_black.png'
-        self.shitty_pawn_white_path = 'shitty_art/shitty_pawn_white.png'
-        self.shitty_rook_black_path = 'shitty_art/shitty_rook_black.png'
-        self.shitty_rook_white_path = 'shitty_art/shitty_rook_white.png'
-        self.shitty_bishop_black_path = 'shitty_art/shitty_bishop_black.png'
-        self.shitty_bishop_white_path = 'shitty_art/shitty_bishop_white.png'
-        self.shitty_knight_black_path = 'shitty_art/shitty_knight_black.png'
-        self.shitty_knight_white_path = 'shitty_art/shitty_knight_white.png'
-        self.shitty_queen_black_path = 'shitty_art/shitty_queen_black.png'
-        self.shitty_queen_white_path = 'shitty_art/shitty_queen_white.png'
-        self.shitty_king_black_path = 'shitty_art/shitty_king_black.png'
-        self.shitty_king_white_path = 'shitty_art/shitty_king_white.png'
+        self.shitty_img_paths = {
+            'pawn_black': 'shitty_art/shitty_pawn_black.png',
+            'pawn_white': 'shitty_art/shitty_pawn_white.png',
+            'rook_black': 'shitty_art/shitty_rook_black.png',
+            'rook_white': 'shitty_art/shitty_rook_white.png',
+            'bishop_black': 'shitty_art/shitty_bishop_black.png',
+            'bishop_white': 'shitty_art/shitty_bishop_white.png',
+            'knight_black': 'shitty_art/shitty_knight_black.png',
+            'knight_white': 'shitty_art/shitty_knight_white.png',
+            'queen_black': 'shitty_art/shitty_queen_black.png',
+            'queen_white': 'shitty_art/shitty_queen_white.png',
+            'king_black': 'shitty_art/shitty_king_black.png',
+            'king_white': 'shitty_art/shitty_king_white.png',
+        }
 
-        self.trad_pawn_black_path = 'shitty_art/trad_pawn_black.png'
-        self.trad_pawn_white_path = 'shitty_art/trad_pawn_white.png'
-        self.trad_rook_black_path = 'shitty_art/trad_rook_black.png'
-        self.trad_rook_white_path = 'shitty_art/trad_rook_white.png'
-        self.trad_bishop_black_path = 'shitty_art/trad_bishop_black.png'
-        self.trad_bishop_white_path = 'shitty_art/trad_bishop_white.png'
-        self.trad_knight_black_path = 'shitty_art/trad_knight_black.png'
-        self.trad_knight_white_path = 'shitty_art/trad_knight_white.png'
-        self.trad_queen_black_path = 'shitty_art/trad_queen_black.png'
-        self.trad_queen_white_path = 'shitty_art/trad_queen_white.png'
-        self.trad_king_black_path = 'shitty_art/trad_king_black.png'
-        self.trad_king_white_path = 'shitty_art/trad_king_white.png'
+        self.trad_img_paths = {
+            'pawn_black': 'shitty_art/trad_pawn_black.png',
+            'pawn_white': 'shitty_art/trad_pawn_white.png',
+            'rook_black': 'shitty_art/trad_rook_black.png',
+            'rook_white': 'shitty_art/trad_rook_white.png',
+            'bishop_black': 'shitty_art/trad_bishop_black.png',
+            'bishop_white': 'shitty_art/trad_bishop_white.png',
+            'knight_black': 'shitty_art/trad_knight_black.png',
+            'knight_white': 'shitty_art/trad_knight_white.png',
+            'queen_black': 'shitty_art/trad_queen_black.png',
+            'queen_white': 'shitty_art/trad_queen_white.png',
+            'king_black': 'shitty_art/trad_king_black.png',
+            'king_white': 'shitty_art/trad_king_white.png',
+        }
+
+        self.img_paths = {
+            'space solid': self.space_solid_img_paths,
+            'space wood': self.space_wood_img_paths,
+            'shitty': self.shitty_img_paths,
+            'trad': self.trad_img_paths,
+        }
 
         # header variables declarations/initializations
         self.headers_enabled = True
@@ -77,87 +90,82 @@ class ShittySettings:
         self.color_blue = (0, 0, 255)
 
         # game state variables
-        self.shitty_mode = False
+        self.shitty = False
         self.board_theme_wood = False
         self.exiting = False
         self.turn_black = False
+        self.black_top = True
 
     def pawn_path(self, black: bool) -> PathLike:
         """returns pawn image path"""
 
-        if black:
-            if self.shitty_mode:
-                return pathlib.Path(self.shitty_pawn_black_path)
-            return pathlib.Path(self.trad_pawn_black_path)
-        if self.shitty_mode:
-            return pathlib.Path(self.shitty_pawn_white_path)
-        return pathlib.Path(self.trad_pawn_white_path)
+        return pathlib.Path(self.img_paths[f'{"shitty" if self.shitty else "trad"}'][f'pawn_{"black" if black else "white"}'])
 
     def rook_path(self, black: bool) -> PathLike:
         """returns rook image path"""
 
         if black:
-            if self.shitty_mode:
-                return pathlib.Path(self.shitty_rook_black_path)
-            return pathlib.Path(self.trad_rook_black_path)
-        if self.shitty_mode:
-            return pathlib.Path(self.shitty_rook_white_path)
-        return pathlib.Path(self.trad_rook_white_path)
+            if self.shitty:
+                return pathlib.Path(self.img_paths['shitty']['rook_black'])
+            return pathlib.Path(self.img_paths['trad']['rook_black'])
+        if self.shitty:
+            return pathlib.Path(self.img_paths['shitty']['rook_white'])
+        return pathlib.Path(self.img_paths['trad']['rook_white'])
 
     def bishop_path(self, black: bool) -> PathLike:
         """returns bishop image path"""
 
         if black:
-            if self.shitty_mode:
-                return pathlib.Path(self.shitty_bishop_black_path)
-            return pathlib.Path(self.trad_bishop_black_path)
-        if self.shitty_mode:
-            return pathlib.Path(self.shitty_bishop_white_path)
-        return pathlib.Path(self.trad_bishop_white_path)
+            if self.shitty:
+                return pathlib.Path(self.img_paths['shitty']['bishop_black'])
+            return pathlib.Path(self.img_paths['trad']['bishop_black'])
+        if self.shitty:
+            return pathlib.Path(self.img_paths['shitty']['bishop_white'])
+        return pathlib.Path(self.img_paths['trad']['bishop_white'])
 
     def knight_path(self, black: bool) -> PathLike:
         """returns knight image path"""
 
         if black:
-            if self.shitty_mode:
-                return pathlib.Path(self.shitty_knight_black_path)
-            return pathlib.Path(self.trad_knight_black_path)
-        if self.shitty_mode:
-            return pathlib.Path(self.shitty_knight_white_path)
-        return pathlib.Path(self.trad_knight_white_path)
+            if self.shitty:
+                return pathlib.Path(self.img_paths['shitty']['knight_black'])
+            return pathlib.Path(self.img_paths['trad']['knight_black'])
+        if self.shitty:
+            return pathlib.Path(self.img_paths['shitty']['knight_white'])
+        return pathlib.Path(self.img_paths['trad']['knight_white'])
 
     def queen_path(self, black: bool) -> PathLike:
         """returns queen image path"""
 
         if black:
-            if self.shitty_mode:
-                return pathlib.Path(self.shitty_queen_black_path)
-            return pathlib.Path(self.trad_queen_black_path)
-        if self.shitty_mode:
-            return pathlib.Path(self.shitty_queen_white_path)
-        return pathlib.Path(self.trad_queen_white_path)
+            if self.shitty:
+                return pathlib.Path(self.img_paths['shitty']['queen_black'])
+            return pathlib.Path(self.img_paths['trad']['queen_black'])
+        if self.shitty:
+            return pathlib.Path(self.img_paths['shitty']['queen_white'])
+        return pathlib.Path(self.img_paths['trad']['queen_white'])
 
     def king_path(self, black: bool) -> PathLike:
         """returns king image path"""
 
         if black:
-            if self.shitty_mode:
-                return pathlib.Path(self.shitty_king_black_path)
-            return pathlib.Path(self.trad_king_black_path)
-        if self.shitty_mode:
-            return pathlib.Path(self.shitty_king_white_path)
-        return pathlib.Path(self.trad_king_white_path)
+            if self.shitty:
+                return pathlib.Path(self.img_paths['shitty']['king_black'])
+            return pathlib.Path(self.img_paths['trad']['king_black'])
+        if self.shitty:
+            return pathlib.Path(self.img_paths['shitty']['king_white'])
+        return pathlib.Path(self.img_paths['trad']['king_white'])
 
     def space_path(self, black: bool) -> PathLike:
         """returns board space image path"""
 
         if black:
             if self.board_theme_wood:
-                return pathlib.Path(self.space_path_wood_black)
-            return pathlib.Path(self.space_path_solid_black)
+                return pathlib.Path(self.img_paths['space wood']['black'])
+            return pathlib.Path(self.img_paths['space solid']['black'])
         if self.board_theme_wood:
-            return pathlib.Path(self.space_path_wood_white)
-        return pathlib.Path(self.space_path_solid_white)
+            return pathlib.Path(self.img_paths['space wood']['white'])
+        return pathlib.Path(self.img_paths['space solid']['white'])
 
     def row_header_width(self) -> int:
         """returns row header width in pixels"""
