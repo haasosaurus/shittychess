@@ -72,7 +72,6 @@ class ShittyMovementPatterns:
         self.horizontal = horizontal
         self.vertical = vertical
         self.diagonal = diagonal
-        # self.pattern_list = []
 
 
 class ShittyPiece(ShittySprite):
