@@ -6,7 +6,7 @@ from typing import Tuple
 
 import pygame
 
-from shittychess_pieces import ShittyPiece
+from shittychess_sprites import ShittyPiece
 from shittychess_sprites import ShittySprite
 
 

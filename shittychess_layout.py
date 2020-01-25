@@ -5,12 +5,12 @@ from typing import NoReturn
 
 import pygame
 
-from shittychess_pieces import ShittyPawn
-from shittychess_pieces import ShittyKnight
-from shittychess_pieces import ShittyBishop
-from shittychess_pieces import ShittyRook
-from shittychess_pieces import ShittyQueen
-from shittychess_pieces import ShittyKing
+from shittychess_sprites import ShittyPawn
+from shittychess_sprites import ShittyKnight
+from shittychess_sprites import ShittyBishop
+from shittychess_sprites import ShittyRook
+from shittychess_sprites import ShittyQueen
+from shittychess_sprites import ShittyKing
 
 
 class ShittyLayout:

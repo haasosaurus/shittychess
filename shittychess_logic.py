@@ -9,7 +9,7 @@ from typing import NoReturn
 import pygame
 
 from shittychess_sprites import ShittyMousePointer
-from shittychess_pieces import ShittyPiece
+from shittychess_sprites import ShittyPiece
 
 
 class ShittyLogic:
