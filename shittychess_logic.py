@@ -21,7 +21,7 @@ class ShittyLogic:
     def __init__(self) -> NoReturn:
         self.settings = None  # ShittySettings
         self.board = None  # ShittyBoard
-        self.layout = None  # ShittyLayout
+        self.pieces = None  # ShittyPieces
         self.coords_to_chess_coords = {}  # Dict[Tuple[int, int], str]
         self.chess_coords_to_coords = {}  # Dict[str, Tuple[int, int]]
 
@@ -61,9 +61,9 @@ class ShittyLogic:
         """returns piece sprite if clicked, or None"""
 
         if black:
-            target_group = self.layout.sprite_group_black
+            target_group = self.pieces.sprite_group_black
         else:
-            target_group = self.layout.sprite_group_white
+            target_group = self.pieces.sprite_group_white
         collisions = pygame.sprite.spritecollide(
             ShittyMousePointer(x, y),
             target_group,
@@ -88,8 +88,8 @@ class ShittyLogic:
         """
 
         for sprite in itertools.chain(
-                self.layout.sprite_group_black.sprites(),
-                self.layout.sprite_group_white.sprites()
+                self.pieces.sprite_group_black.sprites(),
+                self.pieces.sprite_group_white.sprites()
         ):
             if sprite.coords == coords:
                 return sprite
@@ -353,7 +353,7 @@ class ShittyLogic:
                     sprite.coords = target_coords
                     pygame.sprite.spritecollide(
                         sprite,
-                        self.layout.sprite_group_white if sprite.black else self.layout.sprite_group_black,
+                        self.pieces.sprite_group_white if sprite.black else self.pieces.sprite_group_black,
                         True
                     )
                     return True

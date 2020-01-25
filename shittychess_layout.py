@@ -13,7 +13,7 @@ from shittychess_sprites import ShittyQueen
 from shittychess_sprites import ShittyKing
 
 
-class ShittyLayout:
+class ShittyPieces:
     """
     this class manages where all the pieces are on the board
     might want to use this as a property of ShittyBoard
@@ -31,7 +31,7 @@ class ShittyLayout:
 
     def configure(self) -> NoReturn:
         """
-        configure layout's properties after some of them have been
+        configure properties after some of them have been
         assigned externally
         """
 

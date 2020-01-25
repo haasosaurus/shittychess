@@ -17,7 +17,7 @@ class ShittyBoard:
         self.screen = None  # pygame.Surface
         self.settings = None  # ShittySettings
         self.logic = None  # ShittyLogic
-        self.layout = None  # ShittyLayout
+        self.pieces = None  # ShittyPieces
         self.col_header_labels = []
         self.row_header_labels = []
         self.sprite_to_highlight = None  # ShittyPiece

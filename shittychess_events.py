@@ -12,7 +12,7 @@ class ShittyEventHandler:
     def __init__(self) -> NoReturn:
         self.screen = None  # pygame.Surface
         self.settings = None  # ShittySettings
-        self.layout = None  # ShittyLayout
+        self.pieces = None  # ShittyPieces
         self.logic = None  # ShittyLogic
         self.board = None  # ShittyBoard
 
@@ -69,7 +69,7 @@ class ShittyEventHandler:
                     self.settings.headers_enabled = not self.settings.headers_enabled
                     self.screen = pygame.display.set_mode((self.settings.screen_width(), self.settings.screen_height()))
                     self.board.resize()
-                    self.layout.resize()
+                    self.pieces.resize()
 
                 # toggle player turn
                 if event.key == pygame.K_t:

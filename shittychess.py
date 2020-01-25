@@ -9,7 +9,7 @@ from shittychess_settings import ShittySettings
 from shittychess_events import ShittyEventHandler
 from shittychess_board import ShittyBoard
 from shittychess_logic import ShittyLogic
-from shittychess_layout import ShittyLayout
+from shittychess_pieces import ShittyPieces
 
 
 class ShittyChess:
@@ -31,30 +31,30 @@ class ShittyChess:
         ))
         self.logic = ShittyLogic()
         self.board = ShittyBoard()
-        self.layout = ShittyLayout()
+        self.pieces = ShittyPieces()
         self.event_handler = ShittyEventHandler()
 
         # make assignments to our property classes
         self.board.screen = self.screen
         self.board.settings = self.settings
         self.board.logic = self.logic
-        self.board.layout = self.layout
+        self.board.pieces = self.pieces
         self.logic.settings = self.settings
         self.logic.board = self.board
-        self.logic.layout = self.layout
-        self.layout.screen = self.screen
-        self.layout.settings = self.settings
-        self.layout.logic = self.logic
+        self.logic.pieces = self.pieces
+        self.pieces.screen = self.screen
+        self.pieces.settings = self.settings
+        self.pieces.logic = self.logic
         self.event_handler.screen = self.screen
         self.event_handler.settings = self.settings
-        self.event_handler.layout = self.layout
+        self.event_handler.pieces = self.pieces
         self.event_handler.logic = self.logic
         self.event_handler.board = self.board
 
         # configure our property classes
         self.logic.configure()
         self.board.configure()  # this should come before logic
-        self.layout.configure()
+        self.pieces.configure()
         # self.event_handler.configure()
 
         # more pygame configuration
@@ -86,7 +86,7 @@ class ShittyChess:
                 if self.settings.headers_enabled:
                     self.screen.fill(self.settings.header_background_color)
                 self.board.draw()
-                self.layout.draw()
+                self.pieces.draw()
                 pygame.display.flip()
             self.clock.tick(60)
 
