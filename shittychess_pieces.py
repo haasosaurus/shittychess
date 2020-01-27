@@ -35,64 +35,70 @@ class ShittyPieces:
         assigned externally
         """
 
-        self.initial_piece_layout = [
-            # black
-            ['a8', ShittyRook, True, self.settings.rook_path(black=True)],
-            ['b8', ShittyKnight, True, self.settings.knight_path(black=True)],
-            ['c8', ShittyBishop, True, self.settings.bishop_path(black=True)],
-            ['d8', ShittyQueen, True, self.settings.queen_path(black=True)],
-            ['e8', ShittyKing, True, self.settings.king_path(black=True)],
-            ['f8', ShittyBishop, True, self.settings.bishop_path(black=True)],
-            ['g8', ShittyKnight, True, self.settings.knight_path(black=True)],
-            ['h8', ShittyRook, True, self.settings.rook_path(black=True)],
-            ['a7', ShittyPawn, True, self.settings.pawn_path(black=True)],
-            ['b7', ShittyPawn, True, self.settings.pawn_path(black=True)],
-            ['c7', ShittyPawn, True, self.settings.pawn_path(black=True)],
-            ['d7', ShittyPawn, True, self.settings.pawn_path(black=True)],
-            ['e7', ShittyPawn, True, self.settings.pawn_path(black=True)],
-            ['f7', ShittyPawn, True, self.settings.pawn_path(black=True)],
-            ['g7', ShittyPawn, True, self.settings.pawn_path(black=True)],
-            ['h7', ShittyPawn, True, self.settings.pawn_path(black=True)],
-
-            # white
-            ['a2', ShittyPawn, False, self.settings.pawn_path(black=False)],
-            ['b2', ShittyPawn, False, self.settings.pawn_path(black=False)],
-            ['c2', ShittyPawn, False, self.settings.pawn_path(black=False)],
-            ['d2', ShittyPawn, False, self.settings.pawn_path(black=False)],
-            ['e2', ShittyPawn, False, self.settings.pawn_path(black=False)],
-            ['f2', ShittyPawn, False, self.settings.pawn_path(black=False)],
-            ['g2', ShittyPawn, False, self.settings.pawn_path(black=False)],
-            ['h2', ShittyPawn, False, self.settings.pawn_path(black=False)],
-            ['a1', ShittyRook, False, self.settings.rook_path(black=False)],
-            ['b1', ShittyKnight, False, self.settings.knight_path(black=False)],
-            ['c1', ShittyBishop, False, self.settings.bishop_path(black=False)],
-            ['d1', ShittyQueen, False, self.settings.queen_path(black=False)],
-            ['e1', ShittyKing, False, self.settings.king_path(black=False)],
-            ['f1', ShittyBishop, False, self.settings.bishop_path(black=False)],
-            ['g1', ShittyKnight, False, self.settings.knight_path(black=False)],
-            ['h1', ShittyRook, False, self.settings.rook_path(black=False)],
-        ]
-
         self.reset()
 
     def reset(self) -> NoReturn:
         """reset the board to a new game state"""
 
+        initial_piece_layout = [
+            # black
+            {'pos': 'a8', 'type': ShittyRook, 'color': 'black'},
+            {'pos': 'b8', 'type': ShittyKnight, 'color': 'black'},
+            {'pos': 'c8', 'type': ShittyBishop, 'color': 'black'},
+            {'pos': 'd8', 'type': ShittyQueen, 'color': 'black'},
+            {'pos': 'e8', 'type': ShittyKing, 'color': 'black'},
+            {'pos': 'f8', 'type': ShittyBishop, 'color': 'black'},
+            {'pos': 'g8', 'type': ShittyKnight, 'color': 'black'},
+            {'pos': 'h8', 'type': ShittyRook, 'color': 'black'},
+            {'pos': 'a7', 'type': ShittyPawn, 'color': 'black'},
+            {'pos': 'b7', 'type': ShittyPawn, 'color': 'black'},
+            {'pos': 'c7', 'type': ShittyPawn, 'color': 'black'},
+            {'pos': 'd7', 'type': ShittyPawn, 'color': 'black'},
+            {'pos': 'e7', 'type': ShittyPawn, 'color': 'black'},
+            {'pos': 'f7', 'type': ShittyPawn, 'color': 'black'},
+            {'pos': 'g7', 'type': ShittyPawn, 'color': 'black'},
+            {'pos': 'h7', 'type': ShittyPawn, 'color': 'black'},
+
+            # white,
+            {'pos': 'a2', 'type': ShittyPawn, 'color': 'white'},
+            {'pos': 'b2', 'type': ShittyPawn, 'color': 'white'},
+            {'pos': 'c2', 'type': ShittyPawn, 'color': 'white'},
+            {'pos': 'd2', 'type': ShittyPawn, 'color': 'white'},
+            {'pos': 'e2', 'type': ShittyPawn, 'color': 'white'},
+            {'pos': 'f2', 'type': ShittyPawn, 'color': 'white'},
+            {'pos': 'g2', 'type': ShittyPawn, 'color': 'white'},
+            {'pos': 'h2', 'type': ShittyPawn, 'color': 'white'},
+            {'pos': 'a1', 'type': ShittyRook, 'color': 'white'},
+            {'pos': 'b1', 'type': ShittyKnight, 'color': 'white'},
+            {'pos': 'c1', 'type': ShittyBishop, 'color': 'white'},
+            {'pos': 'd1', 'type': ShittyQueen, 'color': 'white'},
+            {'pos': 'e1', 'type': ShittyKing, 'color': 'white'},
+            {'pos': 'f1', 'type': ShittyBishop, 'color': 'white'},
+            {'pos': 'g1', 'type': ShittyKnight, 'color': 'white'},
+            {'pos': 'h1', 'type': ShittyRook, 'color': 'white'},
+        ]
+
         self.clear()
-        for piece in self.initial_piece_layout:
-            coords = self.logic.chess_coords_to_coords[piece[0]]
-            if piece[2]:
-                self.sprite_group_black.add(piece[1](
-                    piece[2],
-                    self.logic.coords_to_rect(coords),
-                    coords,
-                    piece[3]))
+        for piece in initial_piece_layout:
+            coords = self.logic.chess_coords_to_coords[piece['pos']]
+            if piece['color'] == 'black':
+                self.sprite_group_black.add(
+                    piece['type'](
+                        piece['color'],
+                        self.logic.coords_to_rect(coords),
+                        coords,
+                        self.settings.piece_path(piece['type'].name, piece['color'])
+                    )
+                )
             else:
-                self.sprite_group_white.add(piece[1](
-                    piece[2],
-                    self.logic.coords_to_rect(coords),
-                    coords,
-                    piece[3]))
+                self.sprite_group_white.add(
+                    piece['type'](
+                        piece['color'],
+                        self.logic.coords_to_rect(coords),
+                        coords,
+                        self.settings.piece_path(piece['type'].name, piece['color'])
+                    )
+                )
 
     def draw(self) -> NoReturn:
         """draw all the pieces"""

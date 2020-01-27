@@ -8,6 +8,7 @@ import pygame
 
 from shittychess_sprites import ShittyPiece
 from shittychess_sprites import ShittySprite
+from shittychess_sprites import ShittyColor
 
 
 class ShittyBoard:
@@ -45,22 +46,22 @@ class ShittyBoard:
 
         for y in range(self.settings.rows):
             for x in range(self.settings.cols):
-                is_black = True
+                color = 'black'
 
                 # if row even and col even or if row odd and col odd: white
                 if ((y % 2 == 0) and (x % 2 == 0)) or ((x % 2 != 0) and (y % 2 != 0)):
-                    is_black = False
-                space_image_path = self.settings.space_path(black=is_black)
+                    color = 'white'
+                space_image_path = self.settings.space_path(color)
 
                 # calculate space properties
-                pos_x = x * self.settings.space_width() + self.current_board_start_x
-                pos_y = y * self.settings.space_height() + self.current_board_start_y
-                width = self.settings.space_width()
-                height = self.settings.space_height()
+                pos_x = x * self.settings.space_width + self.current_board_start_x
+                pos_y = y * self.settings.space_height + self.current_board_start_y
+                width = self.settings.space_width
+                height = self.settings.space_height
 
                 # make a temp space
                 tmp_space = ShittySprite(
-                    is_black,
+                    color,
                     pygame.Rect(pos_x, pos_y, width, height),
                     (x, y),
                     space_image_path,
@@ -146,7 +147,7 @@ class ShittyBoard:
         loop_stop = self.settings.board_width() + self.settings.col_header_x_start()
         for label, x in zip(
                 self.col_header_labels,
-                range(self.settings.col_header_x_start(), loop_stop, self.settings.space_width())
+                range(self.settings.col_header_x_start(), loop_stop, self.settings.space_width)
         ):
             tmp_rect = label.get_rect()
             tmp_rect.left = x
@@ -159,7 +160,7 @@ class ShittyBoard:
         loop_stop = self.settings.board_height() + self.settings.row_header_y_start()
         for label, y in zip(
                 self.row_header_labels,
-                range(self.settings.row_header_y_start(), loop_stop, self.settings.space_height())
+                range(self.settings.row_header_y_start(), loop_stop, self.settings.space_height)
         ):
             tmp_rect = label.get_rect()
             tmp_rect.left = self.settings.row_header_x_left()
@@ -182,12 +183,12 @@ class ShittyBoard:
         bar_color = pygame.Color(*color, alpha)
         bar_color_mid = pygame.Color(*color_mid, alpha_mid)
 
-        h_bar_width = int(self.settings.space_width() / 3)
-        h_bar_width_mid = self.settings.space_width() - h_bar_width * 2
-        v_bar_height = int(self.settings.space_height() / 3)
-        v_bar_height_mid = self.settings.space_height() - v_bar_height * 2
-        h_bar_v_movement = self.settings.space_height() - thickness
-        v_bar_h_movement = self.settings.space_width() - thickness
+        h_bar_width = int(self.settings.space_width / 3)
+        h_bar_width_mid = self.settings.space_width - h_bar_width * 2
+        v_bar_height = int(self.settings.space_height / 3)
+        v_bar_height_mid = self.settings.space_height - v_bar_height * 2
+        h_bar_v_movement = self.settings.space_height - thickness
+        v_bar_h_movement = self.settings.space_width - thickness
 
         # draws vertical border bars
         v_bar = pygame.Rect(rect.left, rect.top, thickness, v_bar_height)
@@ -233,8 +234,8 @@ class ShittyBoard:
     ) -> NoReturn:
         """highlights a space based on rect argument"""
 
-        width = self.settings.space_width()
-        height = self.settings.space_height()
+        width = self.settings.space_width
+        height = self.settings.space_height
         translucent_surface = pygame.Surface((width, height)).convert_alpha()
         translucent_surface.fill(pygame.Color(*color, alpha))
         self.screen.blit(translucent_surface, rect)

@@ -10,6 +10,41 @@ from typing import Union
 import pygame
 
 
+class ShittyColor:
+    def __init__(self, color: str) -> NoReturn:
+
+        if not isinstance(color, str):
+            raise TypeError('color must be a string, either \'black\' or \'white\'')
+        if color not in ['black', 'white']:
+            raise ValueError('color must be either \'black\' or \'white\'')
+        self._black = True if color == 'black' else False
+
+    def is_black(self):
+        return self._black
+
+    def is_white(self):
+        return not self._black
+
+    def __eq__(self, other):
+        if isinstance(other, ShittyColor):
+            return self.is_black() == other.is_black()
+        elif isinstance(other, str):
+            if other in ['black', 'whtie']:
+                return other == str(self)
+            else:
+                raise NotImplementedError('Can only test equality against strings \'black\' and \'white\'')
+        else:
+            raise NotImplementedError('Can only test equality with other ShittyColor objects, or \'black\' and \'white\'')
+
+    def __str__(self):
+        if self._black:
+            return 'black'
+        return 'white'
+
+    def __repr__(self):
+        return f'ShittyColor(\'{str(self)}\')'
+
+
 class ShittyMousePointer(pygame.sprite.Sprite):
     def __init__(self, x, y) -> NoReturn:
         """constructor"""
@@ -23,7 +58,7 @@ class ShittySprite(pygame.sprite.Sprite):
 
     def __init__(
             self,
-            black: bool,
+            color: Union[ShittyColor, str],
             rect: pygame.Rect,
             coords: Tuple[int, int],
             img_path: Union[PathLike, str]
@@ -32,7 +67,7 @@ class ShittySprite(pygame.sprite.Sprite):
 
         pygame.sprite.Sprite.__init__(self)
         self.rect = rect
-        self.black = black
+        self.color = ShittyColor(color) if isinstance(color, str) else color
         self.image: Union[pygame.image, None] = None
         self.coords = coords
         self.load_image(img_path)
@@ -79,14 +114,14 @@ class ShittyPiece(ShittySprite):
 
     def __init__(
             self,
-            black: bool,
+            color: Union[ShittyColor, str],
             rect: pygame.Rect,
             coords: Tuple[int, int],
             img_path: Union[PathLike, str]
     ) -> NoReturn:
         """constructor"""
 
-        super().__init__(black, rect, coords, img_path)
+        super().__init__(color, rect, coords, img_path)
         self.initial_position = True
         self.movements = []
 
@@ -121,16 +156,18 @@ class ShittyPiece(ShittySprite):
 class ShittyPawn(ShittyPiece):
     """pawn sprite class"""
 
+    name = 'pawn'
+
     def __init__(
             self,
-            black: bool,
+            color: Union[ShittyColor, str],
             rect: pygame.Rect,
             coords: Tuple[int, int],
             img_path: Union[PathLike, str]
     ) -> NoReturn:
         """constructor"""
 
-        super().__init__(black, rect, coords, img_path)
+        super().__init__(color, rect, coords, img_path)
         self.movements.append(ShittyMovementPatterns(
             vertical=1,
             diagonal=1
@@ -158,16 +195,18 @@ class ShittyPawn(ShittyPiece):
 class ShittyRook(ShittyPiece):
     """rook sprite class"""
 
+    name = 'rook'
+
     def __init__(
             self,
-            black: bool,
+            color: Union[ShittyColor, str],
             rect: pygame.Rect,
             coords: Tuple[int, int],
             img_path: Union[PathLike, str]
     ) -> NoReturn:
         """constructor"""
 
-        super().__init__(black, rect, coords, img_path)
+        super().__init__(color, rect, coords, img_path)
         self.movements.append(ShittyMovementPatterns(
             horizontal=7,
             vertical=7,
@@ -177,16 +216,18 @@ class ShittyRook(ShittyPiece):
 class ShittyBishop(ShittyPiece):
     """bishop sprite class"""
 
+    name = 'bishop'
+
     def __init__(
             self,
-            black: bool,
+            color: Union[ShittyColor, str],
             rect: pygame.Rect,
             coords: Tuple[int, int],
             img_path: Union[PathLike, str]
     ) -> NoReturn:
         """constructor"""
 
-        super().__init__(black, rect, coords, img_path)
+        super().__init__(color, rect, coords, img_path)
         self.movements.append(ShittyMovementPatterns(
             diagonal=7
         ))
@@ -195,16 +236,18 @@ class ShittyBishop(ShittyPiece):
 class ShittyKnight(ShittyPiece):
     """knight sprite class"""
 
+    name = 'knight'
+
     def __init__(
             self,
-            black: bool,
+            color: Union[ShittyColor, str],
             rect: pygame.Rect,
             coords: Tuple[int, int],
             img_path: Union[PathLike, str]
     ) -> NoReturn:
         """constructor"""
 
-        super().__init__(black, rect, coords, img_path)
+        super().__init__(color, rect, coords, img_path)
         self.movements.append(ShittyMovementPatterns(
             horizontal=2,
             vertical=1,
@@ -218,16 +261,18 @@ class ShittyKnight(ShittyPiece):
 class ShittyQueen(ShittyPiece):
     """queen sprite class"""
 
+    name = 'queen'
+
     def __init__(
             self,
-            black: bool,
+            color: Union[ShittyColor, str],
             rect: pygame.Rect,
             coords: Tuple[int, int],
             img_path: Union[PathLike, str]
     ) -> NoReturn:
         """constructor"""
 
-        super().__init__(black, rect, coords, img_path)
+        super().__init__(color, rect, coords, img_path)
         self.movements.append(ShittyMovementPatterns(
             horizontal=7,
             vertical=7,
@@ -238,33 +283,20 @@ class ShittyQueen(ShittyPiece):
 class ShittyKing(ShittyPiece):
     """king sprite class"""
 
+    name = 'king'
+
     def __init__(
             self,
-            black: bool,
+            color: Union[ShittyColor, str],
             rect: pygame.Rect,
             coords: Tuple[int, int],
             img_path: Union[PathLike, str]
     ) -> NoReturn:
         """constructor"""
 
-        super().__init__(black, rect, coords, img_path)
+        super().__init__(color, rect, coords, img_path)
         self.movements.append(ShittyMovementPatterns(
             horizontal=1,
             vertical=1,
             diagonal=1,
         ))
-
-
-# class ShittySpace(ShittySprite):
-#     """sprite class for board spaces"""
-
-#     def __init__(
-#             self,
-#             black: bool,
-#             rect: pygame.Rect,
-#             coords: Tuple[int, int],
-#             img_path: Union[PathLike, str]
-#     ) -> NoReturn:
-#         """constructor"""
-
-#         super().__init__(black, rect, coords, img_path)

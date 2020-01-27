@@ -118,7 +118,7 @@ class ShittyLogic:
                     if sprite:
 
                         # blocked by a friendly
-                        if piece.black == sprite.black:
+                        if piece.color == sprite.color:
                             break
 
                         # enemy there, can kill them but go no further
@@ -134,7 +134,7 @@ class ShittyLogic:
                     if sprite:
 
                         # blocked by a friendly
-                        if piece.black == sprite.black:
+                        if piece.color == sprite.color:
                             break
 
                         # enemy there, can kill them but go no further
@@ -150,7 +150,7 @@ class ShittyLogic:
 
                 # some pawn stuff
                 if piece.__class__.__name__ == 'ShittyPawn':
-                    if piece.black:
+                    if piece.color.is_black():
                         if self.settings.black_top:
                             max_up = piece.coords[1]
                         else:
@@ -167,7 +167,7 @@ class ShittyLogic:
                     if sprite:
 
                         # blocked by a friendly
-                        if piece.black == sprite.black or piece.__class__.__name__ == 'ShittyPawn':
+                        if piece.color == sprite.color or piece.__class__.__name__ == 'ShittyPawn':
                             break
 
                         # enemy there, can kill them but go no further
@@ -183,7 +183,7 @@ class ShittyLogic:
                     if sprite:
 
                         # blocked by a friendly
-                        if piece.black == sprite.black or piece.__class__.__name__ == 'ShittyPawn':
+                        if piece.color == sprite.color or piece.__class__.__name__ == 'ShittyPawn':
                             break
 
                         # enemy there, can kill them but go no further
@@ -202,7 +202,7 @@ class ShittyLogic:
                 # pawn stuff
                 if piece.__class__.__name__ == 'ShittyPawn':
 
-                    if piece.black:
+                    if piece.color.is_black():
                         if self.settings.black_top:
                             max_up = piece.coords[1]
                         else:
@@ -223,13 +223,13 @@ class ShittyLogic:
 
                     # pawn stuff
                     if piece.__class__.__name__ == 'ShittyPawn':
-                        if not sprite or sprite.black == piece.black:
+                        if not sprite or sprite.color == piece.color:
                             break
 
                     if sprite:
 
                         # blocked by a friendly
-                        if piece.black == sprite.black:
+                        if piece.color == sprite.color:
                             break
 
                         # enemy there, can kill them but go no further
@@ -248,13 +248,13 @@ class ShittyLogic:
 
                     # pawn stuff
                     if piece.__class__.__name__ == 'ShittyPawn':
-                        if not sprite or sprite.black == piece.black:
+                        if not sprite or sprite.color == piece.color:
                             break
 
                     if sprite:
 
                         # blocked by a friendly
-                        if piece.black == sprite.black:
+                        if piece.color == sprite.color:
                             break
 
                         # enemy there, can kill them but go no further
@@ -273,13 +273,13 @@ class ShittyLogic:
 
                     # pawn stuff
                     if piece.__class__.__name__ == 'ShittyPawn':
-                        if not sprite or sprite.black == piece.black:
+                        if not sprite or piece.color == sprite.color:
                             break
 
                     if sprite:
 
                         # blocked by a friendly
-                        if piece.black == sprite.black:
+                        if piece.color == sprite.color:
                             break
 
                         # enemy there, can kill them but go no further
@@ -298,13 +298,13 @@ class ShittyLogic:
 
                     # pawn stuff
                     if piece.__class__.__name__ == 'ShittyPawn':
-                        if not sprite or sprite.black == piece.black:
+                        if not sprite or piece.color == sprite.color:
                             break
 
                     if sprite:
 
                         # blocked by a friendly
-                        if piece.black == sprite.black:
+                        if piece.color == sprite.color:
                             break
 
                         # enemy there, can kill them but go no further
@@ -330,7 +330,7 @@ class ShittyLogic:
                     if sprite:
 
                         # blocked by a friendly
-                        if piece.black == sprite.black:
+                        if piece.color == sprite.color:
                             continue
 
                     # either an open space or an enemy to kill
@@ -353,7 +353,7 @@ class ShittyLogic:
                     sprite.coords = target_coords
                     pygame.sprite.spritecollide(
                         sprite,
-                        self.pieces.sprite_group_white if sprite.black else self.pieces.sprite_group_black,
+                        self.pieces.sprite_group_white if sprite.color.is_black() else self.pieces.sprite_group_black,
                         True
                     )
                     return True
