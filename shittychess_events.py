@@ -1,6 +1,7 @@
 # coding=utf-8
 
 
+import itertools
 from typing import NoReturn
 
 import pygame
@@ -74,6 +75,12 @@ class ShittyEventHandler:
                 # toggle player turn
                 if event.key == pygame.K_t:
                     self.settings.turn_black = not self.settings.turn_black
+
+                if event.key == pygame.K_o:
+                    self.rotate_space_styles()
+
+                if event.key == pygame.K_p:
+                    self.rotate_piece_styles()
 
             # exit game
             elif event.type == pygame.QUIT:
@@ -174,3 +181,24 @@ class ShittyEventHandler:
         self.right_mouse_last_frame = self.right_mouse_pressed
 
         return redraw_required
+
+    def rotate_space_styles(self):
+        if self.settings.current_space_style_index + 1 >= len(self.settings.space_styles):
+            self.settings.current_space_style_index = 0
+        else:
+            self.settings.current_space_style_index += 1
+        self.settings.current_space_style = self.settings.space_styles[self.settings.current_space_style_index]
+        for space in self.board.spaces_group.sprites():
+            space.load_image(self.settings.space_path(str(space.color)))
+
+    def rotate_piece_styles(self):
+        if self.settings.current_piece_style_index + 1 >= len(self.settings.piece_styles):
+            self.settings.current_piece_style_index = 0
+        else:
+            self.settings.current_piece_style_index += 1
+        self.settings.current_piece_style = self.settings.piece_styles[self.settings.current_piece_style_index]
+        for piece in itertools.chain(
+                self.pieces.sprite_group_black.sprites(),
+                self.pieces.sprite_group_white.sprites()
+        ):
+            piece.load_image(self.settings.piece_path(str(piece.name), str(piece.color)))

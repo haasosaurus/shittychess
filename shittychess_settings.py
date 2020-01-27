@@ -23,17 +23,17 @@ class ShittySettings:
         self._space_width = 75
         self._space_height = 75
 
-        self.space_solid_img_paths = {
+        spaces_solid_img_paths = {
             'black': 'shitty_art/space_solid_black.png',
             'white': 'shitty_art/space_solid_white.png',
         }
 
-        self.space_wood_img_paths = {
+        spaces_wood_img_paths = {
             'black': 'shitty_art/space_wood_black.png',
             'white': 'shitty_art/space_wood_white.png',
         }
 
-        self.shitty_img_paths = {
+        pieces_shitty_img_paths = {
             'white': {
                 'pawn': 'shitty_art/shitty_pawn_white.png',
                 'king': 'shitty_art/shitty_king_white.png',
@@ -52,7 +52,7 @@ class ShittySettings:
             }
         }
 
-        self.trad_img_paths = {
+        pieces_trad_img_paths = {
             'white': {
                 'pawn': 'shitty_art/trad_pawn_white.png',
                 'rook': 'shitty_art/trad_rook_white.png',
@@ -73,14 +73,21 @@ class ShittySettings:
 
         self.img_paths = {
             'spaces': {
-                'solid': self.space_solid_img_paths,
-                'wood': self.space_wood_img_paths,
+                'solid': spaces_solid_img_paths,
+                'wood': spaces_wood_img_paths,
             },
             'pieces': {
-                'shitty': self.shitty_img_paths,
-                'trad': self.trad_img_paths,
+                'trad': pieces_trad_img_paths,
+                'shitty': pieces_shitty_img_paths,
             }
         }
+
+        self.piece_styles = {i:v for i, v in enumerate(self.img_paths['pieces'].keys())}
+        self.space_styles = {i:v for i, v in enumerate(self.img_paths['spaces'].keys())}
+        self.current_piece_style_index = 0
+        self.current_space_style_index = 0
+        self.current_piece_style = self.piece_styles[self.current_piece_style_index]
+        self.current_space_style = self.space_styles[self.current_space_style_index]
 
         # header variables declarations/initializations
         self.headers_enabled = True
@@ -104,14 +111,9 @@ class ShittySettings:
         self.color_blue = (0, 0, 255)
 
         # game state variables
-        self.shitty = False
-        self.board_theme_wood = False
         self.exiting = False
         self.turn_black = False
         self.black_top = True
-
-        self.current_piece_style = 'trad'
-        self.current_board_style = 'solid'
 
     def piece_path(self, piece_type, color):
         """returns piece image path for a given type and color of the current style"""
@@ -124,7 +126,7 @@ class ShittySettings:
         """returns board space image path"""
 
         return pathlib.Path(
-            self.img_paths['spaces'][self.current_board_style][color]
+            self.img_paths['spaces'][self.current_space_style][color]
         )
 
     @property
