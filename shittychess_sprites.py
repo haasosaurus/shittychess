@@ -29,7 +29,7 @@ class ShittyColor:
         if isinstance(other, ShittyColor):
             return self.is_black() == other.is_black()
         elif isinstance(other, str):
-            if other in ['black', 'whtie']:
+            if other in ['black', 'white']:
                 return other == str(self)
             else:
                 raise NotImplementedError('Can only test equality against strings \'black\' and \'white\'')
