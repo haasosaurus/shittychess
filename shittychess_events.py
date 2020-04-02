@@ -2,7 +2,6 @@
 
 
 import itertools
-from typing import NoReturn
 
 import pygame
 
@@ -10,7 +9,7 @@ import pygame
 class ShittyEventHandler:
     """manages all the pygame events for the game"""
 
-    def __init__(self) -> NoReturn:
+    def __init__(self) -> None:
         self.screen = None  # pygame.Surface
         self.settings = None  # ShittySettings
         self.pieces = None  # ShittyPieces
@@ -68,7 +67,10 @@ class ShittyEventHandler:
                 # toggle headers enabled
                 if event.key == pygame.K_h:
                     self.settings.headers_enabled = not self.settings.headers_enabled
-                    self.screen = pygame.display.set_mode((self.settings.screen_width(), self.settings.screen_height()))
+                    self.screen = pygame.display.set_mode((
+                        self.settings.screen_width(),
+                        self.settings.screen_height()
+                    ))
                     self.board.resize()
                     self.pieces.resize()
 
@@ -99,7 +101,11 @@ class ShittyEventHandler:
                     if not self.holding_piece:
                         self.board.sprite_to_highlight = None
                         x, y = pygame.mouse.get_pos()
-                        sprite = self.logic.mouse_to_sprite(x, y, black=self.settings.turn_black)
+                        sprite = self.logic.mouse_to_sprite(
+                            x,
+                            y,
+                            black=self.settings.turn_black
+                        )
                         if sprite:
                             pygame.mouse.get_rel()
                             self.board.sprite_to_highlight = sprite
@@ -117,7 +123,11 @@ class ShittyEventHandler:
                     # highlight available moves
                     if not self.holding_piece:
                         x, y = pygame.mouse.get_pos()
-                        sprite = self.logic.mouse_to_sprite(x, y, black=self.settings.turn_black)
+                        sprite = self.logic.mouse_to_sprite(
+                            x,
+                            y,
+                            black=self.settings.turn_black
+                        )
 
                         # clicked the sprite you're already highlighting
                         if sprite == self.board.sprite_to_highlight:
@@ -128,7 +138,8 @@ class ShittyEventHandler:
                         # clicked somewhere else
                         else:
 
-                            # highlight clicked sprite, or none if you didn't click on any
+                            # highlight clicked sprite,
+                            # or none if you didn't click on any
                             self.board.sprite_to_highlight = sprite
 
                 # right mouse button
@@ -147,7 +158,11 @@ class ShittyEventHandler:
                     # piece movement - dropping
                     if self.holding_piece:
                         x, y = pygame.mouse.get_pos()
-                        if not self.logic.move_piece_with_mouse(self.holding_piece_sprite, x, y):
+                        if not self.logic.move_piece_with_mouse(
+                                self.holding_piece_sprite,
+                                x,
+                                y
+                        ):
                             self.holding_piece_sprite.rect = self.holding_piece_original_rect
                         self.board.sprite_to_highlight = None
                         self.holding_piece = False

@@ -1,7 +1,6 @@
 # coding=utf-8
 
 
-from typing import NoReturn
 from typing import Tuple
 
 import pygame
@@ -14,7 +13,7 @@ from shittychess_sprites import ShittyColor
 class ShittyBoard:
     """this class represents a chess board"""
 
-    def __init__(self) -> NoReturn:
+    def __init__(self) -> None:
         self.screen = None  # pygame.Surface
         self.settings = None  # ShittySettings
         self.logic = None  # ShittyLogic
@@ -28,7 +27,7 @@ class ShittyBoard:
         self.spaces = {}
         self.spaces_group = pygame.sprite.Group()
 
-    def configure(self) -> NoReturn:
+    def configure(self) -> None:
         """
         configure class's properties after they have been assigned externally
         """
@@ -38,7 +37,7 @@ class ShittyBoard:
         self.current_board_start_y = self.settings.board_start_y()
         self.create_spaces()
 
-    def create_spaces(self) -> NoReturn:
+    def create_spaces(self) -> None:
         """
         creates all of the black and white board spaces as sprites and puts
         them all in a sprite group
@@ -75,7 +74,7 @@ class ShittyBoard:
                     # add space to spaces_group pygame.sprite.Group
                     self.spaces_group.add(space)
 
-    def resize(self) -> NoReturn:
+    def resize(self) -> None:
         """
         changes all the x (left), y (top) coordinates of the board space
         sprites if the screen size changes
@@ -89,7 +88,7 @@ class ShittyBoard:
         self.current_board_start_x = self.settings.board_start_x()
         self.current_board_start_y = self.settings.board_start_y()
 
-    def resize_header_label_font(self, font_size: int) -> NoReturn:
+    def resize_header_label_font(self, font_size: int) -> None:
         """
         can be used to resize the header labels,
         it is not currently being used anywhere
@@ -100,7 +99,7 @@ class ShittyBoard:
         self.row_header_labels.clear()
         self.render_header_labels()
 
-    def render_header_labels(self) -> NoReturn:
+    def render_header_labels(self) -> None:
         """renders the header labels and stores them in lists"""
 
         header_font = pygame.font.Font(
@@ -126,7 +125,7 @@ class ShittyBoard:
             self.settings.header_font_width = tmp_rect.width
             self.settings.header_font_height = tmp_rect.height
 
-    def draw(self) -> NoReturn:
+    def draw(self) -> None:
         """draws all board elements on the screen"""
 
         # draw the board
@@ -140,7 +139,7 @@ class ShittyBoard:
         if self.sprite_to_highlight:
             self.highlight_valid_moves(self.sprite_to_highlight)
 
-    def draw_headers(self) -> NoReturn:
+    def draw_headers(self) -> None:
         """draws the headers around the board, called if headers are enabled"""
 
         # column headers
@@ -177,7 +176,7 @@ class ShittyBoard:
             alpha: int,
             alpha_mid: int,
             thickness: int
-    ) -> NoReturn:
+    ) -> None:
         """borders a space based on rect argument"""
 
         bar_color = pygame.Color(*color, alpha)
@@ -231,7 +230,7 @@ class ShittyBoard:
             rect: pygame.Rect,
             color: Tuple[int, int, int],
             alpha: int
-    ) -> NoReturn:
+    ) -> None:
         """highlights a space based on rect argument"""
 
         width = self.settings.space_width
@@ -245,7 +244,7 @@ class ShittyBoard:
             coords: Tuple[int, int],
             space_color: Tuple[int, int, int] = (0, 170, 255),
             space_alpha: int = 100
-    ) -> NoReturn:
+    ) -> None:
         """
         takes zero-indexed x, y board coordinates and gets a rect for it,
         then calls self.draw_space_highlight on that rect
@@ -264,7 +263,7 @@ class ShittyBoard:
             border_alpha: int = 255,
             mid_border_alpha: int = 255,
             border_thickness: int = 2
-    ) -> NoReturn:
+    ) -> None:
         """
         highlights and borders a space on the board from zero-indexed x, y board
         coordinates should be used to show available moves to a player
@@ -281,7 +280,7 @@ class ShittyBoard:
             thickness=border_thickness
         )
 
-    def highlight_valid_moves(self, piece: ShittyPiece) -> NoReturn:
+    def highlight_valid_moves(self, piece: ShittyPiece) -> None:
         """
         takes a reference to a ShittyPiece and highlights that piece,
         then it highlights and borders all valid moves for that piece

@@ -1,10 +1,10 @@
 # coding=utf-8
 
+
 import itertools
 from typing import List
 from typing import Tuple
 from typing import Union
-from typing import NoReturn
 
 import pygame
 
@@ -18,14 +18,14 @@ class ShittyLogic:
     the shittiest logic, getting less shitty by the hour
     """
 
-    def __init__(self) -> NoReturn:
+    def __init__(self) -> None:
         self.settings = None  # ShittySettings
         self.board = None  # ShittyBoard
         self.pieces = None  # ShittyPieces
         self.coords_to_chess_coords = {}  # Dict[Tuple[int, int], str]
         self.chess_coords_to_coords = {}  # Dict[str, Tuple[int, int]]
 
-    def configure(self) -> NoReturn:
+    def configure(self) -> None:
         """
         configure class's properties after they have been assigned externally
         """
@@ -73,7 +73,10 @@ class ShittyLogic:
             return collisions[0]
         return None
 
-    def coords_to_rect(self, coords: Tuple[int, int]) -> Union[pygame.Rect, None]:
+    def coords_to_rect(
+            self,
+            coords: Tuple[int, int]
+    ) -> Union[pygame.Rect, None]:
         """
         takes zero-indexed x, y board space coordinates to board space and
         returns a pygame.Rect
@@ -81,7 +84,10 @@ class ShittyLogic:
 
         return pygame.Rect.copy(self.board.spaces[coords].rect)
 
-    def coords_to_sprite(self, coords: Tuple[int, int]) -> Union[ShittyPiece, None]:
+    def coords_to_sprite(
+            self,
+            coords: Tuple[int, int]
+    ) -> Union[ShittyPiece, None]:
         """
         takes zero-indexed x, y board space coordinates and returns sprite if
         sprite exists at coords else returns None
@@ -109,8 +115,14 @@ class ShittyLogic:
 
         for movement in piece.movements:
             if movement.horizontal > 0:
-                max_right = min(piece.coords[0] + movement.horizontal + 1, self.settings.cols)
-                max_left = max((piece.coords[0] - movement.horizontal - 1), -1)
+                max_right = min(
+                    piece.coords[0] + movement.horizontal + 1,
+                    self.settings.cols
+                )
+                max_left = max(
+                    piece.coords[0] - movement.horizontal - 1,
+                    -1
+                )
 
                 # check to the right
                 for x in range(piece.coords[0] + 1, max_right):
@@ -145,8 +157,14 @@ class ShittyLogic:
                     valid_spaces.append((x, piece.coords[1]))
 
             if movement.vertical > 0:
-                max_down = min(piece.coords[1] + movement.vertical + 1, self.settings.rows)
-                max_up = max((piece.coords[1] - movement.vertical - 1), -1)
+                max_down = min(
+                    piece.coords[1] + movement.vertical + 1,
+                    self.settings.rows
+                )
+                max_up = max(
+                    piece.coords[1] - movement.vertical - 1,
+                    -1
+                )
 
                 # some pawn stuff
                 if piece.__class__.__name__ == 'ShittyPawn':
@@ -167,7 +185,9 @@ class ShittyLogic:
                     if sprite:
 
                         # blocked by a friendly
-                        if piece.color == sprite.color or piece.__class__.__name__ == 'ShittyPawn':
+                        if (
+                            piece.color == sprite.color\
+                            or piece.__class__.__name__ == 'ShittyPawn'):
                             break
 
                         # enemy there, can kill them but go no further
@@ -183,7 +203,8 @@ class ShittyLogic:
                     if sprite:
 
                         # blocked by a friendly
-                        if piece.color == sprite.color or piece.__class__.__name__ == 'ShittyPawn':
+                        if (piece.color == sprite.color
+                            or piece.__class__.__name__ == 'ShittyPawn'):
                             break
 
                         # enemy there, can kill them but go no further
@@ -194,10 +215,22 @@ class ShittyLogic:
                     valid_spaces.append((piece.coords[0], y))
 
             if movement.diagonal > 0:
-                max_right = min(piece.coords[0] + movement.diagonal + 1, self.settings.cols)
-                max_left = max((piece.coords[0] - movement.diagonal - 1), -1)
-                max_down = min(piece.coords[1] + movement.diagonal + 1, self.settings.rows)
-                max_up = max((piece.coords[1] - movement.diagonal - 1), -1)
+                max_right = min(
+                    piece.coords[0] + movement.diagonal + 1,
+                    self.settings.cols
+                )
+                max_left = max(
+                    piece.coords[0] - movement.diagonal - 1,
+                    -1
+                )
+                max_down = min(
+                    piece.coords[1] + movement.diagonal + 1,
+                    self.settings.rows
+                )
+                max_up = max(
+                    piece.coords[1] - movement.diagonal - 1,
+                    -1
+                )
 
                 # pawn stuff
                 if piece.__class__.__name__ == 'ShittyPawn':
@@ -316,12 +349,19 @@ class ShittyLogic:
 
         return valid_spaces
 
-    def __knight_valid_move_coords(self, piece: ShittyPiece) -> List[Tuple[int, int]]:
+    def __knight_valid_move_coords(
+            self,
+            piece: ShittyPiece
+    ) -> List[Tuple[int, int]]:
         """get knight specif valid spaces"""
 
         valid_spaces = []
         for movement in piece.movements:
-            coords_list = list(itertools.product(*((x, -x) for x in (movement.horizontal, movement.vertical))))
+            horizontal = movement.horizontal
+            vertical = movement.vertical
+            coords_list = list(
+                itertools.product(*((x, -x) for x in (horizontal, vertical)))
+            )
             for x_movement, y_movement in coords_list:
                 x = piece.coords[0] + x_movement
                 y = piece.coords[1] + y_movement
@@ -351,9 +391,12 @@ class ShittyLogic:
                 if target_coords in valid_move_coords:
                     sprite.move(self.coords_to_rect(target_coords))
                     sprite.coords = target_coords
+                    group = self.pieces.sprite_group_black
+                    if sprite.color.is_black():
+                        group = self.pieces.sprite_group_white
                     pygame.sprite.spritecollide(
                         sprite,
-                        self.pieces.sprite_group_white if sprite.color.is_black() else self.pieces.sprite_group_black,
+                        group,
                         True
                     )
                     return True

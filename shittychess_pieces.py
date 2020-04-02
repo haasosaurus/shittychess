@@ -1,7 +1,7 @@
 # coding=utf-8
 
+
 import itertools
-from typing import NoReturn
 
 import pygame
 
@@ -19,7 +19,7 @@ class ShittyPieces:
     might want to use this as a property of ShittyBoard
     """
 
-    def __init__(self) -> NoReturn:
+    def __init__(self) -> None:
         self.screen = None  # pygame.Surface
         self.settings = None  # ShittySettings
         self.logic = None  # ShittyLogic
@@ -29,7 +29,7 @@ class ShittyPieces:
 
         self.initial_piece_layout = []
 
-    def configure(self) -> NoReturn:
+    def configure(self) -> None:
         """
         configure properties after some of them have been
         assigned externally
@@ -37,7 +37,7 @@ class ShittyPieces:
 
         self.reset()
 
-    def reset(self) -> NoReturn:
+    def reset(self) -> None:
         """reset the board to a new game state"""
 
         initial_piece_layout = [
@@ -87,7 +87,10 @@ class ShittyPieces:
                         piece['color'],
                         self.logic.coords_to_rect(coords),
                         coords,
-                        self.settings.piece_path(piece['type'].name, piece['color'])
+                        self.settings.piece_path(
+                            piece['type'].name,
+                            piece['color']
+                        )
                     )
                 )
             else:
@@ -96,11 +99,14 @@ class ShittyPieces:
                         piece['color'],
                         self.logic.coords_to_rect(coords),
                         coords,
-                        self.settings.piece_path(piece['type'].name, piece['color'])
+                        self.settings.piece_path(
+                            piece['type'].name,
+                            piece['color']
+                        )
                     )
                 )
 
-    def draw(self) -> NoReturn:
+    def draw(self) -> None:
         """draw all the pieces"""
 
         # temporary, fix this soon
@@ -111,7 +117,7 @@ class ShittyPieces:
             self.sprite_group_black.draw(self.screen)
             self.sprite_group_white.draw(self.screen)
 
-    def clear(self) -> NoReturn:
+    def clear(self) -> None:
         """
         remove all the pieces from the sprite group containers
         this will clear the board of all pieces
@@ -120,14 +126,17 @@ class ShittyPieces:
         self.sprite_group_black.empty()
         self.sprite_group_white.empty()
 
-    def resize(self) -> NoReturn:
+    def resize(self) -> None:
         """
         reposition all the pieces to their current correct position
         this should be used if the board size is changed, or headers
         are disabled or enabled, as that will change the board size
         """
 
-        for sprite in itertools.chain(self.sprite_group_black, self.sprite_group_white):
+        for sprite in itertools.chain(
+                self.sprite_group_black,
+                self.sprite_group_white
+        ):
             tmp_rect = self.logic.coords_to_rect(sprite.coords)
             sprite.set_rect(pygame.Rect(
                 tmp_rect.left,

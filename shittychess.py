@@ -1,8 +1,6 @@
 # coding=utf-8
 
 
-from typing import NoReturn
-
 import pygame
 
 from shittychess_settings import ShittySettings
@@ -15,7 +13,7 @@ from shittychess_pieces import ShittyPieces
 class ShittyChess:
     """base class for the game"""
 
-    def __init__(self) -> NoReturn:
+    def __init__(self) -> None:
         """constructor"""
 
         # setup pygame
@@ -69,12 +67,12 @@ class ShittyChess:
 
         pygame.quit()  # i don't trust pygame
 
-    def run_game(self) -> NoReturn:
+    def run_game(self) -> None:
         """This is the main function of the program which runs the code."""
 
         self.main_loop()
 
-    def main_loop(self) -> NoReturn:
+    def main_loop(self) -> None:
         """main loop of the program"""
 
         while not self.settings.exiting:

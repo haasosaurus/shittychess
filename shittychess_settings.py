@@ -1,21 +1,20 @@
 # coding=utf-8
 
-from os import PathLike
-from typing import NoReturn
 
+from os import PathLike
 import pathlib
 
 
 class ShittySettings:
     """class to store the game settings in"""
 
-    def __init__(self, resize_callback=None) -> NoReturn:
+    def __init__(self, resize_callback=None) -> None:
         """constructor"""
 
         self.resize_callback = resize_callback
 
         # general declarations/initializations
-        app_icon = pathlib.Path('shitty_art/shitty_knight_black.png')
+        app_icon = pathlib.Path('shitty_art/shitty_knight_black.png').resolve()
         self.app_icon_path = str(app_icon)
         self.debug = True
         self.cols = 8
@@ -100,9 +99,9 @@ class ShittySettings:
         self.header_font_sz = 15
         self.header_font_width = self.header_font_sz
         self.header_font_height = self.header_font_sz
-        header_font = pathlib.Path('fonts/LiberationMono-Regular.ttf')
+        header_font = pathlib.Path('fonts/LiberationMono-Regular.ttf').resolve()
         self.header_font_path = str(header_font)
-        header_font_bold = pathlib.Path('fonts/LiberationMono-Bold.ttf')
+        header_font_bold = pathlib.Path('fonts/LiberationMono-Bold.ttf').resolve()
         self.header_font_bold_path = str(header_font_bold)
 
         # assorted colors
@@ -116,18 +115,16 @@ class ShittySettings:
         self.black_top = True
 
     def piece_path(self, piece_type, color):
-        """returns piece image path for a given type and color of the current style"""
+        """returns piece image path for a given type/color of current style"""
 
-        return pathlib.Path(
-            self.img_paths['pieces'][self.current_piece_style][color][piece_type]
-        )
+        path = self.img_paths['pieces'][self.current_piece_style][color][piece_type]
+        return pathlib.Path(path).resolve()
 
     def space_path(self, color) -> PathLike:
         """returns board space image path"""
 
-        return pathlib.Path(
-            self.img_paths['spaces'][self.current_space_style][color]
-        )
+        path = self.img_paths['spaces'][self.current_space_style][color]
+        return pathlib.Path(path).resolve()
 
     @property
     def row_header_width(self) -> int:
@@ -136,9 +133,12 @@ class ShittySettings:
         return self._row_header_width
 
     @row_header_width.setter
-    def row_header_width(self, width: int) -> NoReturn:
+    def row_header_width(self, width: int) -> None:
         if width < self.header_font_width or width <= 0:
-            raise ValueError('width must be less than or equal to the header label font width, or greater than 0')
+            raise ValueError(
+                'width must be less than or equal to '
+                'the header label font width, or greater than 0'
+            )
         else:
             self._row_header_width = width
 
@@ -161,9 +161,12 @@ class ShittySettings:
         return self._col_header_height
 
     @col_header_height.setter
-    def col_header_height(self, height: int) -> NoReturn:
+    def col_header_height(self, height: int) -> None:
         if height < self.header_font_height or height <= 0:
-            raise ValueError('height must be less than or equal to the header label font height, or greater than 0')
+            raise ValueError(
+                'height must be less than or equal to the '
+                'header label font height, or greater than 0'
+            )
         else:
             self._col_header_height = height
 
@@ -226,7 +229,7 @@ class ShittySettings:
         return self._space_width
 
     @space_width.setter
-    def space_width(self, width: int) -> NoReturn:
+    def space_width(self, width: int) -> None:
         if width <= 0:
             raise ValueError('Width must be positive')
         else:
@@ -239,7 +242,7 @@ class ShittySettings:
         return self._space_height
 
     @space_height.setter
-    def space_height(self, height: int) -> NoReturn:
+    def space_height(self, height: int) -> None:
         if height <= 0:
             raise ValueError('Height must be positive')
         else:

@@ -3,7 +3,6 @@
 
 from os import PathLike
 from typing import List
-from typing import NoReturn
 from typing import Tuple
 from typing import Union
 
@@ -11,12 +10,12 @@ import pygame
 
 
 class ShittyColor:
-    def __init__(self, color: str) -> NoReturn:
+    def __init__(self, color: str) -> None:
 
         if not isinstance(color, str):
-            raise TypeError('color must be a string, either \'black\' or \'white\'')
+            raise TypeError("color must be a string, either 'black' or 'white'")
         if color not in ['black', 'white']:
-            raise ValueError('color must be either \'black\' or \'white\'')
+            raise ValueError("color must be either 'black' or 'white'")
         self._black = True if color == 'black' else False
 
     def is_black(self):
@@ -32,9 +31,14 @@ class ShittyColor:
             if other in ['black', 'white']:
                 return other == str(self)
             else:
-                raise NotImplementedError('Can only test equality against strings \'black\' and \'white\'')
+                raise NotImplementedError(
+                    "Can only test equality against strings 'black' and 'white'"
+                )
         else:
-            raise NotImplementedError('Can only test equality with other ShittyColor objects, or \'black\' and \'white\'')
+            raise NotImplementedError(
+                "Can only test equality with other ShittyColor objects, "
+                "or 'black' and 'white'"
+            )
 
     def __str__(self):
         if self._black:
@@ -46,7 +50,7 @@ class ShittyColor:
 
 
 class ShittyMousePointer(pygame.sprite.Sprite):
-    def __init__(self, x, y) -> NoReturn:
+    def __init__(self, x, y) -> None:
         """constructor"""
 
         pygame.sprite.Sprite.__init__(self)
@@ -62,7 +66,7 @@ class ShittySprite(pygame.sprite.Sprite):
             rect: pygame.Rect,
             coords: Tuple[int, int],
             img_path: Union[PathLike, str]
-    ) -> NoReturn:
+    ) -> None:
         """constructor"""
 
         pygame.sprite.Sprite.__init__(self)
@@ -72,7 +76,7 @@ class ShittySprite(pygame.sprite.Sprite):
         self.coords = coords
         self.load_image(img_path)
 
-    def load_image(self, img_path: Union[PathLike, str]) -> NoReturn:
+    def load_image(self, img_path: Union[PathLike, str]) -> None:
         self.image = pygame.image.load(
             img_path if isinstance(img_path, str) else str(img_path)
         )
@@ -80,7 +84,10 @@ class ShittySprite(pygame.sprite.Sprite):
         height = 75
         rect = self.image.get_rect()
         if rect.width != width or rect.height != height:
-            self.image = pygame.transform.smoothscale(self.image, (width, height))
+            self.image = pygame.transform.smoothscale(
+                self.image,
+                (width, height)
+            )
 
     def move_to_front(self) -> bool:
         for group in self.groups():
@@ -101,7 +108,7 @@ class ShittyMovementPatterns:
             horizontal: int = 0,
             vertical: int = 0,
             diagonal: int = 0,
-    ) -> NoReturn:
+    ) -> None:
         """constructor"""
 
         self.horizontal = horizontal
@@ -118,14 +125,14 @@ class ShittyPiece(ShittySprite):
             rect: pygame.Rect,
             coords: Tuple[int, int],
             img_path: Union[PathLike, str]
-    ) -> NoReturn:
+    ) -> None:
         """constructor"""
 
         super().__init__(color, rect, coords, img_path)
         self.initial_position = True
         self.movements = []
 
-    def set_rect(self, rect: pygame.Rect) -> NoReturn:
+    def set_rect(self, rect: pygame.Rect) -> None:
         """
         sets the piece's rect with another pygame.Rect
         used for resizing and such not moving a piece
@@ -133,7 +140,7 @@ class ShittyPiece(ShittySprite):
 
         self.rect = pygame.Rect.copy(rect)
 
-    def move(self, rect: pygame.Rect) -> NoReturn:
+    def move(self, rect: pygame.Rect) -> None:
         """moves the piece during game play"""
 
         if self.rect != rect:
@@ -141,12 +148,12 @@ class ShittyPiece(ShittySprite):
             if self.initial_position:
                 self.initial_position = False
 
-    def move_patterns(self) -> List[ShittyMovementPatterns]:  # change to tuple
+    def move_patterns(self) -> List[ShittyMovementPatterns]:  # change to tuple?
         """returns move patterns for this piece"""
 
         return self.movements
 
-    def update(self) -> NoReturn:
+    def update(self) -> None:
         """pygame sprite group helper method"""
 
         # placeholder since it's giving me a warning using pass
@@ -164,7 +171,7 @@ class ShittyPawn(ShittyPiece):
             rect: pygame.Rect,
             coords: Tuple[int, int],
             img_path: Union[PathLike, str]
-    ) -> NoReturn:
+    ) -> None:
         """constructor"""
 
         super().__init__(color, rect, coords, img_path)
@@ -177,7 +184,7 @@ class ShittyPawn(ShittyPiece):
             diagonal=1
         ))
 
-    def move(self, rect: pygame.Rect) -> NoReturn:
+    def move(self, rect: pygame.Rect) -> None:
         """moves the piece during game play"""
 
         if self.rect != rect:
@@ -203,7 +210,7 @@ class ShittyRook(ShittyPiece):
             rect: pygame.Rect,
             coords: Tuple[int, int],
             img_path: Union[PathLike, str]
-    ) -> NoReturn:
+    ) -> None:
         """constructor"""
 
         super().__init__(color, rect, coords, img_path)
@@ -224,7 +231,7 @@ class ShittyBishop(ShittyPiece):
             rect: pygame.Rect,
             coords: Tuple[int, int],
             img_path: Union[PathLike, str]
-    ) -> NoReturn:
+    ) -> None:
         """constructor"""
 
         super().__init__(color, rect, coords, img_path)
@@ -244,7 +251,7 @@ class ShittyKnight(ShittyPiece):
             rect: pygame.Rect,
             coords: Tuple[int, int],
             img_path: Union[PathLike, str]
-    ) -> NoReturn:
+    ) -> None:
         """constructor"""
 
         super().__init__(color, rect, coords, img_path)
@@ -269,7 +276,7 @@ class ShittyQueen(ShittyPiece):
             rect: pygame.Rect,
             coords: Tuple[int, int],
             img_path: Union[PathLike, str]
-    ) -> NoReturn:
+    ) -> None:
         """constructor"""
 
         super().__init__(color, rect, coords, img_path)
@@ -291,7 +298,7 @@ class ShittyKing(ShittyPiece):
             rect: pygame.Rect,
             coords: Tuple[int, int],
             img_path: Union[PathLike, str]
-    ) -> NoReturn:
+    ) -> None:
         """constructor"""
 
         super().__init__(color, rect, coords, img_path)
